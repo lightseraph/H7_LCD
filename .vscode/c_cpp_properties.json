@@ -18,6 +18,10 @@
                 "/home/light/project/H7_LCD/Middlewares/Third_Party/FatFs/src",
                 "/home/light/project/H7_LCD/FATFS/App",
                 "/home/light/project/H7_LCD/FATFS/Target",
+                "/home/light/project/H7_LCD/lib/SDRAM",
+                "/home/light/project/H7_LCD/lib/TOUCH",
+                "/home/light/project/H7_LCD/lib/W25QXX",
+                "/home/light/project/H7_LCD/lib/sys",
                 ""
             ],
             "browse": {
@@ -33,6 +37,10 @@
                     "/home/light/project/H7_LCD/Middlewares/Third_Party/FatFs/src",
                     "/home/light/project/H7_LCD/FATFS/App",
                     "/home/light/project/H7_LCD/FATFS/Target",
+                    "/home/light/project/H7_LCD/lib/SDRAM",
+                    "/home/light/project/H7_LCD/lib/TOUCH",
+                    "/home/light/project/H7_LCD/lib/W25QXX",
+                    "/home/light/project/H7_LCD/lib/sys",
                     ""
                 ]
             },
