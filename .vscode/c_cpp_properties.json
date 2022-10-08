@@ -1,0 +1,57 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "/home/light/project/H7_LCD/include",
+                "/home/light/project/H7_LCD",
+                "/home/light/project/H7_LCD/Core/Inc",
+                "/home/light/project/H7_LCD/Drivers/CMSIS/Include",
+                "/home/light/project/H7_LCD/Drivers/CMSIS/Device/ST/STM32H7xx/Include",
+                "/home/light/project/H7_LCD/Drivers/STM32H7xx_HAL_Driver/Inc",
+                "/home/light/project/H7_LCD/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy",
+                "/home/light/project/H7_LCD/Middlewares/Third_Party/FatFs/src",
+                "/home/light/project/H7_LCD/FATFS/App",
+                "/home/light/project/H7_LCD/FATFS/Target",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/home/light/project/H7_LCD/include",
+                    "/home/light/project/H7_LCD",
+                    "/home/light/project/H7_LCD/Core/Inc",
+                    "/home/light/project/H7_LCD/Drivers/CMSIS/Include",
+                    "/home/light/project/H7_LCD/Drivers/CMSIS/Device/ST/STM32H7xx/Include",
+                    "/home/light/project/H7_LCD/Drivers/STM32H7xx_HAL_Driver/Inc",
+                    "/home/light/project/H7_LCD/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy",
+                    "/home/light/project/H7_LCD/Middlewares/Third_Party/FatFs/src",
+                    "/home/light/project/H7_LCD/FATFS/App",
+                    "/home/light/project/H7_LCD/FATFS/Target",
+                    ""
+                ]
+            },
+            "defines": [
+                "F_CPU=480000000L",
+                "PLATFORMIO=60104",
+                "STM32H7xx",
+                "STM32H750xx",
+                "STM32H750XBHx",
+                ""
+            ],
+            "cStandard": "c99",
+            "compilerPath": "/home/light/.platformio/packages/toolchain-gccarmnoneeabi/bin/arm-none-eabi-gcc",
+            "compilerArgs": [
+                "-mthumb",
+                "-mcpu=cortex-m7",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}
