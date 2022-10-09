@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.ino": "cpp",
+        "sys.h": "c"
+    }
+}
