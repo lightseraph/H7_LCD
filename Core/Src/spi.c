@@ -66,21 +66,22 @@ void MX_SPI2_Init(void)
   /* USER CODE BEGIN SPI2_Init 2 */
 
   /* USER CODE END SPI2_Init 2 */
+
 }
 
-void HAL_SPI_MspInit(SPI_HandleTypeDef *spiHandle)
+void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
-  if (spiHandle->Instance == SPI2)
+  if(spiHandle->Instance==SPI2)
   {
-    /* USER CODE BEGIN SPI2_MspInit 0 */
+  /* USER CODE BEGIN SPI2_MspInit 0 */
 
-    /* USER CODE END SPI2_MspInit 0 */
+  /* USER CODE END SPI2_MspInit 0 */
 
-    /** Initializes the peripherals clock
-     */
+  /** Initializes the peripherals clock
+  */
     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_SPI2;
     PeriphClkInitStruct.Spi123ClockSelection = RCC_SPI123CLKSOURCE_PLL;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
@@ -97,27 +98,27 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef *spiHandle)
     PB13     ------> SPI2_SCK
     PB14     ------> SPI2_MISO
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_15 | GPIO_PIN_13 | GPIO_PIN_14;
+    GPIO_InitStruct.Pin = GPIO_PIN_15|GPIO_PIN_13|GPIO_PIN_14;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
     HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-    /* USER CODE BEGIN SPI2_MspInit 1 */
+  /* USER CODE BEGIN SPI2_MspInit 1 */
 
-    /* USER CODE END SPI2_MspInit 1 */
+  /* USER CODE END SPI2_MspInit 1 */
   }
 }
 
-void HAL_SPI_MspDeInit(SPI_HandleTypeDef *spiHandle)
+void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
 {
 
-  if (spiHandle->Instance == SPI2)
+  if(spiHandle->Instance==SPI2)
   {
-    /* USER CODE BEGIN SPI2_MspDeInit 0 */
+  /* USER CODE BEGIN SPI2_MspDeInit 0 */
 
-    /* USER CODE END SPI2_MspDeInit 0 */
+  /* USER CODE END SPI2_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_SPI2_CLK_DISABLE();
 
@@ -126,11 +127,11 @@ void HAL_SPI_MspDeInit(SPI_HandleTypeDef *spiHandle)
     PB13     ------> SPI2_SCK
     PB14     ------> SPI2_MISO
     */
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_15 | GPIO_PIN_13 | GPIO_PIN_14);
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_15|GPIO_PIN_13|GPIO_PIN_14);
 
-    /* USER CODE BEGIN SPI2_MspDeInit 1 */
+  /* USER CODE BEGIN SPI2_MspDeInit 1 */
 
-    /* USER CODE END SPI2_MspDeInit 1 */
+  /* USER CODE END SPI2_MspDeInit 1 */
   }
 }
 

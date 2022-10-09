@@ -10,6 +10,7 @@
             "includePath": [
                 "/home/light/project/H7_LCD/include",
                 "/home/light/project/H7_LCD",
+                "/home/light/project/H7_LCD/lib/sys",
                 "/home/light/project/H7_LCD/Core/Inc",
                 "/home/light/project/H7_LCD/Drivers/CMSIS/Include",
                 "/home/light/project/H7_LCD/Drivers/CMSIS/Device/ST/STM32H7xx/Include",
@@ -21,7 +22,6 @@
                 "/home/light/project/H7_LCD/lib/SDRAM",
                 "/home/light/project/H7_LCD/lib/TOUCH",
                 "/home/light/project/H7_LCD/lib/W25QXX",
-                "/home/light/project/H7_LCD/lib/sys",
                 ""
             ],
             "browse": {
@@ -29,6 +29,7 @@
                 "path": [
                     "/home/light/project/H7_LCD/include",
                     "/home/light/project/H7_LCD",
+                    "/home/light/project/H7_LCD/lib/sys",
                     "/home/light/project/H7_LCD/Core/Inc",
                     "/home/light/project/H7_LCD/Drivers/CMSIS/Include",
                     "/home/light/project/H7_LCD/Drivers/CMSIS/Device/ST/STM32H7xx/Include",
@@ -40,7 +41,6 @@
                     "/home/light/project/H7_LCD/lib/SDRAM",
                     "/home/light/project/H7_LCD/lib/TOUCH",
                     "/home/light/project/H7_LCD/lib/W25QXX",
-                    "/home/light/project/H7_LCD/lib/sys",
                     ""
                 ]
             },

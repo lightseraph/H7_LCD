@@ -21,8 +21,7 @@
 #ifndef __FMC_H
 #define __FMC_H
 #ifdef __cplusplus
-extern "C"
-{
+ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -31,9 +30,10 @@ extern "C"
 /* USER CODE BEGIN Includes */
 #include "sys.h"
 #include "tim.h"
-  /* USER CODE END Includes */
+/* USER CODE END Includes */
 
-  extern SDRAM_HandleTypeDef hsdram1;
+extern NAND_HandleTypeDef hnand1;
+extern SDRAM_HandleTypeDef hsdram1;
 
 /* USER CODE BEGIN Private defines */
 #define Bank5_SDRAM_ADDR ((u32)(0XC0000000))
@@ -48,18 +48,20 @@ extern "C"
 #define SDRAM_MODEREG_OPERATING_MODE_STANDARD ((u16)0x0000)
 #define SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED ((u16)0x0000)
 #define SDRAM_MODEREG_WRITEBURST_MODE_SINGLE ((u16)0x0200)
-  /* USER CODE END Private defines */
+/* USER CODE END Private defines */
 
-  void MX_FMC_Init(void);
-  void HAL_SDRAM_MspInit(SDRAM_HandleTypeDef *hsdram);
-  void HAL_SDRAM_MspDeInit(SDRAM_HandleTypeDef *hsdram);
+void MX_FMC_Init(void);
+void HAL_NAND_MspInit(NAND_HandleTypeDef* hnand);
+void HAL_NAND_MspDeInit(NAND_HandleTypeDef* hnand);
+void HAL_SDRAM_MspInit(SDRAM_HandleTypeDef* hsdram);
+void HAL_SDRAM_MspDeInit(SDRAM_HandleTypeDef* hsdram);
 
-  /* USER CODE BEGIN Prototypes */
+/* USER CODE BEGIN Prototypes */
   void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram);
   u8 SDRAM_Send_Cmd(u8 bankx, u8 cmd, u8 refresh, u16 regval);
   void FMC_SDRAM_WriteBuffer(u8 *pBuffer, u32 WriteAddr, u32 n);
   void FMC_SDRAM_ReadBuffer(u8 *pBuffer, u32 ReadAddr, u32 n);
-  /* USER CODE END Prototypes */
+/* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
@@ -67,9 +69,9 @@ extern "C"
 #endif /*__FMC_H */
 
 /**
- * @}
- */
+  * @}
+  */
 
 /**
- * @}
- */
+  * @}
+  */
