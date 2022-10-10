@@ -21,26 +21,25 @@
 #ifndef __libjpeg_H
 #define __libjpeg_H
 #ifdef __cplusplus
-extern "C"
-{
+ extern "C" {
 #endif
 
-  /* Includes ------------------------------------------------------------------*/
-  //#include "jpeglib.h"
+/* Includes ------------------------------------------------------------------*/
+#include "jpeglib.h"
 
-  /* USER CODE BEGIN 0 */
-  /* USER CODE END 0 */
+/* USER CODE BEGIN 0 */
+/* USER CODE END 0 */
 
-  /* Global variables ---------------------------------------------------------*/
+/* Global variables ---------------------------------------------------------*/
 
-  /* USER CODE BEGIN 1 */
-  /* USER CODE END 1 */
+/* USER CODE BEGIN 1 */
+/* USER CODE END 1 */
 
-  /* LIBJPEG init function */
-  void MX_LIBJPEG_Init(void);
+/* LIBJPEG init function */
+void MX_LIBJPEG_Init(void);
 
-  /* USER CODE BEGIN 2 */
-  /* USER CODE END 2 */
+/* USER CODE BEGIN 2 */
+/* USER CODE END 2 */
 
 #ifdef __cplusplus
 }
@@ -48,9 +47,10 @@ extern "C"
 #endif /*__libjpeg_H */
 
 /**
- * @}
- */
+  * @}
+  */
 
 /**
- * @}
- */
+  * @}
+  */
+

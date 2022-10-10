@@ -1,5 +1,6 @@
 #include "sdram.h"
 #include "tim.h"
+
 //////////////////////////////////////////////////////////////////////////////////
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 // ALIENTEK STM32F7开发板
@@ -12,24 +13,24 @@
 // Copyright(C) 广州市星翼电子科技有限公司 2014-2024
 // All rights reserved
 //////////////////////////////////////////////////////////////////////////////////
-SDRAM_HandleTypeDef SDRAM_Handler; // SDRAM句柄
+SDRAM_HandleTypeDef hsdram1; // SDRAM句柄
 
 // SDRAM初始化
 void SDRAM_Init(void)
 {
-    FMC_SDRAM_TimingTypeDef SDRAM_Timing;
+    /* FMC_SDRAM_TimingTypeDef SDRAM_Timing;
 
-    SDRAM_Handler.Instance = FMC_SDRAM_DEVICE;                               // SDRAM在BANK5,6
-    SDRAM_Handler.Init.SDBank = FMC_SDRAM_BANK1;                             // SDRAM接在BANK5上
-    SDRAM_Handler.Init.ColumnBitsNumber = FMC_SDRAM_COLUMN_BITS_NUM_9;       //列数量
-    SDRAM_Handler.Init.RowBitsNumber = FMC_SDRAM_ROW_BITS_NUM_13;            //行数量
-    SDRAM_Handler.Init.MemoryDataWidth = FMC_SDRAM_MEM_BUS_WIDTH_32;         //数据宽度为32位
-    SDRAM_Handler.Init.InternalBankNumber = FMC_SDRAM_INTERN_BANKS_NUM_4;    //一共4个BANK
-    SDRAM_Handler.Init.CASLatency = FMC_SDRAM_CAS_LATENCY_2;                 // CAS为2
-    SDRAM_Handler.Init.WriteProtection = FMC_SDRAM_WRITE_PROTECTION_DISABLE; //失能写保护
-    SDRAM_Handler.Init.SDClockPeriod = FMC_SDRAM_CLOCK_PERIOD_2;             // SDRAM时钟为HCLK/2=200M/2=100M=10ns
-    SDRAM_Handler.Init.ReadBurst = FMC_SDRAM_RBURST_ENABLE;                  //使能突发
-    SDRAM_Handler.Init.ReadPipeDelay = FMC_SDRAM_RPIPE_DELAY_0;              //读通道延时
+    hsdram1.Instance = FMC_SDRAM_DEVICE;                               // SDRAM在BANK5,6
+    hsdram1.Init.SDBank = FMC_SDRAM_BANK1;                             // SDRAM接在BANK5上
+    hsdram1.Init.ColumnBitsNumber = FMC_SDRAM_COLUMN_BITS_NUM_9;       //列数量
+    hsdram1.Init.RowBitsNumber = FMC_SDRAM_ROW_BITS_NUM_13;            //行数量
+    hsdram1.Init.MemoryDataWidth = FMC_SDRAM_MEM_BUS_WIDTH_32;         //数据宽度为32位
+    hsdram1.Init.InternalBankNumber = FMC_SDRAM_INTERN_BANKS_NUM_4;    //一共4个BANK
+    hsdram1.Init.CASLatency = FMC_SDRAM_CAS_LATENCY_2;                 // CAS为2
+    hsdram1.Init.WriteProtection = FMC_SDRAM_WRITE_PROTECTION_DISABLE; //失能写保护
+    hsdram1.Init.SDClockPeriod = FMC_SDRAM_CLOCK_PERIOD_2;             // SDRAM时钟为HCLK/2=200M/2=100M=10ns
+    hsdram1.Init.ReadBurst = FMC_SDRAM_RBURST_ENABLE;                  //使能突发
+    hsdram1.Init.ReadPipeDelay = FMC_SDRAM_RPIPE_DELAY_0;              //读通道延时
 
     SDRAM_Timing.LoadToActiveDelay = 2;    //加载模式寄存器到激活时间的延迟为2个时钟周期
     SDRAM_Timing.ExitSelfRefreshDelay = 8; //退出自刷新延迟为8个时钟周期
@@ -38,9 +39,9 @@ void SDRAM_Init(void)
     SDRAM_Timing.WriteRecoveryTime = 2;    //恢复延迟为2个时钟周期
     SDRAM_Timing.RPDelay = 2;              //行预充电延迟为2个时钟周期
     SDRAM_Timing.RCDDelay = 2;             //行到列延迟为2个时钟周期
-    HAL_SDRAM_Init(&SDRAM_Handler, &SDRAM_Timing);
+    HAL_SDRAM_Init(&hsdram1, &SDRAM_Timing); */
 
-    SDRAM_Initialization_Sequence(&SDRAM_Handler); //发送SDRAM初始化序列
+    SDRAM_Initialization_Sequence(&hsdram1); //发送SDRAM初始化序列
 }
 
 //发送SDRAM初始化序列
@@ -67,12 +68,12 @@ void SDRAM_Initialization_Sequence(SDRAM_HandleTypeDef *hsdram)
     // COUNT=SDRAM刷新周期/行数-20=SDRAM刷新周期(us)*SDCLK频率(Mhz)/行数
     //我们使用的SDRAM刷新周期为64ms,SDCLK=200/2=100Mhz,行数为8192(2^13).
     //所以,COUNT=64*1000*100/8192-20=677
-    HAL_SDRAM_ProgramRefreshRate(&SDRAM_Handler, 677);
+    HAL_SDRAM_ProgramRefreshRate(&hsdram1, 677);
 }
 // SDRAM底层驱动，引脚配置，时钟使能
 //此函数会被HAL_SDRAM_Init()调用
 // hsdram:SDRAM句柄
-void HAL_SDRAM_MspInit(SDRAM_HandleTypeDef *hsdram)
+/* void HAL_SDRAM_MspInit(SDRAM_HandleTypeDef *hsdram)
 {
     GPIO_InitTypeDef GPIO_Initure;
 
@@ -117,7 +118,7 @@ void HAL_SDRAM_MspInit(SDRAM_HandleTypeDef *hsdram)
     GPIO_Initure.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_6 | GPIO_PIN_7 | GPIO_PIN_9 | GPIO_PIN_10;
     HAL_GPIO_Init(GPIOI, &GPIO_Initure); //初始化PI0,1,2,3,4,5,6,7,9,10
 }
-
+ */
 //向SDRAM发送命令
 // bankx:0,向BANK5上面的SDRAM发送指令
 //      1,向BANK6上面的SDRAM发送指令
@@ -134,11 +135,11 @@ u8 SDRAM_Send_Cmd(u8 bankx, u8 cmd, u8 refresh, u16 regval)
         target_bank = FMC_SDRAM_CMD_TARGET_BANK1;
     else if (bankx == 1)
         target_bank = FMC_SDRAM_CMD_TARGET_BANK2;
-    Command.CommandMode = cmd;                                             //命令
-    Command.CommandTarget = target_bank;                                   //目标SDRAM存储区域
-    Command.AutoRefreshNumber = refresh;                                   //自刷新次数
-    Command.ModeRegisterDefinition = regval;                               //要写入模式寄存器的值
-    if (HAL_SDRAM_SendCommand(&SDRAM_Handler, &Command, 0XFFFF) == HAL_OK) //向SDRAM发送命令
+    Command.CommandMode = cmd;                                       //命令
+    Command.CommandTarget = target_bank;                             //目标SDRAM存储区域
+    Command.AutoRefreshNumber = refresh;                             //自刷新次数
+    Command.ModeRegisterDefinition = regval;                         //要写入模式寄存器的值
+    if (HAL_SDRAM_SendCommand(&hsdram1, &Command, 0XFFFF) == HAL_OK) //向SDRAM发送命令
     {
         return 0;
     }

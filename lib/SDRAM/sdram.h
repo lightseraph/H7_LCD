@@ -1,6 +1,7 @@
 #ifndef _SDRAM_H
 #define _SDRAM_H
 #include "sys.h"
+#include "stm32h7xx_hal.h"
 //////////////////////////////////////////////////////////////////////////////////
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 // ALIENTEK STM32F7开发板
@@ -13,7 +14,7 @@
 // Copyright(C) 广州市星翼电子科技有限公司 2014-2024
 // All rights reserved
 //////////////////////////////////////////////////////////////////////////////////
-extern SDRAM_HandleTypeDef SDRAM_Handler;    // SDRAM句柄
+// extern SDRAM_HandleTypeDef hsdram1;          // SDRAM句柄
 #define Bank5_SDRAM_ADDR ((u32)(0XC0000000)) // SDRAM开始地址
 
 // SDRAM配置参数

@@ -20,19 +20,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usart.h"
 
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
+
 UART_HandleTypeDef huart1;
-
-/* USER CODE BEGIN 1 */
-#if 1
-#include <stdio.h>
-
-int _write(int fd, char *ptr, int len)
-{
-  HAL_UART_Transmit(&huart1, (uint8_t *)ptr, len, 0xFFFF);
-  return len;
-}
-#endif
-/* USER CODE END 1 */
 
 /* USART1 init function */
 
@@ -76,21 +68,22 @@ void MX_USART1_UART_Init(void)
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
+
 }
 
-void HAL_UART_MspInit(UART_HandleTypeDef *uartHandle)
+void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
-  if (uartHandle->Instance == USART1)
+  if(uartHandle->Instance==USART1)
   {
-    /* USER CODE BEGIN USART1_MspInit 0 */
+  /* USER CODE BEGIN USART1_MspInit 0 */
 
-    /* USER CODE END USART1_MspInit 0 */
+  /* USER CODE END USART1_MspInit 0 */
 
-    /** Initializes the peripherals clock
-     */
+  /** Initializes the peripherals clock
+  */
     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USART1;
     PeriphClkInitStruct.Usart16ClockSelection = RCC_USART16CLKSOURCE_D2PCLK2;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
@@ -121,20 +114,20 @@ void HAL_UART_MspInit(UART_HandleTypeDef *uartHandle)
     GPIO_InitStruct.Alternate = GPIO_AF7_USART1;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    /* USER CODE BEGIN USART1_MspInit 1 */
+  /* USER CODE BEGIN USART1_MspInit 1 */
 
-    /* USER CODE END USART1_MspInit 1 */
+  /* USER CODE END USART1_MspInit 1 */
   }
 }
 
-void HAL_UART_MspDeInit(UART_HandleTypeDef *uartHandle)
+void HAL_UART_MspDeInit(UART_HandleTypeDef* uartHandle)
 {
 
-  if (uartHandle->Instance == USART1)
+  if(uartHandle->Instance==USART1)
   {
-    /* USER CODE BEGIN USART1_MspDeInit 0 */
+  /* USER CODE BEGIN USART1_MspDeInit 0 */
 
-    /* USER CODE END USART1_MspDeInit 0 */
+  /* USER CODE END USART1_MspDeInit 0 */
     /* Peripheral clock disable */
     __HAL_RCC_USART1_CLK_DISABLE();
 
@@ -146,12 +139,20 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *uartHandle)
 
     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_9);
 
-    /* USER CODE BEGIN USART1_MspDeInit 1 */
+  /* USER CODE BEGIN USART1_MspDeInit 1 */
 
-    /* USER CODE END USART1_MspDeInit 1 */
+  /* USER CODE END USART1_MspDeInit 1 */
   }
 }
 
 /* USER CODE BEGIN 1 */
+#if 1
+#include <stdio.h>
 
+int _write(int fd, char *ptr, int len)
+{
+  HAL_UART_Transmit(&huart1, (uint8_t *)ptr, len, 0xFFFF);
+  return len;
+}
+#endif
 /* USER CODE END 1 */
