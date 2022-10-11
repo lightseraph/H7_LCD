@@ -67,6 +67,7 @@ RAM_D2 (xrw)      : ORIGIN = 0x30000000, LENGTH = 288K
 RAM_D3 (xrw)      : ORIGIN = 0x38000000, LENGTH = 64K
 ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
 FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 128K
+SDRAM(xrw)      : ORIGIN = 0xC0000000, LENGTH = 64M
 }
 
 /* Define output sections */
@@ -138,7 +139,7 @@ SECTIONS
   _sidata = LOADADDR(.data);
 
   /* Initialized data sections goes into RAM, load LMA copy after code */
-  .data : 
+  .data :
   {
     . = ALIGN(4);
     _sdata = .;        /* create a global symbol at data start */
@@ -149,7 +150,7 @@ SECTIONS
     _edata = .;        /* define a global symbol at data end */
   } >DTCMRAM AT> FLASH
 
-  
+
   /* Uninitialized data section */
   . = ALIGN(4);
   .bss :
@@ -177,7 +178,14 @@ SECTIONS
     . = ALIGN(8);
   } >DTCMRAM
 
-  
+  .sdram (NOLOAD) : ALIGN(4)
+  {
+    . = ALIGN(4);
+    *(.sdram)
+    *(.sdram.*)
+    . = ALIGN(4);
+    __sdram_free__ = .;
+  } >SDRAM
 
   /* Remove information from the standard libraries */
   /DISCARD/ :

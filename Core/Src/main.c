@@ -100,16 +100,16 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_FMC_Init();
   MX_TIM6_Init();
-  MX_QUADSPI_Init();
-  MX_RTC_Init();
-  MX_JPEG_Init();
-  MX_SPI2_Init();
-  MX_DMA2D_Init();
-  MX_LTDC_Init();
   MX_USART1_UART_Init();
+  MX_RTC_Init();
+  MX_QUADSPI_Init();
+  MX_SPI2_Init();
+  MX_FMC_Init();
+  MX_LTDC_Init();
+  MX_JPEG_Init();
   MX_LIBJPEG_Init();
+  MX_DMA2D_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -121,6 +121,8 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    /* printf("sadad\n");
+    HAL_Delay(2000); */
   }
   /* USER CODE END 3 */
 }
