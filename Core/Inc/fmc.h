@@ -29,7 +29,7 @@
 
 /* USER CODE BEGIN Includes */
 #include "sys.h"
-#include "tim.h"
+
 /* USER CODE END Includes */
 
 extern NAND_HandleTypeDef hnand1;
