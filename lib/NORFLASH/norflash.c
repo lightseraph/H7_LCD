@@ -475,38 +475,6 @@ int8_t NORFLASH_Reset(void)
 	return QSPI_W25Qxx_OK; // 复位成功
 }
 
-int8_t NORFLASH_BlockErase_32K(uint32_t SectorAddress)
-{
-	QSPI_CommandTypeDef s_command; // QSPI传输配置
-
-	s_command.InstructionMode = QSPI_INSTRUCTION_1_LINE;	 // 1线指令模�?
-	s_command.AddressSize = QSPI_ADDRESS_24_BITS;			 // 24位地�?模式
-	s_command.AlternateByteMode = QSPI_ALTERNATE_BYTES_NONE; //	无交替字�?
-	s_command.DdrMode = QSPI_DDR_MODE_DISABLE;				 // 禁止DDR模式
-	s_command.DdrHoldHalfCycle = QSPI_DDR_HHC_ANALOG_DELAY;	 // DDR模式中数据延迟，这里用不�?
-	s_command.SIOOMode = QSPI_SIOO_INST_EVERY_CMD;			 // 每次传输数据都发送指�?
-	s_command.AddressMode = QSPI_ADDRESS_1_LINE;			 // 1线地�?模式
-	s_command.DataMode = QSPI_DATA_NONE;					 // 无数�?
-	s_command.DummyCycles = 0;								 // 空周期个�?
-	s_command.Address = SectorAddress;						 // 要擦除的地址
-	s_command.Instruction = W25Qxx_CMD_BlockErase_32K;		 // 块擦除命令，每次擦除32K字节
-
-	// 发�?�写使能
-	NORFLASH_Write_Enable();
-
-	// 发出擦除命令
-	if (HAL_QSPI_Command(&hqspi, &s_command, HAL_QPSI_TIMEOUT_DEFAULT_VALUE) != HAL_OK)
-	{
-		return W25Qxx_ERROR_Erase; // 擦除失败
-	}
-	// 使用自动轮询标志位，等待擦除的结�?
-	if (NORFLASH_AutoPollingMemReady() != QSPI_W25Qxx_OK)
-	{
-		return W25Qxx_ERROR_AUTOPOLLING; // 轮询等待无响�?
-	}
-	return QSPI_W25Qxx_OK; // 擦除成功
-}
-
 int8_t NORFLASH_AutoPollingMemReady(void)
 {
 	QSPI_CommandTypeDef s_command;	  // QSPI传输配置

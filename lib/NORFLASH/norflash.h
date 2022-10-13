@@ -111,5 +111,4 @@ u8 QSPI_Transmit(u8 *buf, u32 datalen);                                      // 
 int8_t NORFLASH_MemoryMappedMode(void);                                      // 将QSPI设置为内存映射模式
 int8_t NORFLASH_AutoPollingMemReady(void);                                   // 使用自动轮询标志查询
 int8_t NORFLASH_Reset(void);                                                 // 复位器件
-int8_t NORFLASH_BlockErase_32K(uint32_t SectorAddress);                      // 进行块擦除操作，每次擦除32K字节
 #endif

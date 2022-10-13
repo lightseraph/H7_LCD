@@ -19,9 +19,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "dma2d.h"
-#include "jpeg.h"
-#include "libjpeg.h"
-#include "ltdc.h"
 #include "quadspi.h"
 #include "rtc.h"
 #include "spi.h"
@@ -113,9 +110,6 @@ int main(void)
   MX_QUADSPI_Init();
   MX_SPI2_Init();
   MX_FMC_Init();
-  /// MX_LTDC_Init();
-  MX_JPEG_Init();
-  MX_LIBJPEG_Init();
   MX_DMA2D_Init();
   /* USER CODE BEGIN 2 */
   /* SysTick->CTRL = 0;
@@ -127,9 +121,9 @@ int main(void)
   JumpToApplication(); // 执行跳转 */
   printf("main init was cleared!\n");
 
-  NORFLASH_BlockErase_32K(0);
+  NORFLASH_Erase_Sector(0);
   NORFLASH_Write(temp1, 0, 15);
-  // NORFLASH_Read(temp2, 0, 15);
+  //  NORFLASH_Read(temp2, 0, 15);
 
   // printf("1: %s\r\n", temp2);
 
@@ -155,9 +149,13 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    printf("2: %s\r\n", temp3[0]);
+    printf("2: %c%c%c%c%c\r\n", temp3[0], temp3[1], temp3[2], temp3[3], temp3[4]);
     printf("Run in main loop...\r\n");
-    HAL_Delay(3000);
+    for (int i = 0; i != 30; i++)
+    {
+      HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
+      HAL_Delay(100);
+    }
   }
   /* USER CODE END 3 */
 }
