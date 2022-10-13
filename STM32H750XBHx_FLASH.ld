@@ -68,6 +68,7 @@ RAM_D3 (xrw)      : ORIGIN = 0x38000000, LENGTH = 64K
 ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
 FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 128K
 SDRAM(xrw)      : ORIGIN = 0xC0000000, LENGTH = 64M
+NORFLASH(xrw)   : ORIGIN = 0x90000000, LENGTH = 8M
 }
 
 /* Define output sections */
@@ -186,6 +187,15 @@ SECTIONS
     . = ALIGN(4);
     __sdram_free__ = .;
   } >SDRAM
+
+  .nor_flash :
+  {
+    . = ALIGN(4);
+    *(.nor_flash)
+    *(.nor_flash.*)
+    . = ALIGN(4);
+    __nor_flash_free__ = .;
+  } >NORFLASH
 
   /* Remove information from the standard libraries */
   /DISCARD/ :

@@ -10,6 +10,7 @@
             "includePath": [
                 "/home/light/project/H7_LCD/include",
                 "/home/light/project/H7_LCD",
+                "/home/light/project/H7_LCD/lib/NORFLASH",
                 "/home/light/project/H7_LCD/lib/SDRAM",
                 "/home/light/project/H7_LCD/lib/sys",
                 "/home/light/project/H7_LCD/Core/Inc",
@@ -33,6 +34,7 @@
                 "path": [
                     "/home/light/project/H7_LCD/include",
                     "/home/light/project/H7_LCD",
+                    "/home/light/project/H7_LCD/lib/NORFLASH",
                     "/home/light/project/H7_LCD/lib/SDRAM",
                     "/home/light/project/H7_LCD/lib/sys",
                     "/home/light/project/H7_LCD/Core/Inc",
