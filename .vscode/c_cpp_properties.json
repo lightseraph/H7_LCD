@@ -27,6 +27,8 @@
                 "/home/light/project/H7_LCD/lib/NAND",
                 "/home/light/project/H7_LCD/lib/TOUCH",
                 "/home/light/project/H7_LCD/lib/W25QXX",
+                "/home/light/project/H7_LCD/lib/gui",
+                "/home/light/project/H7_LCD/lib/gui_app",
                 ""
             ],
             "browse": {
@@ -51,6 +53,8 @@
                     "/home/light/project/H7_LCD/lib/NAND",
                     "/home/light/project/H7_LCD/lib/TOUCH",
                     "/home/light/project/H7_LCD/lib/W25QXX",
+                    "/home/light/project/H7_LCD/lib/gui",
+                    "/home/light/project/H7_LCD/lib/gui_app",
                     ""
                 ]
             },
