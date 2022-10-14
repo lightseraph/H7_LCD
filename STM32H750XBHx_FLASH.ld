@@ -66,9 +66,9 @@ RAM_D1 (xrw)      : ORIGIN = 0x24000000, LENGTH = 512K
 RAM_D2 (xrw)      : ORIGIN = 0x30000000, LENGTH = 288K
 RAM_D3 (xrw)      : ORIGIN = 0x38000000, LENGTH = 64K
 ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
-FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 128K
+/*FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 128K */
 SDRAM(xrw)      : ORIGIN = 0xC0000000, LENGTH = 64M
-NORFLASH(xrw)   : ORIGIN = 0x90000000, LENGTH = 8M
+FLASH(xrw)   : ORIGIN = 0x90000000, LENGTH = 8M
 }
 
 /* Define output sections */
@@ -97,7 +97,7 @@ SECTIONS
 
     . = ALIGN(4);
     _etext = .;        /* define a global symbols at end of code */
-  } >NORFLASH
+  } >FLASH
 
   /* Constant data goes into FLASH */
   .rodata :
@@ -106,7 +106,7 @@ SECTIONS
     *(.rodata)         /* .rodata sections (constants, strings, etc.) */
     *(.rodata*)        /* .rodata* sections (constants, strings, etc.) */
     . = ALIGN(4);
-  } >NORFLASH
+  } >FLASH
 
   .ARM.extab   : { *(.ARM.extab* .gnu.linkonce.armextab.*) } >FLASH
   .ARM : {
