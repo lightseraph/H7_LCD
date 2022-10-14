@@ -187,7 +187,7 @@ SECTIONS
     . = ALIGN(4);
     __sdram_free__ = .;
   } >SDRAM
-
+/*
   .nor_flash :
   {
     . = ALIGN(4);
@@ -196,7 +196,7 @@ SECTIONS
     . = ALIGN(4);
     __nor_flash_free__ = .;
   } >NORFLASH
-
+*/
   /* Remove information from the standard libraries */
   /DISCARD/ :
   {
