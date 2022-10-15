@@ -55,7 +55,7 @@ ENTRY(Reset_Handler)
 /* Highest address of the user mode stack */
 _estack = ORIGIN(DTCMRAM) + LENGTH(DTCMRAM);    /* end of RAM */
 /* Generate a link error if heap and stack don't fit into RAM */
-_Min_Heap_Size = 0x800;      /* required amount of heap  */
+_Min_Heap_Size = 0x1000;      /* required amount of heap  */
 _Min_Stack_Size = 0x1200; /* required amount of stack */
 
 /* Specify the memory areas */
@@ -186,6 +186,14 @@ SECTIONS
     *(.sdram.*)
     . = ALIGN(4);
     __sdram_free__ = .;
+  } >SDRAM
+
+  .color_buf :
+  {
+    . = ALIGN(4);
+    *(.color_buf)
+    *(.color_buf.*)
+    . = ALIGN(4);
   } >SDRAM
 /*
   .nor_flash :

@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "dma2d.h"
+#include "ltdc.h"
 #include "rtc.h"
 #include "spi.h"
 #include "tim.h"
@@ -67,16 +68,13 @@ pFunction JumpToApplication;
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  // uint8_t temp1[50] = "hello sudaroot\r\n";
-  // uint8_t temp2[50] = {0};
-  // uint8_t *temp3 = (uint8_t *)QSPI_BASE;
-  SCB->VTOR = QSPI_BASE;
+  SCB->VTOR = QSPI_BASE; //设置中断向量表
   /* USER CODE END 1 */
 
   /* Enable I-Cache---------------------------------------------------------*/
@@ -105,25 +103,17 @@ int main(void)
   MX_GPIO_Init();
   MX_TIM6_Init();
   MX_USART1_UART_Init();
+  MX_USART2_UART_Init();
   MX_RTC_Init();
   MX_SPI2_Init();
-  MX_FMC_Init();
   MX_DMA2D_Init();
+  MX_FMC_Init();
+  MX_LTDC_Init();
   /* USER CODE BEGIN 2 */
   __enable_irq();
   printf("Jump in ex_flash!\n");
 
-  // NORFLASH_Erase_Sector(0);
-  // NORFLASH_Write(temp1, 0, 15);
-  //   NORFLASH_Read(temp2, 0, 15);
-
   // printf("1: %s\r\n", temp2);
-
-  // NORFLASH_MemoryMappedMode();
-
-  // memset(temp2, 0, 50);
-  // memmove(temp2, temp3, 15);
-  // printf("2: %s\r\n", temp2);
 
   /* __IO uint8_t *qspi_addr = (__IO uint8_t *)(0x90000000);
   for (int i = 0; i < 0x100; i++)
@@ -138,54 +128,52 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-    // printf("2: %c%c%c%c%c\r\n", temp3[0], temp3[1], temp3[2], temp3[3], temp3[4]);
     printf("Run in ex_flash_app main loop...\r\n");
     for (int i = 0; i != 30; i++)
     {
       HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
       HAL_Delay(100);
     }
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+    // printf("2: %c%c%c%c%c\r\n", temp3[0], temp3[1], temp3[2], temp3[3], temp3[4]);
   }
   /* USER CODE END 3 */
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Supply configuration update enable
-   */
+  */
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
 
   /** Configure the main internal regulator output voltage
-   */
+  */
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
 
-  while (!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY))
-  {
-  }
+  while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
 
   /** Configure LSE Drive Capability
-   */
+  */
   HAL_PWR_EnableBkUpAccess();
   __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
 
   /** Macro to configure the PLL clock source
-   */
+  */
   __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
 
   /** Initializes the RCC Oscillators according to the specified parameters
-   * in the RCC_OscInitTypeDef structure.
-   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_LSE;
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -204,8 +192,10 @@ void SystemClock_Config(void)
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
-   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 | RCC_CLOCKTYPE_D3PCLK1 | RCC_CLOCKTYPE_D1PCLK1;
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
+                              |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
@@ -225,9 +215,9 @@ void SystemClock_Config(void)
 /* USER CODE END 4 */
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -239,14 +229,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */

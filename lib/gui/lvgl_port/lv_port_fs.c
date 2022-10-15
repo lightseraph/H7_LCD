@@ -4,15 +4,15 @@
  */
 
 /*Copy this file as "lv_port_fs.c" and set this value to "1" to enable content*/
-#if 1
+#if 0
 
 /*********************
  *      INCLUDES
  *********************/
 #include "lv_port_fs.h"
 #include "lvgl/lvgl.h"
-#include "ff.h"
-#include "user_diskio.h"
+//#include "ff.h"
+//#include "user_diskio.h"
 
 /*********************
  *      DEFINES
