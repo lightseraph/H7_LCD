@@ -4,7 +4,7 @@
 //#include "usart.h"
 #include "tim.h"
 #include "string.h"
-#include "lcd.h"
+#include "ltdc.h"
 //////////////////////////////////////////////////////////////////////////////////
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 // ALIENTEK STM32F407开发板
@@ -380,7 +380,7 @@ u8 GT9147_Scan(u8 mode)
 				}
 			}
 			res = 1;
-			if (tp_dev.x[0] > lcddev.width || tp_dev.y[0] > lcddev.height) //非法数据(坐标超出了)
+			if (tp_dev.x[0] > lcdltdc.width || tp_dev.y[0] > lcdltdc.height) //非法数据(坐标超出了)
 			{
 				if ((mode & 0XF) > 1) //有其他点有数据,则复第二个触点的数据到第一个触点.
 				{

@@ -11,7 +11,7 @@
  *********************/
 #include "lv_port_disp.h"
 #include "../lvgl/lvgl.h"
-#include "lcd.h"
+#include "ltdc.h"
 /*********************
  *      DEFINES
  *********************/
@@ -134,7 +134,7 @@ void lv_port_disp_init(void)
 static void disp_init(void)
 {
     /*You code here*/
-    LCD_Init();
+    LTDC_Init();
 }
 
 /*Flush the content of the internal buffer the specific area on the display
@@ -156,7 +156,7 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_
             color_p++;
         }
     } */
-    LCD_Color_Fill(area->x1, area->y1, area->x2, area->y2, (uint16_t *)color_p);
+    LTDC_Color_Fill(area->x1, area->y1, area->x2, area->y2, (uint16_t *)color_p);
 
     /*IMPORTANT!!!
      *Inform the graphics library that you are ready with the flushing*/

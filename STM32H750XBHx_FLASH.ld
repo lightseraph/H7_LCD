@@ -179,6 +179,14 @@ SECTIONS
     . = ALIGN(8);
   } >DTCMRAM
 
+  .ram_d1 :
+  {
+    . = ALIGN(4);
+    *(.ram_d1)
+    *(.ram_d1.*)
+    . = ALIGN(4);
+  } >RAM_D1 AT> FLASH
+
   .sdram (NOLOAD) : ALIGN(4)
   {
     . = ALIGN(4);
@@ -186,7 +194,7 @@ SECTIONS
     *(.sdram.*)
     . = ALIGN(4);
     __sdram_free__ = .;
-  } >SDRAM
+  } >SDRAM AT> FLASH
 
   .color_buf :
   {
@@ -194,7 +202,7 @@ SECTIONS
     *(.color_buf)
     *(.color_buf.*)
     . = ALIGN(4);
-  } >SDRAM
+  } >SDRAM AT> FLASH
 /*
   .nor_flash :
   {
