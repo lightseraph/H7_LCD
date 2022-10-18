@@ -206,6 +206,7 @@ int main(void)
   // LTDC_Init();
   lv_init();
   lv_port_disp_init();
+  lv_port_indev_init();
   //   printf("1: %s\r\n", temp2);
 
   /* __IO uint8_t *qspi_addr = (__IO uint8_t *)(0x90000000);

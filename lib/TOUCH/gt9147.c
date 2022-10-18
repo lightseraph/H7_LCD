@@ -317,17 +317,17 @@ u8 GT9147_Init(void)
 	HAL_Delay(100);
 	GT9147_RD_Reg(GT_PID_REG, temp, 4); //读取产品ID
 	temp[4] = 0;
-	// printf("CTP ID:%s\r\n", temp);		   //打印ID
+	printf("CTP ID:%s\r\n", temp);		  //打印ID
 	if (strcmp((char *)temp, "911") == 0) // ID==9147
 	{
 		temp[0] = 0X02;
 		GT9147_WR_Reg(GT_CTRL_REG, temp, 1); //软复位GT9147
-		GT9147_RD_Reg(GT_CFGS_REG, temp, 1); //读取GT_CFGS_REG寄存器
+		/* GT9147_RD_Reg(GT_CFGS_REG, temp, 1); //读取GT_CFGS_REG寄存器
 		if (temp[0] < 0X61)					 //默认版本比较低,需要更新flash配置
 		{
 			// printf("Default Ver:%d\r\n", temp[0]);
 			GT9147_Send_Cfg(1); //更新并保存配置
-		}
+		} */
 		HAL_Delay(10);
 		temp[0] = 0X00;
 		GT9147_WR_Reg(GT_CTRL_REG, temp, 1); //结束复位

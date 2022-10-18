@@ -24,7 +24,7 @@
 
 // GT9147 部分寄存器定义
 #define GT_CTRL_REG 0X8040  // GT9147控制寄存器
-#define GT_CFGS_REG 0X8047  // GT9147配置起始地址寄存器
+#define GT_CFGS_REG 0X8050  // GT9147配置起始地址寄存器0x8047, GT1151:0x8050
 #define GT_CHECK_REG 0X80FF // GT9147校验和寄存器
 #define GT_PID_REG 0X8140   // GT9147产品ID寄存器
 

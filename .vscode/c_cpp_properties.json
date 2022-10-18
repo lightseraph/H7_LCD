@@ -11,6 +11,7 @@
                 "/home/light/project/H7_LCD/include",
                 "/home/light/project/H7_LCD",
                 "/home/light/project/H7_LCD/lib/NORFLASH",
+                "/home/light/project/H7_LCD/lib/gui_app",
                 "/home/light/project/H7_LCD/lib/gui",
                 "/home/light/project/H7_LCD/lib/TOUCH",
                 "/home/light/project/H7_LCD/lib/SDRAM",
@@ -27,7 +28,6 @@
                 "/home/light/project/H7_LCD/lib/MPU",
                 "/home/light/project/H7_LCD/lib/NAND",
                 "/home/light/project/H7_LCD/lib/W25QXX",
-                "/home/light/project/H7_LCD/lib/gui_app",
                 ""
             ],
             "browse": {
@@ -36,6 +36,7 @@
                     "/home/light/project/H7_LCD/include",
                     "/home/light/project/H7_LCD",
                     "/home/light/project/H7_LCD/lib/NORFLASH",
+                    "/home/light/project/H7_LCD/lib/gui_app",
                     "/home/light/project/H7_LCD/lib/gui",
                     "/home/light/project/H7_LCD/lib/TOUCH",
                     "/home/light/project/H7_LCD/lib/SDRAM",
@@ -52,7 +53,6 @@
                     "/home/light/project/H7_LCD/lib/MPU",
                     "/home/light/project/H7_LCD/lib/NAND",
                     "/home/light/project/H7_LCD/lib/W25QXX",
-                    "/home/light/project/H7_LCD/lib/gui_app",
                     ""
                 ]
             },

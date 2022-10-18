@@ -84,10 +84,10 @@ void lv_port_disp_init(void)
     static lv_disp_draw_buf_t draw_buf_dsc_2;
     // static lv_color_t buf_2_1[MY_DISP_HOR_RES * 28];                                /*A buffer for 10 rows*/
     // static lv_color_t buf_2_2[MY_DISP_HOR_RES * 28];                                /*An other buffer for 10 rows*/
-    // static lv_color_t color_buf1[COLOR_BUF_SIZE] __attribute__((section(".sdram")));
-    static lv_color_t color_buf2[COLOR_BUF_SIZE] __attribute__((section(".color_buf")));
+    static lv_color_t color_buf1[COLOR_BUF_SIZE] __attribute__((section(".sdram")));
+    // static lv_color_t color_buf2[COLOR_BUF_SIZE] __attribute__((section(".color_buf")));
 
-    lv_disp_draw_buf_init(&draw_buf_dsc_2, color_buf2, NULL, COLOR_BUF_SIZE); /*Initialize the display buffer*/
+    lv_disp_draw_buf_init(&draw_buf_dsc_2, color_buf1, NULL, COLOR_BUF_SIZE); /*Initialize the display buffer*/
 
     /* Example for 3) also set disp_drv.full_refresh = 1 below*/
     // static lv_disp_draw_buf_t draw_buf_dsc_3;
@@ -156,7 +156,8 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_
             color_p++;
         }
     } */
-    LTDC_Color_Fill(area->x1, area->y1, area->x2, area->y2, (uint16_t *)color_p);
+    // LTDC_Fill(area->x1, area->y1, area->x2, area->y2, (u32)color_p);
+    LTDC_Color_Fill(area->x1, area->y1, area->x2, area->y2, (u32 *)color_p);
 
     /*IMPORTANT!!!
      *Inform the graphics library that you are ready with the flushing*/

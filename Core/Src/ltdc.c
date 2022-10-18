@@ -26,7 +26,7 @@ DMA2D_HandleTypeDef hdma2d;
 _ltdc_dev lcdltdc;
 u32 *ltdc_framebuf[2];
 
-u32 ltdc_lcd_framebuf[480][800] __attribute__((section(".color_buf")));
+u32 ltdc_lcd_framebuf[480][800] __attribute__((section(".sdram")));
 /* USER CODE END 0 */
 
 LTDC_HandleTypeDef hltdc;
@@ -356,7 +356,7 @@ void LTDC_Fill(u16 sx, u16 sy, u16 ex, u16 ey, u32 color)
   DMA2D->IFCR |= 1 << 1; //清除传输完成标志
 }
 
-void LTDC_Color_Fill(u16 sx, u16 sy, u16 ex, u16 ey, u16 *color)
+void LTDC_Color_Fill(u16 sx, u16 sy, u16 ex, u16 ey, u32 *color)
 {
   u32 psx, psy, pex, pey; //以LCD面板为基准的坐标系,不随横竖屏变化而变化
   u32 timeout = 0;
