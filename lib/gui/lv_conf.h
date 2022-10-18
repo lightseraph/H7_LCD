@@ -53,7 +53,7 @@
 
     /*Set an address for the memory pool instead of allocating it as a normal array. Can be in external SRAM too.*/
     #define LV_MEM_ADR 0x24000000     /*0: unused*/
-    #define LV_MEM_ATTR __attribute__((section("RAM_D1")))
+    #define LV_MEM_ATTR __attribute__((section(".ram_d1")))
     /*Instead of an address give a memory allocator that will be called to get a memory pool for LVGL. E.g. my_malloc*/
     #if LV_MEM_ADR == 0
         //#define LV_MEM_POOL_INCLUDE your_alloc_library  /* Uncomment if using an external allocator*/
@@ -79,7 +79,7 @@
  *====================*/
 
 /*Default display refresh period. LVG will redraw changed areas with this period time*/
-#define LV_DISP_DEF_REFR_PERIOD 20      /*[ms]*/
+#define LV_DISP_DEF_REFR_PERIOD 30      /*[ms]*/
 
 /*Input device read period in milliseconds*/
 #define LV_INDEV_DEF_READ_PERIOD 30     /*[ms]*/
@@ -670,7 +670,7 @@
  ====================*/
 
 /*Show some widget. It might be required to increase `LV_MEM_SIZE` */
-#define LV_USE_DEMO_WIDGETS        0
+#define LV_USE_DEMO_WIDGETS        1
 #if LV_USE_DEMO_WIDGETS
 #define LV_DEMO_WIDGETS_SLIDESHOW  0
 #endif

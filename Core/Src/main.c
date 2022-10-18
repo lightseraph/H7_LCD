@@ -34,6 +34,7 @@
 #include "lvgl/lvgl.h"
 #include "lvgl_port/lv_port_disp.h"
 #include "lvgl_port/lv_port_indev.h"
+#include "demos/lv_demos.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -121,8 +122,11 @@ static void lvgl_first_demo_start(void)
   lv_obj_add_flag(btn1, LV_OBJ_FLAG_CHECKABLE);
 
   lv_obj_t *label = lv_label_create(btn);
-  lv_label_set_text(label, "button");
+  lv_label_set_text(label, "button1");
   lv_obj_align_to(label, btn, LV_ALIGN_CENTER, 0, 0);
+  lv_obj_t *label0 = lv_label_create(btn1);
+  lv_label_set_text(label0, "button2");
+  lv_obj_align_to(label0, btn1, LV_ALIGN_CENTER, 0, 0);
 
   lv_obj_t *coord_x = lv_label_create(lv_scr_act());
   lv_obj_set_size(coord_x, 120, 20);
@@ -211,18 +215,18 @@ int main(void)
     qspi_addr++;
   } */
   lvgl_first_demo_start();
+  // lv_demo_widgets();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    printf("Run in ex_flash_app main loop...\r\n");
-    for (int i = 0; i != 30; i++)
-    {
-      HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
-      HAL_Delay(100);
-    }
+    // printf("Run in ex_flash_app main loop...\r\n");
+    HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
+    HAL_Delay(100);
+
     lv_task_handler();
     /* USER CODE END WHILE */
 

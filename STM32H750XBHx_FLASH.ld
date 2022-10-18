@@ -194,9 +194,9 @@ SECTIONS
     *(.sdram.*)
     . = ALIGN(4);
     __sdram_free__ = .;
-  } >SDRAM AT> FLASH
+  } >SDRAM
 
-  .color_buf :
+  .color_buf (NOLOAD):
   {
     . = ALIGN(4);
     *(.color_buf)

@@ -26,7 +26,7 @@ DMA2D_HandleTypeDef hdma2d;
 _ltdc_dev lcdltdc;
 u32 *ltdc_framebuf[2];
 
-u32 ltdc_lcd_framebuf[800][480] __attribute__((section(".color_buf")));
+u32 ltdc_lcd_framebuf[480][800] __attribute__((section(".color_buf")));
 /* USER CODE END 0 */
 
 LTDC_HandleTypeDef hltdc;
@@ -57,7 +57,7 @@ void MX_LTDC_Init(void)
   hltdc.Init.AccumulatedActiveH = 514;
   hltdc.Init.TotalWidth = 975;
   hltdc.Init.TotalHeigh = 527;
-  hltdc.Init.Backcolor.Blue = 255;
+  hltdc.Init.Backcolor.Blue = 0;
   hltdc.Init.Backcolor.Green = 0;
   hltdc.Init.Backcolor.Red = 0;
   if (HAL_LTDC_Init(&hltdc) != HAL_OK)
@@ -102,14 +102,14 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef *ltdcHandle)
     /** Initializes the peripherals clock
      */
     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC;
-    PeriphClkInitStruct.PLL3.PLL3M = 5;
-    PeriphClkInitStruct.PLL3.PLL3N = 160;
+    PeriphClkInitStruct.PLL3.PLL3M = 1;
+    PeriphClkInitStruct.PLL3.PLL3N = 6;
     PeriphClkInitStruct.PLL3.PLL3P = 2;
     PeriphClkInitStruct.PLL3.PLL3Q = 2;
-    PeriphClkInitStruct.PLL3.PLL3R = 25;
-    PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_2;
-    PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
-    PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
+    PeriphClkInitStruct.PLL3.PLL3R = 5;
+    PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_3;
+    PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOMEDIUM;
+    PeriphClkInitStruct.PLL3.PLL3FRACN = 0.0;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
     {
       Error_Handler();
@@ -121,7 +121,6 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef *ltdcHandle)
     __HAL_RCC_GPIOK_CLK_ENABLE();
     __HAL_RCC_GPIOJ_CLK_ENABLE();
     __HAL_RCC_GPIOI_CLK_ENABLE();
-
     /**LTDC GPIO Configuration
     PK5     ------> LTDC_B6
     PK4     ------> LTDC_B5
@@ -418,43 +417,10 @@ void LTDC_Init(void)
   // lcddev.width=lcdltdc.pwidth;
   // lcddev.height=lcdltdc.pheight;
   ltdc_framebuf[0] = (u32 *)&ltdc_lcd_framebuf;
-  lcdltdc.pixsize = 4;    //每个像素占4个字节
-  LTDC_Display_Dir(0);    //默认竖屏，在LCD_Init函数里面设置
+  lcdltdc.pixsize = 4; //每个像素占4个字节
+  // LTDC_Display_Dir(0);    //默认竖屏，在LCD_Init函数里面设置
   LTDC_Select_Layer(0);   //选择第1层
-  LTDC_Clear(0XFFFFFF00); //清屏
+  LTDC_Clear(0XFF00F0F0); //清屏
 }
 
-u16 LTDC_PanelID_Read(void)
-{
-  GPIO_InitTypeDef GPIO_Initure;
-  __HAL_RCC_GPIOJ_CLK_ENABLE();        //使能GPIOJ时钟
-  __HAL_RCC_GPIOK_CLK_ENABLE();        //使能GPIOK时钟
-  GPIO_Initure.Pin = GPIO_PIN_6;       // PJ6
-  GPIO_Initure.Mode = GPIO_MODE_INPUT; //输入
-  // GPIO_Initure.Speed = GPIO_SPEED_FREQ_VERY_HIGH; //高速
-  HAL_GPIO_Init(GPIOJ, &GPIO_Initure); //初始化
-
-  GPIO_Initure.Pin = GPIO_PIN_2 | GPIO_PIN_6; // PK2,6
-  GPIO_Initure.Mode = GPIO_MODE_INPUT;
-  HAL_GPIO_Init(GPIOK, &GPIO_Initure); //初始化
-
-  u8 idx = 0;
-  idx = (u8)HAL_GPIO_ReadPin(GPIOJ, GPIO_PIN_6);       //读取M0
-  idx |= (u8)HAL_GPIO_ReadPin(GPIOK, GPIO_PIN_2) << 1; //读取M1
-  idx |= (u8)HAL_GPIO_ReadPin(GPIOK, GPIO_PIN_6) << 2; //读取M2
-  if (idx == 0)
-    return 0X4342; // 4.3寸屏,480*272分辨率
-  else if (idx == 1)
-    return 0X7084; // 7寸屏,800*480分辨率
-  else if (idx == 2)
-    return 0X7016; // 7寸屏,1024*600分辨率
-  else if (idx == 3)
-    return 0X7018; // 7寸屏,1280*800分辨率
-  else if (idx == 4)
-    return 0X4384; // 4.3寸屏,800*480分辨率
-  else if (idx == 5)
-    return 0X1018; // 10.1寸屏,1280*800分辨率
-  else
-    return 0;
-}
 /* USER CODE END 1 */
