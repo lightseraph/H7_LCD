@@ -22,6 +22,8 @@
 /*====================
    COLOR SETTINGS
  *====================*/
+#define LV_HOR_RES_MAX          (480)  //320
+#define LV_VER_RES_MAX          (800)  //480
 
 /*Color depth: 1 (1 byte per pixel), 8 (RGB332), 16 (RGB565), 32 (ARGB8888)*/
 #define LV_COLOR_DEPTH 32

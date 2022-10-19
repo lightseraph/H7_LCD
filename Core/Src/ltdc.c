@@ -26,7 +26,7 @@ DMA2D_HandleTypeDef hdma2d;
 _ltdc_dev lcdltdc;
 u32 *ltdc_framebuf[2];
 
-u32 ltdc_lcd_framebuf[480][800] __attribute__((section(".sdram")));
+u32 ltdc_lcd_framebuf[800][480] __attribute__((section(".sdram")));
 /* USER CODE END 0 */
 
 LTDC_HandleTypeDef hltdc;
@@ -84,7 +84,8 @@ void MX_LTDC_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN LTDC_Init 2 */
-
+  // HAL_LTDC_SetWindowPosition(&hltdc, 0, 0, 0); //设置窗口的位置
+  // HAL_LTDC_SetWindowSize(&hltdc, 800, 480, 0); //设置窗口大小
   /* USER CODE END LTDC_Init 2 */
 }
 
@@ -109,7 +110,7 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef *ltdcHandle)
     PeriphClkInitStruct.PLL3.PLL3R = 5;
     PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_3;
     PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOMEDIUM;
-    PeriphClkInitStruct.PLL3.PLL3FRACN = 0.0;
+    PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
     {
       Error_Handler();
@@ -417,8 +418,8 @@ void LTDC_Init(void)
   // lcddev.width=lcdltdc.pwidth;
   // lcddev.height=lcdltdc.pheight;
   ltdc_framebuf[0] = (u32 *)&ltdc_lcd_framebuf;
-  lcdltdc.pixsize = 4; //每个像素占4个字节
-  // LTDC_Display_Dir(0);    //默认竖屏，在LCD_Init函数里面设置
+  lcdltdc.pixsize = 4;    //每个像素占4个字节
+  LTDC_Display_Dir(0);    //默认竖屏，在LCD_Init函数里面设置
   LTDC_Select_Layer(0);   //选择第1层
   LTDC_Clear(0XFF00F0F0); //清屏
 }

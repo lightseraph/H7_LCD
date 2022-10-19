@@ -84,8 +84,8 @@ void lv_port_disp_init(void)
     static lv_disp_draw_buf_t draw_buf_dsc_2;
     // static lv_color_t buf_2_1[MY_DISP_HOR_RES * 28];                                /*A buffer for 10 rows*/
     // static lv_color_t buf_2_2[MY_DISP_HOR_RES * 28];                                /*An other buffer for 10 rows*/
-    static lv_color_t color_buf1[COLOR_BUF_SIZE] __attribute__((section(".sdram")));
-    // static lv_color_t color_buf2[COLOR_BUF_SIZE] __attribute__((section(".color_buf")));
+    // static lv_color_t color_buf1[COLOR_BUF_SIZE] __attribute__((section(".sdram")));
+    static lv_color_t color_buf1[COLOR_BUF_SIZE] __attribute__((section(".color_buf")));
 
     lv_disp_draw_buf_init(&draw_buf_dsc_2, color_buf1, NULL, COLOR_BUF_SIZE); /*Initialize the display buffer*/
 
@@ -105,8 +105,8 @@ void lv_port_disp_init(void)
     /*Set up the functions to access to your display*/
 
     /*Set the resolution of the display*/
-    disp_drv.hor_res = MY_DISP_HOR_RES;
-    disp_drv.ver_res = MY_DISP_VER_RES;
+    disp_drv.hor_res = 480; // MY_DISP_HOR_RES;
+    disp_drv.ver_res = 800; // MY_DISP_VER_RES;
 
     /*Used to copy the buffer's content to the display*/
     disp_drv.flush_cb = disp_flush;
@@ -156,7 +156,6 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_
             color_p++;
         }
     } */
-    // LTDC_Fill(area->x1, area->y1, area->x2, area->y2, (u32)color_p);
     LTDC_Color_Fill(area->x1, area->y1, area->x2, area->y2, (u32 *)color_p);
 
     /*IMPORTANT!!!
