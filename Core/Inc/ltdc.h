@@ -22,7 +22,8 @@
 #define __LTDC_H__
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -30,9 +31,9 @@ extern "C" {
 
 /* USER CODE BEGIN Includes */
 #include "sys.h"
-/* USER CODE END Includes */
+  /* USER CODE END Includes */
 
-extern LTDC_HandleTypeDef hltdc;
+  extern LTDC_HandleTypeDef hltdc;
 
 /* USER CODE BEGIN Private defines */
 #define LCD_PIXEL_FORMAT_ARGB8888 0X00
@@ -50,11 +51,11 @@ extern LTDC_HandleTypeDef hltdc;
 #define LTDC_BACKLAYERCOLOR 0X00000000
 // LCD帧缓冲区首地址,这里定义在SDRAM里面.
 #define LCD_FRAME_BUF_ADDR 0XC0000000
-/* USER CODE END Private defines */
+  /* USER CODE END Private defines */
 
-void MX_LTDC_Init(void);
+  void MX_LTDC_Init(void);
 
-/* USER CODE BEGIN Prototypes */
+  /* USER CODE BEGIN Prototypes */
   // LCD LTDC重要参数集
   typedef struct
   {
@@ -86,12 +87,13 @@ void MX_LTDC_Init(void);
   void LTDC_Color_Fill(u16 sx, u16 sy, u16 ex, u16 ey, u32 *color); //矩形彩色填充函数
   void LTDC_Clear(u32 color);                                       //清屏函数
   void LTDC_Init(void);
+  void LTDC_HALF_ClearV(u32 color1, u32 color2);
+  void LTDC_HALF_ClearH(u32 color1, u32 color2);
   // u16 LTDC_PanelID_Read(void);
-/* USER CODE END Prototypes */
+  /* USER CODE END Prototypes */
 
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* __LTDC_H__ */
-

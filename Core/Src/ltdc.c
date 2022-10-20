@@ -21,12 +21,12 @@
 #include "ltdc.h"
 
 /* USER CODE BEGIN 0 */
-#include "dma2d.h"
-DMA2D_HandleTypeDef hdma2d;
+//#include "dma2d.h"
+// DMA2D_HandleTypeDef hdma2d;
 _ltdc_dev lcdltdc;
 u32 *ltdc_framebuf[2];
 
-u32 ltdc_lcd_framebuf[800][480] __attribute__((section(".sdram")));
+u32 ltdc_lcd_framebuf[480][800] __attribute__((section(".sdram")));
 /* USER CODE END 0 */
 
 LTDC_HandleTypeDef hltdc;
@@ -77,15 +77,15 @@ void MX_LTDC_Init(void)
   pLayerCfg.ImageWidth = 800;
   pLayerCfg.ImageHeight = 480;
   pLayerCfg.Backcolor.Blue = 0;
-  pLayerCfg.Backcolor.Green = 255;
+  pLayerCfg.Backcolor.Green = 0;
   pLayerCfg.Backcolor.Red = 0;
   if (HAL_LTDC_ConfigLayer(&hltdc, &pLayerCfg, 0) != HAL_OK)
   {
     Error_Handler();
   }
   /* USER CODE BEGIN LTDC_Init 2 */
-  // HAL_LTDC_SetWindowPosition(&hltdc, 0, 0, 0); //设置窗口的位置
-  // HAL_LTDC_SetWindowSize(&hltdc, 800, 480, 0); //设置窗口大小
+  HAL_LTDC_SetWindowPosition(&hltdc, 0, 0, 0); //设置窗口的位置
+  HAL_LTDC_SetWindowSize(&hltdc, 800, 480, 0); //设置窗口大小
   /* USER CODE END LTDC_Init 2 */
 }
 
@@ -107,7 +107,7 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef *ltdcHandle)
     PeriphClkInitStruct.PLL3.PLL3N = 6;
     PeriphClkInitStruct.PLL3.PLL3P = 2;
     PeriphClkInitStruct.PLL3.PLL3Q = 2;
-    PeriphClkInitStruct.PLL3.PLL3R = 5;
+    PeriphClkInitStruct.PLL3.PLL3R = 8;
     PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_3;
     PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOMEDIUM;
     PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
@@ -404,6 +404,18 @@ void LTDC_Clear(u32 color)
   LTDC_Fill(0, 0, lcdltdc.width - 1, lcdltdc.height - 1, color);
 }
 
+void LTDC_HALF_ClearV(u32 color1, u32 color2)
+{
+  LTDC_Fill(0, 0, lcdltdc.height - 1, lcdltdc.width / 2, color1);
+  LTDC_Fill(0, lcdltdc.width / 2, lcdltdc.height - 1, lcdltdc.width - 1, color2);
+}
+
+void LTDC_HALF_ClearH(u32 color1, u32 color2)
+{
+  LTDC_Fill(0, 0, lcdltdc.width - 1, lcdltdc.height / 2, color1);
+  LTDC_Fill(0, lcdltdc.height / 2, lcdltdc.width - 1, lcdltdc.height - 1, color2);
+}
+
 void LTDC_Init(void)
 {
   lcdltdc.pwidth = 800;  //面板宽度,单位:像素
@@ -421,7 +433,9 @@ void LTDC_Init(void)
   lcdltdc.pixsize = 4;    //每个像素占4个字节
   LTDC_Display_Dir(0);    //默认竖屏，在LCD_Init函数里面设置
   LTDC_Select_Layer(0);   //选择第1层
-  LTDC_Clear(0XFF00F0F0); //清屏
+  LTDC_Clear(0XFF0FF0F0); //清屏
+  // LTDC_HALF_ClearH(0xFFF00000, 0xFF0F0FF0);
+  //  LTDC_HALF_ClearV(0xFFF00000, 0xFF0F0FF0);
 }
 
 /* USER CODE END 1 */
