@@ -66,7 +66,7 @@ RAM_D1 (xrw)      : ORIGIN = 0x24000000, LENGTH = 512K
 RAM_D2 (xrw)      : ORIGIN = 0x30000000, LENGTH = 288K
 RAM_D3 (xrw)      : ORIGIN = 0x38000000, LENGTH = 64K
 ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
-/*FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 128K */
+/*FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 128K*/
 SDRAM(xrw)      : ORIGIN = 0xC0000000, LENGTH = 64M
 FLASH(xrw)   : ORIGIN = 0x90000000, LENGTH = 8M
 }
@@ -179,7 +179,7 @@ SECTIONS
     . = ALIGN(8);
   } >DTCMRAM
 
-  .ram_d1 (NOLOAD): ALIGN(4)
+  .ram_d1 :
   {
     . = ALIGN(4);
     *(.ram_d1)

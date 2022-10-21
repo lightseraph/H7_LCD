@@ -70,7 +70,7 @@ typedef void (*pFunction)(void);
 
 pFunction JumpToApplication;
 
-static void event_handler(lv_event_t *event)
+/* static void event_handler(lv_event_t *event)
 {
   lv_obj_t *obj = lv_event_get_target(event);
   switch (lv_event_get_code(event))
@@ -105,14 +105,14 @@ static void event_handler(lv_event_t *event)
 
 static void lvgl_first_demo_start(void)
 {
-  /* LV_IMG_DECLARE(debian_s);
+  LV_IMG_DECLARE(debian_s);
   static lv_style_t style;
   lv_style_init(&style);
   lv_style_set_bg_img_src(&style, &debian_s);
   lv_obj_t *sy = lv_obj_create(lv_scr_act());
   lv_obj_add_style(sy, &style, 0);
   lv_obj_set_size(sy, 480, 800);
-  lv_obj_center(sy); */
+  lv_obj_center(sy);
 
   lv_obj_t *btn = lv_btn_create(lv_scr_act());
   lv_obj_set_pos(btn, 20, 10);
@@ -155,7 +155,7 @@ static void lvgl_first_demo_start(void)
 
   // lv_label_set_text_fmt(coord_x, "X: %d", tp_dev.x[0]);
   // lv_label_set_text_fmt(coord_y, "Y: %d", tp_dev.y[0]);
-}
+} */
 /* USER CODE END 0 */
 
 /**
@@ -204,7 +204,6 @@ int main(void)
   __enable_irq();
   printf("Jump in ex_flash!\n");
 
-  LTDC_Init();
   lv_init();
   lv_port_disp_init();
   //  lv_port_indev_init();
@@ -218,8 +217,10 @@ int main(void)
   } */
   // lv_disp_set_rotation(NULL, LV_DISP_ROT_90);
   // lvgl_first_demo_start();
-  //  lv_demo_widgets();
-
+  // lv_demo_widgets();
+  // lv_demo_benchmark();
+  // lv_demo_stress();
+  lv_demo_music();
   /* USER CODE END 2 */
 
   /* Infinite loop */

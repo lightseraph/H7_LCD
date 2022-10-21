@@ -84,8 +84,8 @@ void lv_port_disp_init(void)
     static lv_disp_draw_buf_t draw_buf_dsc_2;
     // static lv_color_t buf_2_1[MY_DISP_HOR_RES * 28];                                /*A buffer for 10 rows*/
     // static lv_color_t buf_2_2[MY_DISP_HOR_RES * 28];                                /*An other buffer for 10 rows*/
-    static lv_color_t color_buf1[COLOR_BUF_SIZE] __attribute__((section(".sdram")));
-    // static lv_color_t color_buf1[COLOR_BUF_SIZE] __attribute__((section(".color_buf")));
+    // static lv_color_t color_buf1[COLOR_BUF_SIZE] __attribute__((section(".sdram")));
+    static lv_color_t color_buf1[COLOR_BUF_SIZE] __attribute__((section(".color_buf")));
 
     lv_disp_draw_buf_init(&draw_buf_dsc_2, color_buf1, NULL, COLOR_BUF_SIZE); /*Initialize the display buffer*/
 
@@ -134,6 +134,7 @@ void lv_port_disp_init(void)
 static void disp_init(void)
 {
     /*You code here*/
+    LTDC_Init();
 }
 
 /*Flush the content of the internal buffer the specific area on the display
