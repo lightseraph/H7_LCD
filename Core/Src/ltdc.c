@@ -104,10 +104,10 @@ void HAL_LTDC_MspInit(LTDC_HandleTypeDef *ltdcHandle)
      */
     PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LTDC;
     PeriphClkInitStruct.PLL3.PLL3M = 1;
-    PeriphClkInitStruct.PLL3.PLL3N = 6;
+    PeriphClkInitStruct.PLL3.PLL3N = 7;
     PeriphClkInitStruct.PLL3.PLL3P = 2;
     PeriphClkInitStruct.PLL3.PLL3Q = 2;
-    PeriphClkInitStruct.PLL3.PLL3R = 8;
+    PeriphClkInitStruct.PLL3.PLL3R = 5;
     PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_3;
     PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOMEDIUM;
     PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
@@ -431,7 +431,7 @@ void LTDC_Init(void)
   // lcddev.height=lcdltdc.pheight;
   ltdc_framebuf[0] = (u32 *)&ltdc_lcd_framebuf;
   lcdltdc.pixsize = 4;    //每个像素占4个字节
-  LTDC_Display_Dir(0);    //默认竖屏，在LCD_Init函数里面设置
+  LTDC_Display_Dir(1);    //默认竖屏，在LCD_Init函数里面设置
   LTDC_Select_Layer(0);   //选择第1层
   LTDC_Clear(0XFF0FF0F0); //清屏
   // LTDC_HALF_ClearH(0xFFF00000, 0xFF0F0FF0);

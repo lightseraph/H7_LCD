@@ -35,6 +35,7 @@
 #include "lvgl_port/lv_port_disp.h"
 #include "lvgl_port/lv_port_indev.h"
 #include "demos/lv_demos.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -216,7 +217,7 @@ int main(void)
     qspi_addr++;
   } */
   // lv_disp_set_rotation(NULL, LV_DISP_ROT_90);
-  lvgl_first_demo_start();
+  // lvgl_first_demo_start();
   //  lv_demo_widgets();
 
   /* USER CODE END 2 */
