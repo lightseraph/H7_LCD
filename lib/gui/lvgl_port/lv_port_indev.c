@@ -10,7 +10,7 @@
  *      INCLUDES
  *********************/
 #include "lv_port_indev.h"
-#include "../lvgl/lvgl.h"
+#include "lvgl/lvgl.h"
 #include "touch.h"
 
 /*********************

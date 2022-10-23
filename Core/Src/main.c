@@ -35,7 +35,7 @@
 #include "lvgl_port/lv_port_disp.h"
 #include "lvgl_port/lv_port_indev.h"
 #include "demos/lv_demos.h"
-
+#include "touch.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -208,7 +208,7 @@ int main(void)
 
   lv_init();
   lv_port_disp_init();
-  //  lv_port_indev_init();
+  lv_port_indev_init();
   //     printf("1: %s\r\n", temp2);
 
   /* __IO uint8_t *qspi_addr = (__IO uint8_t *)(0x90000000);
@@ -218,11 +218,11 @@ int main(void)
     qspi_addr++;
   } */
   // lv_disp_set_rotation(NULL, LV_DISP_ROT_90);
-  // lvgl_first_demo_start();
+  lvgl_first_demo_start();
   // lv_demo_widgets();
-  lv_demo_benchmark();
+  // lv_demo_benchmark();
   // lv_demo_stress();
-  //  lv_demo_music();
+  // lv_demo_music();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -232,7 +232,7 @@ int main(void)
     // printf("Run in ex_flash_app main loop...\r\n");
     // HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
     // HAL_Delay(500);
-
+    tp_dev.scan(0);
     lv_task_handler();
     /* USER CODE END WHILE */
 

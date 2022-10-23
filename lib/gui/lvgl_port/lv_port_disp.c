@@ -10,7 +10,7 @@
  *      INCLUDES
  *********************/
 #include "lv_port_disp.h"
-#include "../lvgl/lvgl.h"
+#include "lvgl/lvgl.h"
 #include "ltdc.h"
 /*********************
  *      DEFINES
@@ -30,7 +30,7 @@ static void disp_init(void);
 static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_t *color_p);
 // static void gpu_fill(lv_disp_drv_t * disp_drv, lv_color_t * dest_buf, lv_coord_t dest_width,
 //         const lv_area_t * fill_area, lv_color_t color);
-
+lv_disp_drv_t *disp_drv_p;
 /**********************
  *  STATIC VARIABLES
  **********************/
@@ -85,9 +85,9 @@ void lv_port_disp_init(void)
     // static lv_color_t buf_2_1[MY_DISP_HOR_RES * 28];                                /*A buffer for 10 rows*/
     // static lv_color_t buf_2_2[MY_DISP_HOR_RES * 28];                                /*An other buffer for 10 rows*/
     static lv_color_t color_buf1[COLOR_BUF_SIZE] __attribute__((section(".sdram")));
-    // static lv_color_t color_buf1[COLOR_BUF_SIZE] __attribute__((section(".color_buf")));
+    static lv_color_t color_buf2[COLOR_BUF_SIZE] __attribute__((section(".sdram")));
 
-    lv_disp_draw_buf_init(&draw_buf_dsc_2, color_buf1, NULL, COLOR_BUF_SIZE); /*Initialize the display buffer*/
+    lv_disp_draw_buf_init(&draw_buf_dsc_2, color_buf1, color_buf2, COLOR_BUF_SIZE); /*Initialize the display buffer*/
 
     /* Example for 3) also set disp_drv.full_refresh = 1 below*/
     // static lv_disp_draw_buf_t draw_buf_dsc_3;
@@ -108,11 +108,16 @@ void lv_port_disp_init(void)
     disp_drv.hor_res = 800; // MY_DISP_HOR_RES;
     disp_drv.ver_res = 480; // MY_DISP_VER_RES;
 
+    disp_drv.physical_hor_res = -1;
+    disp_drv.physical_ver_res = -1;
+
     /*Used to copy the buffer's content to the display*/
     disp_drv.flush_cb = disp_flush;
 
     /*Set a display buffer*/
     disp_drv.draw_buf = &draw_buf_dsc_2;
+    // disp_drv.sw_rotate = 1;
+    // disp_drv.rotated = LV_DISP_ROT_180;
 
     /*Required for Example 3)*/
     // disp_drv.full_refresh = 1
@@ -156,13 +161,19 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_
             color_p++;
         }
     } */
-    LTDC_Color_Fill(area->x1, area->y1, area->x2, area->y2, (u32 *)color_p);
-    // LTDC_Fill(area->x1, area->y1, area->x2, area->y2 / 2, 0xff00fff0);
-    // LTDC_Fill(area->x1, area->y2 / 2, area->x2, area->y2, 0xffff00ff);
-    //   LTDC_Color_Fill(0, 0, 479, 799, (u32 *)color_p);
+    disp_drv_p = disp_drv;
+    HAL_LTDC_SetAddress(&hltdc, (uint32_t)color_p, 0);
+    HAL_LTDC_ProgramLineEvent(&hltdc, 479);
+    // LTDC_Color_Fill(area->x1, area->y1, area->x2, area->y2, (u32 *)color_p);
+    //   LTDC_Fill(area->x1, area->y1, area->x2, area->y2 / 2, 0xff00fff0);
+    //   LTDC_Fill(area->x1, area->y2 / 2, area->x2, area->y2, 0xffff00ff);
+    //     LTDC_Color_Fill(0, 0, 479, 799, (u32 *)color_p);
     /*IMPORTANT!!!
      *Inform the graphics library that you are ready with the flushing*/
-    lv_disp_flush_ready(disp_drv);
+    // lv_disp_flush_ready(disp_drv);
+
+    // HAL_LTDC_SetAddress(&hltdc, (uint32_t)color_p, 0);
+    // HAL_LTDC_ProgramLineEvent(&hltdc, 479);
 }
 
 /*OPTIONAL: GPU INTERFACE*/

@@ -15,8 +15,8 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 // IO操作函数
-#define GT_RST PCout(13) // GT9147复位引脚
-#define GT_INT PBin(1)   // GT9147中断引脚
+#define GT_RST(n) (n ? HAL_GPIO_WritePin(GPIOI, GPIO_PIN_8, GPIO_PIN_SET) : HAL_GPIO_WritePin(GPIOI, GPIO_PIN_8, GPIO_PIN_RESET)) // GT9147复位引脚
+#define GT_INT HAL_GPIO_ReadPin(GPIOH, GPIO_PIN_7)                                                                                // GT9147中断引脚
 
 // I2C读写命令
 #define GT_CMD_WR 0X28 //写命令

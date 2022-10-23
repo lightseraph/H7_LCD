@@ -55,13 +55,6 @@ typedef struct
 
 extern _m_tp_dev tp_dev; //触屏控制器在touch.c里面定义
 
-//电阻屏芯片连接引脚
-#define PEN PBin(1)	   // T_PEN
-#define DOUT PBin(2)   // T_MISO
-#define TDIN PFout(11) // T_MOSI
-#define TCLK PBout(0)  // T_SCK
-#define TCS PCout(13)  // T_CS
-
 //电阻屏函数
 
 //电阻屏/电容屏 共用函数

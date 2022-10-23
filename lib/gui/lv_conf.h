@@ -51,11 +51,12 @@
 #define LV_MEM_CUSTOM 0
 #if LV_MEM_CUSTOM == 0
     /*Size of the memory available for `lv_mem_alloc()` in bytes (>= 2kB)*/
-    #define LV_MEM_SIZE (256U * 1024U)          /*[bytes]*/
+    #define LV_MEM_SIZE (100U * 1024U)          /*[bytes]*/
 
     /*Set an address for the memory pool instead of allocating it as a normal array. Can be in external SRAM too.*/
-    #define LV_MEM_ADR 0x24000000     /*0: unused*/
-    #define LV_MEM_ATTR __attribute__((section(".ram_d1")))
+    #define LV_MEM_ADR 0     /*0: unused*/
+    #define LV_MEM_ATTR
+    //#define LV_MEM_ATTR __attribute__((section(".ram_d1")))
     /*Instead of an address give a memory allocator that will be called to get a memory pool for LVGL. E.g. my_malloc*/
     #if LV_MEM_ADR == 0
         //#define LV_MEM_POOL_INCLUDE your_alloc_library  /* Uncomment if using an external allocator*/
@@ -681,16 +682,16 @@
 #define LV_USE_DEMO_KEYPAD_AND_ENCODER     0
 
 /*Benchmark your system*/
-#define LV_USE_DEMO_BENCHMARK   1
+#define LV_USE_DEMO_BENCHMARK   0
 
 /*Stress test for LVGL*/
 #define LV_USE_DEMO_STRESS      0
 
 /*Music player demo*/
-#define LV_USE_DEMO_MUSIC       0
+#define LV_USE_DEMO_MUSIC       1
 #if LV_USE_DEMO_MUSIC
 # define LV_DEMO_MUSIC_SQUARE       0
-# define LV_DEMO_MUSIC_LANDSCAPE    0
+# define LV_DEMO_MUSIC_LANDSCAPE    1
 # define LV_DEMO_MUSIC_ROUND        0
 # define LV_DEMO_MUSIC_LARGE        0
 # define LV_DEMO_MUSIC_AUTO_PLAY    0

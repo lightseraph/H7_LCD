@@ -18,7 +18,7 @@ extern "C"
  *      INCLUDES
  *********************/
 #include "lvgl/lvgl.h"
-
+    extern lv_disp_drv_t *disp_drv_p;
     /*********************
      *      DEFINES
      *********************/

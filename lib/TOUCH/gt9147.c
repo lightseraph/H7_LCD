@@ -281,44 +281,23 @@ u8 GT9147_Init(void)
 	u8 temp[5];
 	GPIO_InitTypeDef GPIO_InitStruct;
 
-	/* RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOB, ENABLE); //开启GPIOB时钟
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE); //开启GPIOC时钟
-
-	// PB1
-	GPIO_Initure.GPIO_Pin = GPIO_Pin_1;		   // PB1设置为上拉输入
-	GPIO_Initure.GPIO_Mode = GPIO_Mode_IN;	   //输入
-	GPIO_Initure.GPIO_PuPd = GPIO_PuPd_UP;	   //上拉
-	GPIO_Initure.GPIO_Speed = GPIO_High_Speed; //高速
-	GPIO_Init(GPIOB, &GPIO_Initure);		   //初始化
-
-	// PC13
-	GPIO_Initure.GPIO_Pin = GPIO_Pin_13;	 // PC13设置为推挽输出
-	GPIO_Initure.GPIO_Mode = GPIO_Mode_OUT;	 //输出
-	GPIO_Initure.GPIO_OType = GPIO_OType_PP; //推挽
-	GPIO_Init(GPIOC, &GPIO_Initure);		 //初始化 */
-
 	CT_IIC_Init(); //初始化电容屏的I2C总线
-	GT_RST = 0;	   //复位
+	GT_RST(0);	   //复位
 	HAL_Delay(10);
-	GT_RST = 1; //释放复位
+	GT_RST(1); //释放复位
 	HAL_Delay(10);
 
 	GPIO_InitStruct.Pin = CT_INT_Pin;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
-	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	HAL_GPIO_Init(CT_INT_GPIO_Port, &GPIO_InitStruct);
-	/* GPIO_Initure.GPIO_Pin = GPIO_Pin_1;		   // PB1设置为输出无上下拉
-	GPIO_Initure.GPIO_Mode = GPIO_Mode_OUT;	   //输入
-	GPIO_Initure.GPIO_PuPd = GPIO_PuPd_NOPULL; //上拉
-	GPIO_Initure.GPIO_Speed = GPIO_High_Speed; //高速
-	GPIO_Init(GPIOB, &GPIO_Initure);		   //初始化 */
 
 	HAL_Delay(100);
 	GT9147_RD_Reg(GT_PID_REG, temp, 4); //读取产品ID
 	temp[4] = 0;
-	printf("CTP ID:%s\r\n", temp);		  //打印ID
-	if (strcmp((char *)temp, "911") == 0) // ID==9147
+	printf("CTP ID:%s\r\n", temp);		   //打印ID
+	if (strcmp((char *)temp, "1158") == 0) // ID==9147; GT1151读出的ID是1158
 	{
 		temp[0] = 0X02;
 		GT9147_WR_Reg(GT_CTRL_REG, temp, 1); //软复位GT9147
@@ -368,13 +347,13 @@ u8 GT9147_Scan(u8 mode)
 					GT9147_RD_Reg(GT9147_TPX_TBL[i], buf, 4); //读取XY坐标值
 					if (tp_dev.touchtype & 0X01)			  //横屏
 					{
-						tp_dev.y[i] = ((u16)buf[1] << 8) + buf[0];
-						tp_dev.x[i] = 800 - (((u16)buf[3] << 8) + buf[2]);
+						tp_dev.x[i] = (((u16)buf[1] << 8) + buf[0]);
+						tp_dev.y[i] = (((u16)buf[3] << 8) + buf[2]);
 					}
 					else
 					{
-						tp_dev.x[i] = ((u16)buf[1] << 8) + buf[0];
-						tp_dev.y[i] = ((u16)buf[3] << 8) + buf[2];
+						tp_dev.y[i] = ((u16)buf[1] << 8) + buf[0];
+						tp_dev.x[i] = 480 - (((u16)buf[3] << 8) + buf[2]);
 					}
 					// printf("x[%d]:%d,y[%d]:%d\r\n",i,tp_dev.x[i],i,tp_dev.y[i]);
 				}
