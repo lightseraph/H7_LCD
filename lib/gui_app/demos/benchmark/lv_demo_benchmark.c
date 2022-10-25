@@ -331,28 +331,28 @@ static void img_rgb_zoom_cb(void)
 {
     lv_style_reset(&style_common);
     lv_style_set_img_opa(&style_common, opa_mode ? LV_OPA_50 : LV_OPA_COVER);
-    img_create(&style_common, &img_benchmark_cogwheel_rgb, false, false, false);
+    img_create(&style_common, &img_benchmark_cogwheel_rgb, false, true, false);
 }
 
 static void img_rgb_zoom_aa_cb(void)
 {
     lv_style_reset(&style_common);
     lv_style_set_img_opa(&style_common, opa_mode ? LV_OPA_50 : LV_OPA_COVER);
-    img_create(&style_common, &img_benchmark_cogwheel_rgb, false, false, true);
+    img_create(&style_common, &img_benchmark_cogwheel_rgb, false, true, true);
 }
 
 static void img_argb_zoom_cb(void)
 {
     lv_style_reset(&style_common);
     lv_style_set_img_opa(&style_common, opa_mode ? LV_OPA_50 : LV_OPA_COVER);
-    img_create(&style_common, &img_benchmark_cogwheel_argb, false, false, false);
+    img_create(&style_common, &img_benchmark_cogwheel_argb, false, true, false);
 }
 
 static void img_argb_zoom_aa_cb(void)
 {
     lv_style_reset(&style_common);
     lv_style_set_img_opa(&style_common, opa_mode ? LV_OPA_50 : LV_OPA_COVER);
-    img_create(&style_common, &img_benchmark_cogwheel_argb, false, false, true);
+    img_create(&style_common, &img_benchmark_cogwheel_argb, false, true, true);
 }
 
 static void txt_small_cb(void)
