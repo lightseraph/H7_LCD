@@ -161,19 +161,16 @@ static void disp_flush(lv_disp_drv_t *disp_drv, const lv_area_t *area, lv_color_
             color_p++;
         }
     } */
-    disp_drv_p = disp_drv;
-    HAL_LTDC_SetAddress(&hltdc, (uint32_t)color_p, 0);
-    HAL_LTDC_ProgramLineEvent(&hltdc, 479);
-    // LTDC_Color_Fill(area->x1, area->y1, area->x2, area->y2, (u32 *)color_p);
+    // disp_drv_p = disp_drv;
+    // HAL_LTDC_SetAddress(&hltdc, (uint32_t)color_p, 0);
+    // HAL_LTDC_ProgramLineEvent(&hltdc, 479);
+    LTDC_Color_Fill(area->x1, area->y1, area->x2, area->y2, (u32 *)color_p);
     //   LTDC_Fill(area->x1, area->y1, area->x2, area->y2 / 2, 0xff00fff0);
     //   LTDC_Fill(area->x1, area->y2 / 2, area->x2, area->y2, 0xffff00ff);
     //     LTDC_Color_Fill(0, 0, 479, 799, (u32 *)color_p);
     /*IMPORTANT!!!
      *Inform the graphics library that you are ready with the flushing*/
-    // lv_disp_flush_ready(disp_drv);
-
-    // HAL_LTDC_SetAddress(&hltdc, (uint32_t)color_p, 0);
-    // HAL_LTDC_ProgramLineEvent(&hltdc, 479);
+    lv_disp_flush_ready(disp_drv);
 }
 
 /*OPTIONAL: GPU INTERFACE*/

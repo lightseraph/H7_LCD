@@ -237,8 +237,8 @@ void TIM7_IRQHandler(void)
 void LTDC_IRQHandler(void)
 {
   /* USER CODE BEGIN LTDC_IRQn 0 */
-  lv_disp_flush_ready(disp_drv_p);
-  // printf("ltdc\n");
+  // lv_disp_flush_ready(disp_drv_p);
+  //  printf("ltdc\n");
   /* USER CODE END LTDC_IRQn 0 */
   HAL_LTDC_IRQHandler(&hltdc);
   /* USER CODE BEGIN LTDC_IRQn 1 */
