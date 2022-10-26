@@ -22,7 +22,7 @@ u8 NAND_Init(void)
 {
 	FMC_NAND_PCC_TimingTypeDef ComSpaceTiming, AttSpaceTiming;
 
-	NAND_MPU_Config();
+	/* NAND_MPU_Config();
 	NAND_Handler.Instance = FMC_Bank3;
 	NAND_Handler.Init.NandBank = FMC_NAND_BANK3;					   // NAND挂在BANK3上
 	NAND_Handler.Init.Waitfeature = FMC_NAND_PCC_WAIT_FEATURE_DISABLE; //关闭等待特性
@@ -42,9 +42,9 @@ u8 NAND_Init(void)
 	AttSpaceTiming.HoldSetupTime = 10; //保持时间
 	AttSpaceTiming.HiZSetupTime = 10;  //高阻态时间
 
-	HAL_NAND_Init(&NAND_Handler, &ComSpaceTiming, &AttSpaceTiming);
+	HAL_NAND_Init(&NAND_Handler, &ComSpaceTiming, &AttSpaceTiming); */
 	NAND_Reset(); //复位NAND
-	delay_ms(100);
+	HAL_Delay(100);
 	nand_dev.id = NAND_ReadID(); //读取ID
 	printf("NAND ID:%#x\r\n", nand_dev.id);
 	NAND_ModeSet(4);					//设置为MODE4,高速模式

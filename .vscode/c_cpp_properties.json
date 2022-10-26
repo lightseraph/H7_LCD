@@ -15,6 +15,7 @@
                 "/home/light/project/H7_LCD/lib/gui",
                 "/home/light/project/H7_LCD/lib/TOUCH",
                 "/home/light/project/H7_LCD/lib/SDRAM",
+                "/home/light/project/H7_LCD/lib/NAND",
                 "/home/light/project/H7_LCD/lib/sys",
                 "/home/light/project/H7_LCD/Core/Inc",
                 "/home/light/project/H7_LCD/Drivers/CMSIS/Include",
@@ -26,7 +27,6 @@
                 "/home/light/project/H7_LCD/LIBJPEG/App",
                 "/home/light/project/H7_LCD/LIBJPEG/Target",
                 "/home/light/project/H7_LCD/lib/MPU",
-                "/home/light/project/H7_LCD/lib/NAND",
                 "/home/light/project/H7_LCD/lib/W25QXX",
                 ""
             ],
@@ -40,6 +40,7 @@
                     "/home/light/project/H7_LCD/lib/gui",
                     "/home/light/project/H7_LCD/lib/TOUCH",
                     "/home/light/project/H7_LCD/lib/SDRAM",
+                    "/home/light/project/H7_LCD/lib/NAND",
                     "/home/light/project/H7_LCD/lib/sys",
                     "/home/light/project/H7_LCD/Core/Inc",
                     "/home/light/project/H7_LCD/Drivers/CMSIS/Include",
@@ -51,7 +52,6 @@
                     "/home/light/project/H7_LCD/LIBJPEG/App",
                     "/home/light/project/H7_LCD/LIBJPEG/Target",
                     "/home/light/project/H7_LCD/lib/MPU",
-                    "/home/light/project/H7_LCD/lib/NAND",
                     "/home/light/project/H7_LCD/lib/W25QXX",
                     ""
                 ]
