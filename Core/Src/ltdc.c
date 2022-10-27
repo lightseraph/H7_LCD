@@ -26,7 +26,7 @@
 _ltdc_dev lcdltdc;
 u32 *ltdc_framebuf[2];
 
-u32 ltdc_lcd_framebuf[800][480] __attribute__((section(".sdram")));
+u32 ltdc_lcd_framebuf[800][480] __attribute__((section(".color_buf")));
 /* USER CODE END 0 */
 
 LTDC_HandleTypeDef hltdc;

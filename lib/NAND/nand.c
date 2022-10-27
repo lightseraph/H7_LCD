@@ -46,7 +46,7 @@ u8 NAND_Init(void)
 	NAND_Reset(); //复位NAND
 	HAL_Delay(100);
 	nand_dev.id = NAND_ReadID(); //读取ID
-	printf("NAND ID:%#x\r\n", nand_dev.id);
+	printf("NAND ID:%#lx\r\n", nand_dev.id);
 	NAND_ModeSet(4);					//设置为MODE4,高速模式
 	if (nand_dev.id == MT29F16G08ABABA) // NAND为MT29F16G08ABABA
 	{
@@ -69,43 +69,6 @@ u8 NAND_Init(void)
 	else
 		return 1; //错误，返回
 	return 0;
-}
-
-// NAND FALSH底层驱动,引脚配置，时钟使能
-//此函数会被HAL_NAND_Init()调用
-void HAL_NAND_MspInit(NAND_HandleTypeDef *hnand)
-{
-	GPIO_InitTypeDef GPIO_Initure;
-
-	__HAL_RCC_FMC_CLK_ENABLE();	  //使能FMC时钟
-	__HAL_RCC_GPIOD_CLK_ENABLE(); //使能GPIOD时钟
-	__HAL_RCC_GPIOE_CLK_ENABLE(); //使能GPIOE时钟
-	__HAL_RCC_GPIOG_CLK_ENABLE(); //使能GPIOG时钟
-
-	//初始化PD6 R/B引脚
-	GPIO_Initure.Pin = GPIO_PIN_6;
-	GPIO_Initure.Mode = GPIO_MODE_INPUT;			//输入
-	GPIO_Initure.Pull = GPIO_PULLUP;				//上拉
-	GPIO_Initure.Speed = GPIO_SPEED_FREQ_VERY_HIGH; //高速
-	HAL_GPIO_Init(GPIOD, &GPIO_Initure);
-
-	//初始化PG9 NCE3引脚
-	GPIO_Initure.Pin = GPIO_PIN_9;
-	GPIO_Initure.Mode = GPIO_MODE_AF_PP;			//输入
-	GPIO_Initure.Pull = GPIO_NOPULL;				//上拉
-	GPIO_Initure.Speed = GPIO_SPEED_FREQ_VERY_HIGH; //高速
-	GPIO_Initure.Alternate = GPIO_AF12_FMC;			//复用为FMC
-	HAL_GPIO_Init(GPIOG, &GPIO_Initure);
-
-	//初始化PD0,1,4,5,11,12,14,15
-	GPIO_Initure.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_4 | GPIO_PIN_5 |
-					   GPIO_PIN_11 | GPIO_PIN_12 | GPIO_PIN_14 | GPIO_PIN_15;
-	GPIO_Initure.Pull = GPIO_NOPULL;
-	HAL_GPIO_Init(GPIOD, &GPIO_Initure);
-
-	//初始化PE7,8,9,10
-	GPIO_Initure.Pin = GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10;
-	HAL_GPIO_Init(GPIOE, &GPIO_Initure);
 }
 
 //配置MPU的region
@@ -217,7 +180,7 @@ u8 NAND_Reset(void)
 {
 	*(vu8 *)(NAND_ADDRESS | NAND_CMD) = NAND_RESET; //复位NAND
 													/* 镁光需要等100ns的tWB+100us的tRST */
-	delay_ms(NAND_TRST_FIRST_DELAY);
+	HAL_Delay(NAND_TRST_FIRST_DELAY);
 	if (NAND_WaitForReady() == NSTA_READY)
 		return 0; //复位成功
 	else
@@ -691,7 +654,7 @@ u8 NAND_EraseBlock(u32 BlockNum)
 	*(vu8 *)(NAND_ADDRESS | NAND_ADDR) = (u8)(BlockNum >> 8);
 	*(vu8 *)(NAND_ADDRESS | NAND_ADDR) = (u8)(BlockNum >> 16);
 	*(vu8 *)(NAND_ADDRESS | NAND_CMD) = NAND_ERASE1;
-	delay_ms(NAND_TBERS_DELAY); //等待擦除成功
+	HAL_Delay(NAND_TBERS_DELAY); //等待擦除成功
 	if (NAND_WaitForReady() != NSTA_READY)
 		return NSTA_ERROR; //失败
 	return 0;			   //成功

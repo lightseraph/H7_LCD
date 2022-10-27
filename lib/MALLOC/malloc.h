@@ -38,7 +38,7 @@
 
 // mem2内存参数设定.mem2是外部的SDRAM内存
 #define MEM2_BLOCK_SIZE 64									  //内存块大小为64字节
-#define MEM2_MAX_SIZE 59753 * 1024							  //最大管理内存59753K,外扩SDRAM总共64MB,LTDC占了2MB,还剩62MB.
+#define MEM2_MAX_SIZE 57745 * 1024							  //最大管理内存59753K,外扩SDRAM总共64MB,LTDC占了4500KB,还剩59MB.
 #define MEM2_ALLOC_TABLE_SIZE MEM2_MAX_SIZE / MEM2_BLOCK_SIZE //内存表大小
 
 // mem3内存参数设定.mem3是H7内部的SRAM1+SRAM2内存

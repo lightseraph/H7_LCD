@@ -67,8 +67,10 @@ RAM_D2 (xrw)      : ORIGIN = 0x30000000, LENGTH = 288K
 RAM_D3 (xrw)      : ORIGIN = 0x38000000, LENGTH = 64K
 ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
 /*FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 128K*/
-SDRAM(xrw)      : ORIGIN = 0xC0000000, LENGTH = 64M
+SDRAM(xrw)      : ORIGIN = 0xC0465000, LENGTH = 61036K    /*分配完显示缓存剩下的*/
 FLASH(xrw)   : ORIGIN = 0x90000000, LENGTH = 8M
+DISP_BUFF(xrw)    : ORIGIN = 0xC0000000, LENGTH = 4500K   /*显示缓存 800 x 480 x 4 x 3*/
+MEM2MAPBASS(xrw)  : ORIGIN = 0xC3CC9400, LENGTH = 3369984
 }
 
 /* Define output sections */
@@ -185,7 +187,6 @@ SECTIONS
     *(.ram_d1)
     *(.ram_d1.*)
     . = ALIGN(4);
-    __ram_d1_free__ = .;
   } >RAM_D1
 
   .sdram (NOLOAD) : ALIGN(4)
@@ -194,7 +195,7 @@ SECTIONS
     *(.sdram)
     *(.sdram.*)
     . = ALIGN(4);
-    __sdram_free__ = .;
+
   } >SDRAM
 
   .color_buf (NOLOAD): ALIGN(4)
@@ -203,8 +204,7 @@ SECTIONS
     *(.color_buf)
     *(.color_buf.*)
     . = ALIGN(4);
-    __color_buf_free__ = .;
-  } >SDRAM
+  } >DISP_BUFF
 /*
   .nor_flash :
   {

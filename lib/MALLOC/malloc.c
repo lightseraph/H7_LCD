@@ -25,7 +25,7 @@ u8 mem5base[MEM5_MAX_SIZE] __attribute__((section("DTCMRAM"), aligned(64))); //�
 u8 mem6base[MEM6_MAX_SIZE] __attribute__((section("ITCMRAM"), aligned(64))); //内部ITCM内存池
 //内存管理表
 u32 mem1mapbase[MEM1_ALLOC_TABLE_SIZE];                                                 //内部SRAM内存池MAP
-u32 mem2mapbase[MEM2_ALLOC_TABLE_SIZE] __attribute__((at(0XC01F4000 + MEM2_MAX_SIZE))); //外部SDRAM内存池MAP
+u32 mem2mapbase[MEM2_ALLOC_TABLE_SIZE] __attribute__((section("MEM2MAPBASS")));         //外部SDRAM内存池MAP
 u32 mem3mapbase[MEM3_ALLOC_TABLE_SIZE] __attribute__((at(0x30000000 + MEM3_MAX_SIZE))); //内部SRAM1+SRAM2内存池MAP
 u32 mem4mapbase[MEM4_ALLOC_TABLE_SIZE] __attribute__((at(0x38000000 + MEM4_MAX_SIZE))); //内部SRAM4内存池MAP
 u32 mem5mapbase[MEM5_ALLOC_TABLE_SIZE] __attribute__((at(0x20000000 + MEM5_MAX_SIZE))); //内部DTCM内存池MAP
@@ -45,7 +45,7 @@ struct _m_mallco_dev mallco_dev =
         my_mem_perused,                                                               //内存使用率
         mem1base, mem2base, mem3base, mem4base, mem5base, mem6base,                   //内存池
         mem1mapbase, mem2mapbase, mem3mapbase, mem4mapbase, mem5mapbase, mem6mapbase, //内存管理状态表
-        0, 0, 0, 0, 0, 0,                                                             //内存管理未就绪
+        0, 0, 0, 0, 0, 0                                                              //内存管理未就绪
 };
 
 //复制内存
