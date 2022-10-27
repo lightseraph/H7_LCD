@@ -14,13 +14,13 @@
 // All rights reserved
 //////////////////////////////////////////////////////////////////////////////////
 
-NAND_HandleTypeDef NAND_Handler; // NAND FLASH句柄
-nand_attriute nand_dev;			 // nand重要参数结构体
+// NAND_HandleTypeDef NAND_Handler; // NAND FLASH句柄
+nand_attriute nand_dev; // nand重要参数结构体
 
 //初始化NAND FLASH
 u8 NAND_Init(void)
 {
-	FMC_NAND_PCC_TimingTypeDef ComSpaceTiming, AttSpaceTiming;
+	// FMC_NAND_PCC_TimingTypeDef ComSpaceTiming, AttSpaceTiming;
 
 	/* NAND_MPU_Config();
 	NAND_Handler.Instance = FMC_Bank3;
@@ -305,16 +305,16 @@ u8 NAND_ReadPage(u32 PageNum, u16 ColNum, u8 *pBuffer, u16 NumByteToRead)
 		for (res = 0; res < eccnum; res++)
 		{
 			SCB_CleanInvalidateDCache();			   //清除无效的D-Cache
-			FMC_Bank3->PCR |= 1 << 6;				   //使能ECC校验
+			FMC_NAND_DEVICE->PCR |= 1 << 6;			   //使能ECC校验
 			for (i = 0; i < NAND_ECC_SECTOR_SIZE; i++) //读取NAND_ECC_SECTOR_SIZE个数据
 			{
 				*(vu8 *)pBuffer++ = *(vu8 *)NAND_ADDRESS;
 			}
-			while (!(FMC_Bank3->SR & (1 << 6)))
-				;												  //等待FIFO空
-			SCB_CleanInvalidateDCache();						  //清除无效的D-Cache
-			nand_dev.ecc_hdbuf[res + eccstart] = FMC_Bank3->ECCR; //读取硬件计算后的ECC值
-			FMC_Bank3->PCR &= ~(1 << 6);						  //禁止ECC校验
+			while (!(FMC_NAND_DEVICE->SR & (1 << 6)))
+				;														//等待FIFO空
+			SCB_CleanInvalidateDCache();								//清除无效的D-Cache
+			nand_dev.ecc_hdbuf[res + eccstart] = FMC_NAND_DEVICE->ECCR; //读取硬件计算后的ECC值
+			FMC_NAND_DEVICE->PCR &= ~(1 << 6);							//禁止ECC校验
 		}
 		i = nand_dev.page_mainsize + 0X10 + eccstart * 4; //从spare区的0X10位置开始读取之前存储的ecc值
 		NAND_Delay(NAND_TRHW_DELAY);					  //等待tRHW
@@ -429,16 +429,16 @@ u8 NAND_WritePage(u32 PageNum, u16 ColNum, u8 *pBuffer, u16 NumByteToWrite)
 		for (res = 0; res < eccnum; res++)
 		{
 			SCB_CleanInvalidateDCache();			   //清除无效的D-Cache
-			FMC_Bank3->PCR |= 1 << 6;				   //使能ECC校验
+			FMC_NAND_DEVICE->PCR |= 1 << 6;			   //使能ECC校验
 			for (i = 0; i < NAND_ECC_SECTOR_SIZE; i++) //写入NAND_ECC_SECTOR_SIZE个数据
 			{
 				*(vu8 *)NAND_ADDRESS = *(vu8 *)pBuffer++;
 			}
-			while (!(FMC_Bank3->SR & (1 << 6)))
-				;												  //等待FIFO空
-			SCB_CleanInvalidateDCache();						  //清除无效的D-Cache
-			nand_dev.ecc_hdbuf[res + eccstart] = FMC_Bank3->ECCR; //读取硬件计算后的ECC值
-			FMC_Bank3->PCR &= ~(1 << 6);						  //禁止ECC校验
+			while (!(FMC_NAND_DEVICE->SR & (1 << 6)))
+				;														//等待FIFO空
+			SCB_CleanInvalidateDCache();								//清除无效的D-Cache
+			nand_dev.ecc_hdbuf[res + eccstart] = FMC_NAND_DEVICE->ECCR; //读取硬件计算后的ECC值
+			FMC_NAND_DEVICE->PCR &= ~(1 << 6);							//禁止ECC校验
 		}
 		i = nand_dev.page_mainsize + 0X10 + eccstart * 4; //计算写入ECC的spare区地址
 		NAND_Delay(NAND_TADL_DELAY);					  //等待
@@ -606,16 +606,16 @@ u8 NAND_CopyPageWithWrite(u32 Source_PageNum, u32 Dest_PageNum, u16 ColNum, u8 *
 		for (res = 0; res < eccnum; res++)
 		{
 			SCB_CleanInvalidateDCache();			   //清除无效的D-Cache
-			FMC_Bank3->PCR |= 1 << 6;				   //使能ECC校验
+			FMC_NAND_DEVICE->PCR |= 1 << 6;			   //使能ECC校验
 			for (i = 0; i < NAND_ECC_SECTOR_SIZE; i++) //写入NAND_ECC_SECTOR_SIZE个数据
 			{
 				*(vu8 *)NAND_ADDRESS = *(vu8 *)pBuffer++;
 			}
-			while (!(FMC_Bank3->SR & (1 << 6)))
-				;												  //等待FIFO空
-			SCB_CleanInvalidateDCache();						  //清除无效的D-Cache
-			nand_dev.ecc_hdbuf[res + eccstart] = FMC_Bank3->ECCR; //读取硬件计算后的ECC值
-			FMC_Bank3->PCR &= ~(1 << 6);						  //禁止ECC校验
+			while (!(FMC_NAND_DEVICE->SR & (1 << 6)))
+				;														//等待FIFO空
+			SCB_CleanInvalidateDCache();								//清除无效的D-Cache
+			nand_dev.ecc_hdbuf[res + eccstart] = FMC_NAND_DEVICE->ECCR; //读取硬件计算后的ECC值
+			FMC_NAND_DEVICE->PCR &= ~(1 << 6);							//禁止ECC校验
 		}
 		i = nand_dev.page_mainsize + 0X10 + eccstart * 4; //计算写入ECC的spare区地址
 		NAND_Delay(NAND_TADL_DELAY);					  //等待
