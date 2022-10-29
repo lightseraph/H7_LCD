@@ -1,5 +1,5 @@
 #include "w25qxx.h"
-#include "quadspi.h"
+#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 //////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ u16 W25QXX_TYPE = W25Q256; //默认是W25Q256
 void W25QXX_Init(void)
 {
 	u8 temp;
-	GPIO_InitTypeDef GPIO_Initure;
+	/* GPIO_InitTypeDef GPIO_Initure;
 
 	__HAL_RCC_GPIOF_CLK_ENABLE(); //使能GPIOF时钟
 
@@ -35,13 +35,14 @@ void W25QXX_Init(void)
 	GPIO_Initure.Mode = GPIO_MODE_OUTPUT_PP;		//推挽输出
 	GPIO_Initure.Pull = GPIO_PULLUP;				//上拉
 	GPIO_Initure.Speed = GPIO_SPEED_FREQ_VERY_HIGH; //高速
-	HAL_GPIO_Init(GPIOF, &GPIO_Initure);			//初始化
+	HAL_GPIO_Init(GPIOF, &GPIO_Initure);			//初始化 */
 
-	W25QXX_CS(1);							// SPI FLASH不选中
-	SPI2_Init();							//初始化SPI
-	SPI2_SetSpeed(SPI_BAUDRATEPRESCALER_8); //设置为50M时钟,高速模式
-	W25QXX_TYPE = W25QXX_ReadID();			//读取FLASH ID
-	if (W25QXX_TYPE == W25Q256)				// SPI FLASH为W25Q256
+	W25QXX_CS(1); // SPI FLASH不选中
+	// SPI2_Init();							//初始化SPI
+	// SPI2_SetSpeed(SPI_BAUDRATEPRESCALER_8); //设置为50M时钟,高速模式
+	W25QXX_TYPE = W25QXX_ReadID(); //读取FLASH ID
+	printf("SPI_FLASH ID:0x%x\n", W25QXX_TYPE);
+	if (W25QXX_TYPE == W25Q256) // SPI FLASH为W25Q256
 	{
 		temp = W25QXX_ReadSR(3); //读取状态寄存器3，判断地址模式
 		if ((temp & 0X01) == 0)	 //如果不是4字节地址模式,则进入4字节地址模式

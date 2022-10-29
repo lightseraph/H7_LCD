@@ -24,7 +24,7 @@
 //定义六个内存池
 #define SRAMIN 0   // AXI内存池,AXI共512KB
 #define SRAMEX 1   //外部内存池(SDRAM),SDRAM共32MB
-#define SRAM12 2   // SRAM1/2内存池,SRAM1+SRAM2,共256KB
+#define SRAM12 2   // SRAM1/2内存池,SRAM1+SRAM2,共256KB +SRAM3 32K
 #define SRAM4 3	   // SRAM4内存池,SRAM4共64KB
 #define SRAMDTCM 4 // DTCM内存池,DTCM共128KB,此部分内存仅CPU和MDMA(通过AHBS)可以访问!!!!
 #define SRAMITCM 5 // ITCM内存池,DTCM共64 KB,此部分内存仅CPU和MDMA(通过AHBS)可以访问!!!!
@@ -33,17 +33,17 @@
 
 // mem1内存参数设定.mem1是H7内部的AXI内存.
 #define MEM1_BLOCK_SIZE 64									  //内存块大小为64字节
-#define MEM1_MAX_SIZE (448 * 1024)							  //最大管理内存 448K,H7的AXI内存总共512KB
+#define MEM1_MAX_SIZE (480 * 1024)							  //最大管理内存 448K,H7的AXI内存总共512KB
 #define MEM1_ALLOC_TABLE_SIZE MEM1_MAX_SIZE / MEM1_BLOCK_SIZE //内存表大小
 
 // mem2内存参数设定.mem2是外部的SDRAM内存
 #define MEM2_BLOCK_SIZE 64									  //内存块大小为64字节
-#define MEM2_MAX_SIZE 57745 * 1024							  //最大管理内存59753K,外扩SDRAM总共64MB,LTDC占了4500KB,还剩59MB.
+#define MEM2_MAX_SIZE 57408 * 1024							  //最大管理内存59753K,外扩SDRAM总共64MB,LTDC占了4500KB,还剩59MB.
 #define MEM2_ALLOC_TABLE_SIZE MEM2_MAX_SIZE / MEM2_BLOCK_SIZE //内存表大小
 
 // mem3内存参数设定.mem3是H7内部的SRAM1+SRAM2内存
 #define MEM3_BLOCK_SIZE 64									  //内存块大小为64字节
-#define MEM3_MAX_SIZE 240 * 1024							  //最大管理内存240K,H7的SRAM1+SRAM2共256KB
+#define MEM3_MAX_SIZE 270 * 1024							  //最大管理内存270K,H7的SRAM1+SRAM2+SRAM3共288KB
 #define MEM3_ALLOC_TABLE_SIZE MEM3_MAX_SIZE / MEM3_BLOCK_SIZE //内存表大小
 
 // mem4内存参数设定.mem4是H7内部的SRAM4内存

@@ -36,6 +36,7 @@
 #include "lvgl_port/lv_port_indev.h"
 #include "demos/lv_demos.h"
 #include "touch.h"
+#include "nand.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -208,9 +209,10 @@ int main(void)
   __enable_irq();
 
   printf("Jump in ex_flash!\n");
-  HAL_NAND_Reset(&hnand1);
-  HAL_NAND_Read_ID(&hnand1, &id);
-  printf("HAL_id = 0x%X\r\n", *((unsigned int *)&id));
+  // HAL_NAND_Reset(&hnand1);
+  // HAL_NAND_Read_ID(&hnand1, &id);
+  NAND_Init();
+  // printf("NAND_id = 0x%lX\r\n", *((unsigned int *)&id));
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
