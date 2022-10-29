@@ -61,21 +61,21 @@ _Min_Stack_Size = 0x2000; /* required amount of stack */
 /* Specify the memory areas */
 MEMORY
 {
-DTCMRAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 128K
-RAM_D1 (xrw)      : ORIGIN = 0x24000000, LENGTH = 512K
-RAM_D2 (xrw)      : ORIGIN = 0x30000000, LENGTH = 288K
-RAM_D3 (xrw)      : ORIGIN = 0x38000000, LENGTH = 64K
-ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 64K
+DTCMRAM (xrw)      : ORIGIN = 0x20000000, LENGTH = 120K
+RAM_D1 (xrw)      : ORIGIN = 0x24000000, LENGTH = 480K
+RAM_D2 (xrw)      : ORIGIN = 0x30000000, LENGTH = 270K
+RAM_D3 (xrw)      : ORIGIN = 0x38000000, LENGTH = 60K
+ITCMRAM (xrw)      : ORIGIN = 0x00000000, LENGTH = 60K
 /*FLASH (rx)      : ORIGIN = 0x8000000, LENGTH = 128K*/
-SDRAM(xrw)      : ORIGIN = 0xC0465000, LENGTH = 61036K    /*分配完显示缓存剩下的*/
+SDRAM(xrw)      : ORIGIN = 0xC0465000, LENGTH = 57408K    /*分配完显示缓存剩下的*/
 FLASH(xrw)   : ORIGIN = 0x90000000, LENGTH = 8M
 DISP_BUFF(xrw)    : ORIGIN = 0xC0000000, LENGTH = 4500K   /*显示缓存 800 x 480 x 4 x 3*/
-MEM1MAPBASS(xrw)  : ORIGIN = 0x24078800, LENGTH = 30K
-MEM2MAPBASS(xrw)  : ORIGIN = 0xC3C7F000, LENGTH = 3588K
-MEM3MAPBASS(xrw)  : ORIGIN = 0x30043C80, LENGTH = 17280
-MEM4MAPBASS(xrw)  : ORIGIN = 0x3800F100, LENGTH = 3840
-MEM5MAPBASS(xrw)  : ORIGIN = 0x2001E200, LENGTH = 3588K
-MEM6MAPBASS(xrw)  : ORIGIN = 0x0000F100, LENGTH = 7680
+MEM1MAPBASE(xrw)  : ORIGIN = 0x24078800, LENGTH = 30K
+MEM2MAPBASE(xrw)  : ORIGIN = 0xC3C7F000, LENGTH = 3588K
+/* MEM3MAPBASE(xrw)  : ORIGIN = 0x30043C80, LENGTH = 17280
+MEM4MAPBASE(xrw)  : ORIGIN = 0x3800F100, LENGTH = 3840
+MEM5MAPBASE(xrw)  : ORIGIN = 0x2001E200, LENGTH = 7680
+MEM6MAPBASE(xrw)  : ORIGIN = 0x0000F100, LENGTH = 3840 */
 }
 
 /* Define output sections */
@@ -186,7 +186,7 @@ SECTIONS
     . = ALIGN(8);
   } >DTCMRAM
 
-  .ram_d1 :
+  .ram_d1 (NOLOAD):
   {
     . = ALIGN(4);
     *(.ram_d1)
@@ -210,6 +210,22 @@ SECTIONS
     *(.color_buf.*)
     . = ALIGN(4);
   } >DISP_BUFF
+
+  .mem2mapbase (NOLOAD): ALIGN(64)
+  {
+    . = ALIGN(64);
+    *(.mem2mapbase)
+    *(.mem2mapbase.*)
+    . = ALIGN(64);
+  } >MEM2MAPBASE
+
+  .mem1mapbase (NOLOAD): ALIGN(64)
+  {
+    . = ALIGN(64);
+    *(.mem1mapbase)
+    *(.mem1mapbase.*)
+    . = ALIGN(64);
+  } >MEM1MAPBASE
 /*
   .nor_flash :
   {

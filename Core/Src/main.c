@@ -37,6 +37,8 @@
 #include "demos/lv_demos.h"
 #include "touch.h"
 #include "nand.h"
+#include "malloc.h"
+#include "ftl.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -189,14 +191,15 @@ int main(void)
   PeriphCommonClock_Config();
 
   /* USER CODE BEGIN SysInit */
-  NAND_IDTypeDef id;
-  NAND_AddressTypeDef temp;
+  // NAND_IDTypeDef id;
+  // NAND_AddressTypeDef temp;
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM6_Init();
+  MX_TIM7_Init();
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_RTC_Init();
@@ -204,15 +207,17 @@ int main(void)
   MX_DMA2D_Init();
   MX_FMC_Init();
   MX_LTDC_Init();
-  MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
   __enable_irq();
-
+  my_mem_init(SRAMIN);
+  // my_mem_init(SRAMEX);
   printf("Jump in ex_flash!\n");
   // HAL_NAND_Reset(&hnand1);
+  // HAL_Delay(100);
   // HAL_NAND_Read_ID(&hnand1, &id);
-  NAND_Init();
-  // printf("NAND_id = 0x%lX\r\n", *((unsigned int *)&id));
+  // NAND_Init();
+  FTL_Init();
+  // printf("NAND_id = 0x%X\r\n", *((unsigned int *)&id));
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
@@ -332,7 +337,7 @@ void PeriphCommonClock_Config(void)
   PeriphClkInitStruct.PLL3.PLL3N = 24;
   PeriphClkInitStruct.PLL3.PLL3P = 3;
   PeriphClkInitStruct.PLL3.PLL3Q = 10;
-  PeriphClkInitStruct.PLL3.PLL3R = 8;
+  PeriphClkInitStruct.PLL3.PLL3R = 9;
   PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_3;
   PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
   PeriphClkInitStruct.PLL3.PLL3FRACN = 0;

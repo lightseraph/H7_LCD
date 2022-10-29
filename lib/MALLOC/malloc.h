@@ -29,7 +29,7 @@
 #define SRAMDTCM 4 // DTCM内存池,DTCM共128KB,此部分内存仅CPU和MDMA(通过AHBS)可以访问!!!!
 #define SRAMITCM 5 // ITCM内存池,DTCM共64 KB,此部分内存仅CPU和MDMA(通过AHBS)可以访问!!!!
 
-#define SRAMBANK 6 //定义支持的SRAM块数.
+#define SRAMBANK 2 //定义支持的SRAM块数.
 
 // mem1内存参数设定.mem1是H7内部的AXI内存.
 #define MEM1_BLOCK_SIZE 64									  //内存块大小为64字节

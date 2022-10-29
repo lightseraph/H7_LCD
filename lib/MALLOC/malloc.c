@@ -17,35 +17,32 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 //内存池(64字节对齐)
-u8 mem1base[MEM1_MAX_SIZE] __attribute__((aligned(64)));                     //内部SRAM内存池
-u8 mem2base[MEM2_MAX_SIZE] __attribute__((section("SDRAM"), aligned(64)));   //外部SDRAM内存池,前面2M给LTDC用了(1280*800*2)
-u8 mem3base[MEM3_MAX_SIZE] __attribute__((section("RAM_D2"), aligned(64)));  //内部SRAM1+SRAM2内存池
-u8 mem4base[MEM4_MAX_SIZE] __attribute__((section("RAM_D3"), aligned(64)));  //内部SRAM4内存池
-u8 mem5base[MEM5_MAX_SIZE] __attribute__((section("DTCMRAM"), aligned(64))); //内部DTCM内存池
-u8 mem6base[MEM6_MAX_SIZE] __attribute__((section("ITCMRAM"), aligned(64))); //内部ITCM内存池
+u8 mem1base[MEM1_MAX_SIZE] __attribute__((section(".ram_d1"), aligned(64))); //内部SRAM内存池
+u8 mem2base[MEM2_MAX_SIZE] __attribute__((section(".sdram"), aligned(64)));  //外部SDRAM内存池,前面2M给LTDC用了(1280*800*2)
+// u8 mem3base[MEM3_MAX_SIZE] __attribute__((section("RAM_D2"), aligned(64)));  //内部SRAM1+SRAM2内存池
+// u8 mem4base[MEM4_MAX_SIZE] __attribute__((section("RAM_D3"), aligned(64)));  //内部SRAM4内存池
+// u8 mem5base[MEM5_MAX_SIZE] __attribute__((section("DTCMRAM"), aligned(64))); //内部DTCM内存池
+// u8 mem6base[MEM6_MAX_SIZE] __attribute__((section("ITCMRAM"), aligned(64))); //内部ITCM内存池
 //内存管理表
-u32 mem1mapbase[MEM1_ALLOC_TABLE_SIZE];                                         //内部SRAM内存池MAP
-u32 mem2mapbase[MEM2_ALLOC_TABLE_SIZE] __attribute__((section("MEM2MAPBASS"))); //外部SDRAM内存池MAP
-u32 mem3mapbase[MEM3_ALLOC_TABLE_SIZE] __attribute__((section("MEM3MAPBASS"))); //内部SRAM1+SRAM2内存池MAP
-u32 mem4mapbase[MEM4_ALLOC_TABLE_SIZE] __attribute__((section("MEM4MAPBASS"))); //内部SRAM4内存池MAP
-u32 mem5mapbase[MEM5_ALLOC_TABLE_SIZE] __attribute__((section("MEM5MAPBASS"))); //内部DTCM内存池MAP
-u32 mem6mapbase[MEM6_ALLOC_TABLE_SIZE] __attribute__((section("MEM6MAPBASS"))); //内部ITCM内存池MAP
+u32 mem1mapbase[MEM1_ALLOC_TABLE_SIZE] __attribute__((section(".mem1mapbase"))); //内部SRAM内存池MAP
+u32 mem2mapbase[MEM2_ALLOC_TABLE_SIZE] __attribute__((section(".mem2mapbase"))); //外部SDRAM内存池MAP
+// u32 mem3mapbase[MEM3_ALLOC_TABLE_SIZE] __attribute__((section("MEM3MAPBASE"))); //内部SRAM1+SRAM2内存池MAP
+// u32 mem4mapbase[MEM4_ALLOC_TABLE_SIZE] __attribute__((section("MEM4MAPBASE"))); //内部SRAM4内存池MAP
+// u32 mem5mapbase[MEM5_ALLOC_TABLE_SIZE] __attribute__((section("MEM5MAPBASE"))); //内部DTCM内存池MAP
+// u32 mem6mapbase[MEM6_ALLOC_TABLE_SIZE] __attribute__((section("MEM6MAPBASE"))); //内部ITCM内存池MAP
 //内存管理参数
-const u32 memtblsize[SRAMBANK] = {MEM1_ALLOC_TABLE_SIZE, MEM2_ALLOC_TABLE_SIZE, MEM3_ALLOC_TABLE_SIZE,
-                                  MEM4_ALLOC_TABLE_SIZE, MEM5_ALLOC_TABLE_SIZE, MEM6_ALLOC_TABLE_SIZE}; //内存表大小
-const u32 memblksize[SRAMBANK] = {MEM1_BLOCK_SIZE, MEM2_BLOCK_SIZE, MEM3_BLOCK_SIZE,
-                                  MEM4_BLOCK_SIZE, MEM5_BLOCK_SIZE, MEM6_BLOCK_SIZE}; //内存分块大小
-const u32 memsize[SRAMBANK] = {MEM1_MAX_SIZE, MEM2_MAX_SIZE, MEM3_MAX_SIZE,
-                               MEM4_MAX_SIZE, MEM5_MAX_SIZE, MEM6_MAX_SIZE}; //内存总大小
+const u32 memtblsize[SRAMBANK] = {MEM1_ALLOC_TABLE_SIZE, MEM2_ALLOC_TABLE_SIZE}; //内存表大小
+const u32 memblksize[SRAMBANK] = {MEM1_BLOCK_SIZE, MEM2_BLOCK_SIZE};             //内存分块大小
+const u32 memsize[SRAMBANK] = {MEM1_MAX_SIZE, MEM2_MAX_SIZE};                    //内存总大小
 
 //内存管理控制器
 struct _m_mallco_dev mallco_dev =
     {
-        my_mem_init,                                                                  //内存初始化
-        my_mem_perused,                                                               //内存使用率
-        mem1base, mem2base, mem3base, mem4base, mem5base, mem6base,                   //内存池
-        mem1mapbase, mem2mapbase, mem3mapbase, mem4mapbase, mem5mapbase, mem6mapbase, //内存管理状态表
-        0, 0, 0, 0, 0, 0                                                              //内存管理未就绪
+        my_mem_init,                //内存初始化
+        my_mem_perused,             //内存使用率
+        {mem1base, mem2base},       //内存池
+        {mem1mapbase, mem2mapbase}, //内存管理状态表
+        {0, 0}                      //内存管理未就绪
 };
 
 //复制内存

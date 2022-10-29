@@ -22,8 +22,8 @@ u8 NAND_Init(void)
 {
 	// FMC_NAND_PCC_TimingTypeDef ComSpaceTiming, AttSpaceTiming;
 
-	/* NAND_MPU_Config();
-	NAND_Handler.Instance = FMC_Bank3;
+	NAND_MPU_Config();
+	/*NAND_Handler.Instance = FMC_Bank3;
 	NAND_Handler.Init.NandBank = FMC_NAND_BANK3;					   // NAND挂在BANK3上
 	NAND_Handler.Init.Waitfeature = FMC_NAND_PCC_WAIT_FEATURE_DISABLE; //关闭等待特性
 	NAND_Handler.Init.MemoryDataWidth = FMC_NAND_PCC_MEM_BUS_WIDTH_8;  // 8位数据宽度

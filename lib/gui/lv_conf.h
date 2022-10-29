@@ -55,10 +55,10 @@
 
     /*Set an address for the memory pool instead of allocating it as a normal array. Can be in external SRAM too.*/
     //#define LV_MEM_ADR 0     /*0: unused*/
-    #define LV_MEM_ADR 0x24000000     /*0: unused*/
+    #define LV_MEM_ADR 0x30000000     /*0: unused*/
 
     //#define LV_MEM_ATTR
-    #define LV_MEM_ATTR __attribute__((section(".ram_d1")))
+    #define LV_MEM_ATTR __attribute__((section("RAM_D2")))
     /*Instead of an address give a memory allocator that will be called to get a memory pool for LVGL. E.g. my_malloc*/
     #if LV_MEM_ADR == 0
         //#define LV_MEM_POOL_INCLUDE your_alloc_library  /* Uncomment if using an external allocator*/
@@ -66,10 +66,10 @@
     #endif
 
 #else       /*LV_MEM_CUSTOM*/
-    #define LV_MEM_CUSTOM_INCLUDE <stdlib.h>   /*Header for the dynamic memory function*/
-    #define LV_MEM_CUSTOM_ALLOC   malloc
-    #define LV_MEM_CUSTOM_FREE    free
-    #define LV_MEM_CUSTOM_REALLOC realloc
+    #define LV_MEM_CUSTOM_INCLUDE "malloc.h"   /*Header for the dynamic memory function*/
+    #define LV_MEM_CUSTOM_ALLOC   mymalloc
+    #define LV_MEM_CUSTOM_FREE    myfree
+    #define LV_MEM_CUSTOM_REALLOC myrealloc
 #endif     /*LV_MEM_CUSTOM*/
 
 /*Number of the intermediate memory buffer used during rendering and other internal processing mechanisms.
@@ -84,10 +84,10 @@
  *====================*/
 
 /*Default display refresh period. LVG will redraw changed areas with this period time*/
-#define LV_DISP_DEF_REFR_PERIOD 20      /*[ms]*/
+#define LV_DISP_DEF_REFR_PERIOD 25      /*[ms]*/
 
 /*Input device read period in milliseconds*/
-#define LV_INDEV_DEF_READ_PERIOD 20     /*[ms]*/
+#define LV_INDEV_DEF_READ_PERIOD 25     /*[ms]*/
 
 /*Use a custom tick source that tells the elapsed time in milliseconds.
  *It removes the need to manually update the tick with `lv_tick_inc()`)*/
