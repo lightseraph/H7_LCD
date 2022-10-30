@@ -19,8 +19,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "dma2d.h"
+#include "fatfs.h"
 #include "ltdc.h"
 #include "rtc.h"
+#include "sdmmc.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -39,6 +41,7 @@
 #include "nand.h"
 #include "malloc.h"
 #include "ftl.h"
+#include "sdmmc_sdcard.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -207,17 +210,20 @@ int main(void)
   MX_DMA2D_Init();
   MX_FMC_Init();
   MX_LTDC_Init();
+  MX_SDMMC1_SD_Init();
+  MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
   __enable_irq();
   my_mem_init(SRAMIN);
-  // my_mem_init(SRAMEX);
+  my_mem_init(SRAMEX);
   printf("Jump in ex_flash!\n");
   // HAL_NAND_Reset(&hnand1);
   // HAL_Delay(100);
   // HAL_NAND_Read_ID(&hnand1, &id);
   // NAND_Init();
   FTL_Init();
-  // printf("NAND_id = 0x%X\r\n", *((unsigned int *)&id));
+  // SD_Init();
+  //   printf("NAND_id = 0x%X\r\n", *((unsigned int *)&id));
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
@@ -337,7 +343,7 @@ void PeriphCommonClock_Config(void)
   PeriphClkInitStruct.PLL3.PLL3N = 24;
   PeriphClkInitStruct.PLL3.PLL3P = 3;
   PeriphClkInitStruct.PLL3.PLL3Q = 10;
-  PeriphClkInitStruct.PLL3.PLL3R = 9;
+  PeriphClkInitStruct.PLL3.PLL3R = 8;
   PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_3;
   PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
   PeriphClkInitStruct.PLL3.PLL3FRACN = 0;

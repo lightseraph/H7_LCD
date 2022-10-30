@@ -371,7 +371,7 @@ u8 FTL_CreateLUT(u8 mode)
 			nand_dev.good_blocknum++;
 		}
 		else
-			printf("bad block index:%d\r\n", i);
+			printf("bad block index:%ld\r\n", i);
 	}
 	// LUT表建立完成以后检查有效块个数
 	for (i = 0; i < nand_dev.block_totalnum; i++)
@@ -419,7 +419,7 @@ u8 FTL_BlockCompare(u32 blockx, u32 cmpval)
 			}
 		}
 	}
-	printf("bad block checked:%d\r\n", blockx);
+	printf("bad block checked:%ld\r\n", blockx);
 	return 1;
 }
 // FTL初始化时，搜寻所有坏块,使用:擦-写-读 方式
@@ -488,7 +488,7 @@ u8 FTL_Format(void)
 			temp = NAND_EraseBlock(i);
 			if (temp) //擦除失败,认为坏块
 			{
-				printf("Bad block:%d\r\n", i);
+				printf("Bad block:%ld\r\n", i);
 				FTL_BadBlockMark(i); //标记是坏块
 			}
 			else

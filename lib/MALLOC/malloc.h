@@ -23,7 +23,7 @@
 
 //定义六个内存池
 #define SRAMIN 0   // AXI内存池,AXI共512KB
-#define SRAMEX 1   //外部内存池(SDRAM),SDRAM共32MB
+#define SRAMEX 1   //外部内存池(SDRAM),SDRAM共64MB
 #define SRAM12 2   // SRAM1/2内存池,SRAM1+SRAM2,共256KB +SRAM3 32K
 #define SRAM4 3	   // SRAM4内存池,SRAM4共64KB
 #define SRAMDTCM 4 // DTCM内存池,DTCM共128KB,此部分内存仅CPU和MDMA(通过AHBS)可以访问!!!!

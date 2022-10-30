@@ -115,7 +115,7 @@ void test_readallblockinfo(u32 sblock)
 	u8 buffer[5];
 	for (i = sblock; i < nand_dev.block_totalnum; i++)
 	{
-		printf("block %d info:", i);
+		printf("block %ld info:", i);
 		sta = NAND_ReadSpare(i * nand_dev.block_pagenum, 0, buffer, 5); //读取每个block,第一个page的前5个字节
 		if (sta)
 			printf("failed\r\n");
@@ -161,7 +161,7 @@ u8 test_ftlreadsectors(u32 secx, u16 secsize, u16 seccnt)
 	sta = FTL_ReadSectors(pbuf, secx, secsize, seccnt); //读取数据
 	if (sta == 0)
 	{
-		printf("read sec %d data is:\r\n", secx);
+		printf("read sec %ld data is:\r\n", secx);
 		for (i = 0; i < secsize * seccnt; i++) //准备要写入的数据,填充数据,从0开始增大
 		{
 			printf("%x ", pbuf[i]); //串口打印读取到的数据

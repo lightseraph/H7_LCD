@@ -297,9 +297,9 @@ u8 NAND_ReadPage(u32 PageNum, u16 ColNum, u8 *pBuffer, u16 NumByteToRead)
 		{
 			if (nand_dev.ecc_rdbuf[i + eccstart] != nand_dev.ecc_hdbuf[i + eccstart]) //不相等,需要校正
 			{
-				printf("err hd,rd:0x%x,0x%x\r\n", nand_dev.ecc_hdbuf[i + eccstart], nand_dev.ecc_rdbuf[i + eccstart]);
+				printf("err hd,rd:0x%lx,0x%lx\r\n", nand_dev.ecc_hdbuf[i + eccstart], nand_dev.ecc_rdbuf[i + eccstart]);
 				printf("eccnum,eccstart:%d,%d\r\n", eccnum, eccstart);
-				printf("PageNum,ColNum:%d,%d\r\n", PageNum, ColNum);
+				printf("PageNum,ColNum:%ld,%d\r\n", PageNum, ColNum);
 				res = NAND_ECC_Correction(p + NAND_ECC_SECTOR_SIZE * i, nand_dev.ecc_rdbuf[i + eccstart], nand_dev.ecc_hdbuf[i + eccstart]); // ECC校验
 				if (res)
 					errsta = NSTA_ECC2BITERR; //标记2BIT及以上ECC错误
