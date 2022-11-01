@@ -557,7 +557,7 @@ SD_Error SD_ReadBlocks(u8 *buf, long long addr, u16 blksize, u32 nblks)
 // blksize:块大小
 // nblks:要读取的块数,1,表示读取单个块
 //返回值:错误状态
-SD_Error SD_WriteBlocks(u8 *buf, long long addr, u16 blksize, u32 nblks)
+SD_Error SD_WriteBlocks(const u8 *buf, long long addr, u16 blksize, u32 nblks)
 {
 	SD_Error errorstatus = SD_OK;
 	u8 cardstate = 0;
@@ -715,7 +715,7 @@ SD_Error CmdError(void)
 SD_Error CmdResp7Error(void)
 {
 	SD_Error errorstatus = SD_OK;
-	u32 status;
+	u32 status = 0;
 	u32 timeout = SDMMC_CMD0TIMEOUT;
 	while (timeout--)
 	{
@@ -788,7 +788,7 @@ SD_Error CmdResp3Error(void)
 SD_Error CmdResp2Error(void)
 {
 	SD_Error errorstatus = SD_OK;
-	u32 status;
+	u32 status = 0;
 	u32 timeout = SDMMC_CMD0TIMEOUT;
 	while (timeout--)
 	{
@@ -1021,7 +1021,7 @@ u8 SD_ReadDisk(u8 *buf, u32 sector, u32 cnt)
 // sector:扇区地址
 // cnt:扇区个数
 //返回值:错误状态;0,正常;其他,错误代码;
-u8 SD_WriteDisk(u8 *buf, u32 sector, u32 cnt)
+u8 SD_WriteDisk(const u8 *buf, u32 sector, u32 cnt)
 {
 	u8 sta = SD_OK;
 	u32 n;

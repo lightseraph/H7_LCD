@@ -109,6 +109,9 @@ static void event_handler(lv_event_t *event)
 
 static void lvgl_first_demo_start(void)
 {
+  u8 hour, min, sec, ampm;
+  u8 year, month, date, week;
+
   /*  LV_IMG_DECLARE(debian_s);
    static lv_style_t style;
    lv_style_init(&style);
@@ -156,9 +159,11 @@ static void lvgl_first_demo_start(void)
 
   // vUint16ConvertString(&(tp_dev.x), x, 2);
   // vUint16ConvertString(&(tp_dev.y), y, 2);
+  RTC_Get_Time(&hour, &min, &sec, &ampm);
+  RTC_Get_Date(&year, &month, &date, &week);
 
-  // lv_label_set_text_fmt(coord_x, "X: %d", tp_dev.x[0]);
-  // lv_label_set_text_fmt(coord_y, "Y: %d", tp_dev.y[0]);
+  lv_label_set_text_fmt(coord_x, "Time: %02d:%02d:%02d", hour, min, sec);
+  lv_label_set_text_fmt(coord_y, "Date: 20%02d-%02d-%02d", year, month, date);
 }
 /* USER CODE END 0 */
 
@@ -170,6 +175,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   SCB->VTOR = QSPI_BASE; //设置中断向量表
+
   /* USER CODE END 1 */
 
   /* Enable I-Cache---------------------------------------------------------*/
@@ -217,9 +223,7 @@ int main(void)
   my_mem_init(SRAMIN);
   my_mem_init(SRAMEX);
   printf("Jump in ex_flash!\n");
-  // HAL_NAND_Reset(&hnand1);
-  // HAL_Delay(100);
-  // HAL_NAND_Read_ID(&hnand1, &id);
+
   // NAND_Init();
   FTL_Init();
   // SD_Init();
@@ -227,8 +231,21 @@ int main(void)
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
-  //     printf("1: %s\r\n", temp2);
+  FRESULT res;
+  FIL fp;
+  char write_buf[] = "这是文件系统测试写入的数据";
+  UINT bw;
 
+  res = f_mount(&SDFatFS, "0:", 1);
+  printf("mount res = %d \n", res);
+  res = f_open(&fp, "0:test.txt", FA_READ | FA_WRITE | FA_CREATE_ALWAYS);
+  printf("\r\n f_open     res = %d\r\n", res);
+  res = f_write(&fp, write_buf, sizeof(write_buf), &bw);
+  printf("\r\n f_write    res = %d\r\n", res);
+  res = f_close(&fp);
+  printf("\r\n f_close    res = %d\r\n", res);
+
+  //     printf("1: %s\r\n", temp2);
   /* __IO uint8_t *qspi_addr = (__IO uint8_t *)(0x90000000);
   for (int i = 0; i < 0x100; i++)
   {

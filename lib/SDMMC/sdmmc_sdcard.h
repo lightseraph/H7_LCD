@@ -332,7 +332,7 @@ SD_Error SD_SelectDeselect(u32 addr);
 SD_Error SD_SendStatus(uint32_t *pcardstatus);
 SDCardState SD_GetState(void);
 SD_Error SD_ReadBlocks(u8 *buf, long long addr, u16 blksize, u32 nblks);
-SD_Error SD_WriteBlocks(u8 *buf, long long addr, u16 blksize, u32 nblks);
+SD_Error SD_WriteBlocks(const u8 *buf, long long addr, u16 blksize, u32 nblks);
 SD_Error CmdError(void);
 SD_Error CmdResp7Error(void);
 SD_Error CmdResp1Error(u8 cmd);
@@ -343,8 +343,8 @@ SD_Error SDEnWideBus(u8 enx);
 SD_Error IsCardProgramming(u8 *pstatus);
 SD_Error FindSCR(u16 rca, u32 *pscr);
 
-u8 SD_ReadDisk(u8 *buf, u32 sector, u32 cnt);  //读SD卡,fatfs/usb调用
-u8 SD_WriteDisk(u8 *buf, u32 sector, u32 cnt); //写SD卡,fatfs/usb调用
+u8 SD_ReadDisk(u8 *buf, u32 sector, u32 cnt);		 //读SD卡,fatfs/usb调用
+u8 SD_WriteDisk(const u8 *buf, u32 sector, u32 cnt); //写SD卡,fatfs/usb调用
 
 void show_sdcard_info(void);
 
