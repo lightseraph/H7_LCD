@@ -42,6 +42,7 @@
 #include "malloc.h"
 #include "ftl.h"
 #include "sdmmc_sdcard.h"
+//#include "gui_dev.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -73,7 +74,6 @@ void PeriphCommonClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
 static void event_handler(lv_event_t *event)
 {
   lv_obj_t *obj = lv_event_get_target(event);
@@ -107,7 +107,7 @@ static void event_handler(lv_event_t *event)
   }
 }
 
-static void lvgl_first_demo_start(void)
+void lvgl_first_demo_start(void)
 {
   u8 hour, min, sec, ampm;
   u8 year, month, date, week;
@@ -224,14 +224,12 @@ int main(void)
   my_mem_init(SRAMEX);
   printf("Jump in ex_flash!\n");
 
-  // NAND_Init();
   FTL_Init();
-  // SD_Init();
-  //   printf("NAND_id = 0x%X\r\n", *((unsigned int *)&id));
+
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
-  FRESULT res;
+  /* FRESULT res;
   FIL fp;
   char write_buf[] = "这是文件系统测试写入的数据";
   UINT bw;
@@ -243,9 +241,8 @@ int main(void)
   res = f_write(&fp, write_buf, sizeof(write_buf), &bw);
   printf("\r\n f_write    res = %d\r\n", res);
   res = f_close(&fp);
-  printf("\r\n f_close    res = %d\r\n", res);
+  printf("\r\n f_close    res = %d\r\n", res); */
 
-  //     printf("1: %s\r\n", temp2);
   /* __IO uint8_t *qspi_addr = (__IO uint8_t *)(0x90000000);
   for (int i = 0; i < 0x100; i++)
   {

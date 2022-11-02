@@ -22,6 +22,7 @@
 
 /* USER CODE BEGIN 0 */
 #include "sdmmc_sdcard.h"
+#include "bsp_driver_sd.h"
 /* USER CODE END 0 */
 
 SD_HandleTypeDef hsd1;
@@ -45,7 +46,9 @@ void MX_SDMMC1_SD_Init(void)
   hsd1.Init.HardwareFlowControl = SDMMC_HARDWARE_FLOW_CONTROL_ENABLE;
   hsd1.Init.ClockDiv = 2;
   /* USER CODE BEGIN SDMMC1_Init 2 */
-  // SD_Init();
+  SD_Init();
+  // HAL_SD_GetCardInfo(&hsd1, &CardInfo);
+  // ShowCardInfo(&CardInfo);
   /* USER CODE END SDMMC1_Init 2 */
 
 }
