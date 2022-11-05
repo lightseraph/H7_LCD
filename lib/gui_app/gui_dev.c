@@ -37,7 +37,8 @@ static void event_handler(lv_event_t *event)
 
 static void clock_date_task_callback(lv_timer_t *timer)
 {
-    static const char *week_day[7] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    // static const char *week_day[7] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+    static const char *week_day_cn[7] = {"星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日"};
 
     u8 hour, min, sec, ampm;
     u8 year, month, date, week;
@@ -47,31 +48,18 @@ static void clock_date_task_callback(lv_timer_t *timer)
     if (timer != NULL && timer->user_data != NULL)
     {
         lv_clock_t *clock = (lv_clock_t *)(timer->user_data);
-        if (clock->time_label != NULL)
-        {
-            lv_label_set_text_fmt(clock->time_label, "%02d:%02d:%02d", hour, min, sec);
-            lv_obj_align_to(clock->time_label, lv_obj_get_parent(clock->time_label), LV_ALIGN_CENTER, 0, 0);
-        }
-
-        if (clock->date_label != NULL)
-        {
-            lv_label_set_text_fmt(clock->date_label, "%d-%02d-%02d", year, month, date);
-            lv_obj_align_to(clock->date_label, lv_obj_get_parent(clock->date_label), LV_ALIGN_TOP_MID, 2, 0);
-        }
+        lv_label_set_text_fmt(clock->time_label, "%02d : %02d : %02d\n20%02d - %02d - %02d", hour, min, sec, year, month, date);
 
         if (clock->weekday_label != NULL)
         {
-            lv_label_set_text_fmt(clock->weekday_label, "%s", week_day[week]);
-            lv_obj_align_to(clock->weekday_label, lv_obj_get_parent(clock->weekday_label), LV_ALIGN_BOTTOM_MID, -2, 0);
+            lv_obj_align_to(clock->weekday_label, clock->time_label, LV_ALIGN_OUT_RIGHT_MID, 5, 0);
+            lv_label_set_text_fmt(clock->weekday_label, "%s", week_day_cn[week - 1]); // RTC星期寄存器值 1～7
         }
     }
 }
 
 void lvgl_first_demo_start(void)
 {
-    u8 hour, min, sec, ampm;
-    u8 year, month, date, week;
-
     /*  LV_IMG_DECLARE(debian_s);
      static lv_style_t style;
      lv_style_init(&style);
@@ -90,21 +78,40 @@ void lvgl_first_demo_start(void)
     lv_obj_add_flag(btn1, LV_OBJ_FLAG_CHECKABLE);
 
     lv_obj_t *label = lv_label_create(btn);
-    lv_label_set_text(label, "button1");
-    lv_obj_align_to(label, btn, LV_ALIGN_CENTER, 0, 0);
+    lv_label_set_text(label, "关闭");
+    lv_obj_align_to(label, btn, LV_ALIGN_CENTER, -16, 0);
+    lv_obj_set_style_text_font(label, &lv_font_yahei_16, LV_STATE_DEFAULT);
     lv_obj_t *label0 = lv_label_create(btn1);
-    lv_label_set_text(label0, "button2");
-    lv_obj_align_to(label0, btn1, LV_ALIGN_CENTER, 0, 0);
+    lv_label_set_text(label0, "播放");
+    lv_obj_align_to(label0, btn1, LV_ALIGN_CENTER, -16, 0);
+    lv_obj_set_style_text_font(label0, &lv_font_yahei_16, LV_STATE_DEFAULT);
 
-    lv_obj_t *coord_x = lv_label_create(lv_scr_act());
-    lv_obj_set_size(coord_x, 120, 20);
+    static lv_clock_t lv_clock = {0};
 
-    lv_obj_t *coord_y = lv_label_create(lv_scr_act());
-    lv_obj_set_size(coord_y, 120, 20);
+    lv_obj_t *time_label = lv_label_create(lv_scr_act());
+    lv_obj_set_size(time_label, 200, 25);
+    lv_obj_set_pos(time_label, 10, 10);
+    // lv_obj_set_style_text_font(time_label, LV_FONT_MONTSERRAT_16, LV_STATE_DEFAULT);
+    lv_clock.time_label = time_label;
+
+    lv_obj_t *week_label = lv_label_create(lv_scr_act());
+    lv_obj_set_size(time_label, 100, 25);
+    lv_obj_set_style_text_font(week_label, &lv_font_yahei_16, LV_STATE_DEFAULT);
+    lv_clock.weekday_label = week_label;
 
     lv_obj_t *sw1 = lv_switch_create(lv_scr_act());
+    lv_obj_t *label_sw1 = lv_label_create(lv_scr_act());
+    lv_label_set_text(label_sw1, "红灯");
+    lv_obj_set_style_text_color(label_sw1, lv_color_hex(0xff0000), 0);
+    lv_obj_set_style_text_font(label_sw1, &lv_font_yahei_16, LV_STATE_DEFAULT);
+
     lv_obj_add_event_cb(sw1, event_handler, LV_EVENT_ALL, "sw1");
     lv_obj_t *sw2 = lv_switch_create(lv_scr_act());
+    lv_obj_t *label_sw2 = lv_label_create(lv_scr_act());
+    lv_label_set_text(label_sw2, "绿灯");
+    lv_obj_set_style_text_color(label_sw2, lv_color_hex(0xff00), 0);
+    lv_obj_set_style_text_font(label_sw2, &lv_font_yahei_16, LV_STATE_DEFAULT);
+    lv_obj_align_to(label_sw2, sw2, LV_ALIGN_OUT_BOTTOM_MID, 0, 3);
     lv_obj_add_event_cb(sw2, event_handler, LV_EVENT_ALL, "sw2");
 
     lv_obj_t *label1 = lv_label_create(lv_scr_act());
@@ -112,18 +119,11 @@ void lvgl_first_demo_start(void)
     lv_obj_align(label1, LV_ALIGN_CENTER, 0, 0);
     lv_obj_align_to(btn, label1, LV_ALIGN_OUT_TOP_MID, 85, -20);
     lv_obj_align_to(btn1, btn, LV_ALIGN_OUT_LEFT_MID, -30, 0);
-    lv_obj_align_to(coord_x, label1, LV_ALIGN_OUT_BOTTOM_MID, 0, 30);
-    lv_obj_align_to(coord_y, coord_x, LV_ALIGN_OUT_BOTTOM_MID, 0, 30);
-    lv_obj_align_to(sw1, coord_y, LV_ALIGN_OUT_BOTTOM_LEFT, -45, 30);
+    lv_obj_align_to(sw1, label1, LV_ALIGN_OUT_BOTTOM_LEFT, -45, 30);
     lv_obj_align_to(sw2, sw1, LV_ALIGN_OUT_RIGHT_MID, 40, 0);
-
-    // vUint16ConvertString(&(tp_dev.x), x, 2);
-    // vUint16ConvertString(&(tp_dev.y), y, 2);
-    RTC_Get_Time(&hour, &min, &sec, &ampm);
-    RTC_Get_Date(&year, &month, &date, &week);
-
-    lv_label_set_text_fmt(coord_x, "Time: %02d:%02d:%02d", hour, min, sec);
-    lv_label_set_text_fmt(coord_y, "Date: 20%02d-%02d-%02d", year, month, date);
+    lv_obj_align_to(label_sw1, sw1, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
+    lv_obj_align_to(label_sw2, sw2, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
+    lv_timer_create(clock_date_task_callback, 1000, (void *)&lv_clock); // 创建定时任务，200ms刷新一次
 }
 
 void lvgl_clock_start()
