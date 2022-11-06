@@ -250,6 +250,10 @@ extern "C"
     LV_FONT_DECLARE(lv_font_yahei_16)
 #endif
 
+#ifdef LV_FONT_SIYUAN_16
+    LV_FONT_DECLARE(lv_font_siyuan_16)
+#endif
+
     /**
      * Just a wrapper around LV_FONT_DEFAULT because it might be more convenient to use a function is some cases
      * @return  pointer to LV_FONT_DEFAULT

@@ -1,9 +1,9 @@
 #include "lvgl/lvgl.h"
 
-#define OUTLINE_W 50 //电池图标宽度
+#define OUTLINE_W 46 //电池图标宽度
 #define OUTLINE_H 20 //电池图标高度
 
-void lv_anim_cb(void *p, int32_t v)
+static void lv_anim_cb(void *p, int32_t v)
 {
     //实现变色效果，电池电量低于20% 红色
     static int32_t cnt;
@@ -13,7 +13,7 @@ void lv_anim_cb(void *p, int32_t v)
     }
     else if (v >= OUTLINE_W * 0.2 && cnt < OUTLINE_W * 0.2)
     {
-        lv_obj_set_style_bg_color(p, lv_color_hex(0xff00), 0);
+        lv_obj_set_style_bg_color(p, lv_color_hex(0xffc8c8c8), 0);
     }
     cnt = v;
 
@@ -43,12 +43,13 @@ void draw_battery(void)
 
     //居中对齐
     lv_obj_align(outline, LV_ALIGN_TOP_RIGHT, -15, 7);
+    lv_obj_set_style_border_color(outline, lv_color_hex(0xff505050), 0);
 
     //创建电池图标的正极
     lv_obj_t *bat_head = lv_obj_create(lv_scr_act());
     static lv_style_t style_batt_head;
     lv_style_init(&style_batt_head);
-    lv_style_set_bg_color(&style_batt_head, lv_color_hex(0xFFBDBDBD));
+    lv_style_set_bg_color(&style_batt_head, lv_color_hex(0xFF909090));
     lv_style_set_outline_width(&style_batt_head, 0);
     lv_style_set_border_width(&style_batt_head, 0);
     lv_style_set_radius(&style_batt_head, 2);
