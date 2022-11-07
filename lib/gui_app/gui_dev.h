@@ -10,4 +10,3 @@ typedef struct _lv_clock
 
 // void event_handler(lv_event_t *event);
 void lvgl_first_demo_start(void);
-void lvgl_clock_start();
