@@ -44,7 +44,7 @@ u8 NAND_Init(void)
 
 	HAL_NAND_Init(&NAND_Handler, &ComSpaceTiming, &AttSpaceTiming); */
 	NAND_Reset(); //复位NAND
-	HAL_Delay(100);
+	delay_ms(100);
 	nand_dev.id = NAND_ReadID(); //读取ID
 	printf("NAND ID:%#lx\r\n", nand_dev.id);
 	NAND_ModeSet(4);					//设置为MODE4,高速模式
@@ -180,7 +180,7 @@ u8 NAND_Reset(void)
 {
 	*(vu8 *)(NAND_ADDRESS | NAND_CMD) = NAND_RESET; //复位NAND
 													/* 镁光需要等100ns的tWB+100us的tRST */
-	HAL_Delay(NAND_TRST_FIRST_DELAY);
+	delay_ms(NAND_TRST_FIRST_DELAY);
 	if (NAND_WaitForReady() == NSTA_READY)
 		return 0; //复位成功
 	else
@@ -654,7 +654,7 @@ u8 NAND_EraseBlock(u32 BlockNum)
 	*(vu8 *)(NAND_ADDRESS | NAND_ADDR) = (u8)(BlockNum >> 8);
 	*(vu8 *)(NAND_ADDRESS | NAND_ADDR) = (u8)(BlockNum >> 16);
 	*(vu8 *)(NAND_ADDRESS | NAND_CMD) = NAND_ERASE1;
-	HAL_Delay(NAND_TBERS_DELAY); //等待擦除成功
+	delay_ms(NAND_TBERS_DELAY); //等待擦除成功
 	if (NAND_WaitForReady() != NSTA_READY)
 		return NSTA_ERROR; //失败
 	return 0;			   //成功

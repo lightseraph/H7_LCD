@@ -60,6 +60,8 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LCD_BL_Pin GPIO_PIN_5
 #define LCD_BL_GPIO_Port GPIOB
+#define NAND_NWAIT_Pin GPIO_PIN_6
+#define NAND_NWAIT_GPIO_Port GPIOD
 #define CT_RST_Pin GPIO_PIN_8
 #define CT_RST_GPIO_Port GPIOI
 #define CT_SDA_Pin GPIO_PIN_7

@@ -164,4 +164,12 @@ void delay_us(uint16_t num)
     ;                        //当装载值小于预设值时循环
   HAL_TIM_Base_Stop(&htim6); //结束延时
 }
+
+void delay_ms(uint16_t num)
+{
+  for (int i = 0; i < num; i++)
+  {
+    delay_us(1000);
+  }
+}
 /* USER CODE END 1 */

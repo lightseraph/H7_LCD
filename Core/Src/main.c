@@ -22,7 +22,6 @@
 #include "fatfs.h"
 #include "ltdc.h"
 #include "rtc.h"
-#include "sdmmc.h"
 #include "spi.h"
 #include "tim.h"
 #include "usart.h"
@@ -41,7 +40,7 @@
 #include "nand.h"
 #include "malloc.h"
 #include "ftl.h"
-#include "sdmmc_sdcard.h"
+//#include "sdmmc_sdcard.h"
 #include "gui_dev.h"
 #include "gui_battery.h"
 /* USER CODE END Includes */
@@ -218,7 +217,6 @@ int main(void)
   MX_DMA2D_Init();
   MX_FMC_Init();
   MX_LTDC_Init();
-  MX_SDMMC1_SD_Init();
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
   __enable_irq();
@@ -226,25 +224,30 @@ int main(void)
   my_mem_init(SRAMEX);
   printf("Jump in ex_flash!\n");
 
-  FTL_Init();
+  // FTL_Init();
 
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
-  /* FRESULT res;
+  FRESULT res;
   FIL fp;
-  char write_buf[] = "这是文件系统测试写入的数据";
+  char write_buf[] = "this is a write into nand data";
   UINT bw;
+  char read_buff[sizeof(write_buf)] = "";
 
-  res = f_mount(&SDFatFS, "0:", 1);
+  res = f_mount(&USERFatFS, "0:", 1);
   printf("mount res = %d \n", res);
-  res = f_open(&fp, "0:test.txt", FA_READ | FA_WRITE | FA_CREATE_ALWAYS);
+  /* res = f_open(&fp, "0:test22.txt", FA_READ | FA_OPEN_ALWAYS | FA_WRITE);
   printf("\r\n f_open     res = %d\r\n", res);
   res = f_write(&fp, write_buf, sizeof(write_buf), &bw);
   printf("\r\n f_write    res = %d\r\n", res);
   res = f_close(&fp);
   printf("\r\n f_close    res = %d\r\n", res); */
-
+  res = f_open(&fp, "0:test.txt", FA_READ);
+  printf("\r\n f_open     res = %d\r\n", res);
+  res = f_read(&fp, read_buff, sizeof(write_buf), &bw);
+  printf("\r\n read_data: %s, res = %d\r\n", read_buff, res);
+  res = f_close(&fp);
   /* __IO uint8_t *qspi_addr = (__IO uint8_t *)(0x90000000);
   for (int i = 0; i < 0x100; i++)
   {

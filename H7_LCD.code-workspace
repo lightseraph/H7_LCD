@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.ino": "cpp",
+			"sys.h": "c",
+			"unistd.h": "c",
+			"lvgl.h": "c",
+			"lv_font.h": "c"
+		}
+	}
+}
