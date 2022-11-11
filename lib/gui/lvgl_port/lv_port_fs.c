@@ -4,14 +4,14 @@
  */
 
 /*Copy this file as "lv_port_fs.c" and set this value to "1" to enable content*/
-#if 0
+#if 1
 
 /*********************
  *      INCLUDES
  *********************/
 #include "lv_port_fs.h"
 #include "lvgl/lvgl.h"
-//#include "ff.h"
+#include "ff.h"
 //#include "user_diskio.h"
 
 /*********************
@@ -102,7 +102,7 @@ static FRESULT fs_init(void)
     FRESULT res = 0;
     flash_fs = (FATFS *)lv_mem_alloc(sizeof(FATFS));
     res = f_mount(flash_fs, "0:", 1);
-    printf("init success");
+    printf("init success\n");
     return res;
 }
 

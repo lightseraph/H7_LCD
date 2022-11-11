@@ -35,6 +35,7 @@
 #include "lvgl/lvgl.h"
 #include "lvgl_port/lv_port_disp.h"
 #include "lvgl_port/lv_port_indev.h"
+#include "lvgl_port/lv_port_fs.h"
 #include "demos/lv_demos.h"
 #include "touch.h"
 #include "nand.h"
@@ -229,6 +230,7 @@ int main(void)
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
+  lv_port_fs_init();
   FRESULT res;
   FIL fp;
   char write_buf[] = "this is a write into nand data";

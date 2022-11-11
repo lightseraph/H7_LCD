@@ -69,6 +69,10 @@ void lvgl_first_demo_start(void)
      lv_obj_set_size(sy, 480, 800);
      lv_obj_center(sy); */
 
+    /* lv_obj_t *img = lv_img_create(lv_scr_act());
+    lv_img_set_src(img, "S:/chris_barbalis.bin");
+    lv_obj_center(img); */
+
     static lv_style_t btn_style;
     lv_style_set_width(&btn_style, 120);
     lv_style_set_height(&btn_style, 40);
