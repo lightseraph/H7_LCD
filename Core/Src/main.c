@@ -237,25 +237,26 @@ int main(void)
   UINT bw;
   char read_buff[sizeof(write_buf)] = "";
 
-  res = f_mount(&USERFatFS, "0:", 1);
-  printf("mount res = %d \n", res);
+  // res = f_mount(&USERFatFS, "0:", 1);
+  // printf("mount res = %d \n", res);
   /* res = f_open(&fp, "0:test22.txt", FA_READ | FA_OPEN_ALWAYS | FA_WRITE);
   printf("\r\n f_open     res = %d\r\n", res);
   res = f_write(&fp, write_buf, sizeof(write_buf), &bw);
   printf("\r\n f_write    res = %d\r\n", res);
   res = f_close(&fp);
   printf("\r\n f_close    res = %d\r\n", res); */
-  res = f_open(&fp, "0:test.txt", FA_READ);
+  /* res = f_open(&fp, "0:test.txt", FA_READ);
   printf("\r\n f_open     res = %d\r\n", res);
   res = f_read(&fp, read_buff, sizeof(write_buf), &bw);
   printf("\r\n read_data: %s, res = %d\r\n", read_buff, res);
   res = f_close(&fp);
+  f_mount(NULL, "0:", 1); */
   /* __IO uint8_t *qspi_addr = (__IO uint8_t *)(0x90000000);
   for (int i = 0; i < 0x100; i++)
   {
     printf("0x%02X ", *qspi_addr);
     qspi_addr++;
-  } */
+  }*/
   // lv_disp_set_rotation(NULL, LV_DISP_ROT_90);
   // lvgl_clock_start();
   lvgl_first_demo_start();

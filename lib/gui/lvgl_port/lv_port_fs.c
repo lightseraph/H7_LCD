@@ -12,7 +12,7 @@
 #include "lv_port_fs.h"
 #include "lvgl/lvgl.h"
 #include "ff.h"
-//#include "user_diskio.h"
+//#include "fatfs.h"
 
 /*********************
  *      DEFINES
@@ -102,7 +102,7 @@ static FRESULT fs_init(void)
     FRESULT res = 0;
     flash_fs = (FATFS *)lv_mem_alloc(sizeof(FATFS));
     res = f_mount(flash_fs, "0:", 1);
-    printf("init success\n");
+    printf("init status:%d\n", res);
     return res;
 }
 
@@ -116,22 +116,37 @@ static FRESULT fs_init(void)
 static void *fs_open(lv_fs_drv_t *drv, const char *path, lv_fs_mode_t mode)
 {
     // lv_fs_res_t res = LV_FS_RES_NOT_IMP;
-    void *f = NULL;
+    LV_UNUSED(drv);
+    FIL *f = lv_mem_alloc(sizeof(FIL));
+    if (f == NULL)
+        return NULL;
+    FRESULT res = FR_OK;
+    /* char *path_buf = NULL;
+    uint16_t path_len = strlen(path);
+
+    path_buf = (char *)lv_mem_alloc(sizeof(char) * (path_len + 4));
+    sprintf(path_buf, "S:/%s", path);
+    */
 
     if (mode == LV_FS_MODE_WR)
     {
-        f = (void *)f_open((FIL *)drv, path, FA_WRITE);
+        res = f_open(f, path, FA_WRITE);
     }
     else if (mode == LV_FS_MODE_RD)
     {
-        f = (void *)f_open((FIL *)drv, path, FA_READ);
+        res = f_open(f, path, FA_READ);
     }
     else if (mode == (LV_FS_MODE_WR | LV_FS_MODE_RD))
     {
-        f = (void *)f_open((FIL *)drv, path, FA_WRITE | FA_READ);
+        res = f_open(f, path, FA_WRITE | FA_READ);
     }
-
-    return f;
+    if (res == FR_OK)
+        return f;
+    else
+    {
+        lv_mem_free(f);
+        return NULL;
+    }
 }
 
 /**
@@ -168,18 +183,19 @@ static lv_fs_res_t fs_close(lv_fs_drv_t *drv, void *file_p)
 static lv_fs_res_t fs_read(lv_fs_drv_t *drv, void *file_p, void *buf, uint32_t btr, uint32_t *br)
 {
     lv_fs_res_t res = LV_FS_RES_NOT_IMP;
+    LV_UNUSED(drv);
 
-    f_read((FIL *)file_p, buf, (UINT)btr, (UINT *)br);
-    if (*br == btr)
+    FRESULT fres = f_read((FIL *)file_p, buf, (UINT)btr, (UINT *)br);
+    if (fres != FR_OK)
     {
-        res = LV_FS_RES_OK;
+        printf("f_read error (%d)\n", fres);
+        return res;
     }
     else
     {
-        res = LV_FS_RES_FS_ERR;
+        printf("f_read success (%d)\n", fres);
+        return LV_FS_RES_OK;
     }
-
-    return res;
 }
 
 /**

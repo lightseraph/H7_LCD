@@ -69,9 +69,22 @@ void lvgl_first_demo_start(void)
      lv_obj_set_size(sy, 480, 800);
      lv_obj_center(sy); */
 
-    /* lv_obj_t *img = lv_img_create(lv_scr_act());
+    lv_obj_t *img = lv_img_create(lv_scr_act());
     lv_img_set_src(img, "S:/chris_barbalis.bin");
-    lv_obj_center(img); */
+    lv_obj_set_pos(img, 0, 0);
+    lv_obj_set_size(img, 800, 480);
+    /* lv_fs_file_t lv_file;
+    lv_fs_res_t lv_res;
+
+    lv_res = lv_fs_open(&lv_file, "S:/chris_barbalis2.bin", LV_FS_MODE_RD);
+    if (lv_res != LV_FS_RES_OK)
+    {
+
+        printf("LVGL FS open error. (%d)\n", lv_res);
+    }
+    else
+        printf("LVGL FS open Ok\n");
+    lv_fs_close(&lv_file); */
 
     static lv_style_t btn_style;
     lv_style_set_width(&btn_style, 120);
