@@ -41,10 +41,16 @@ static lv_fs_res_t fs_seek(lv_fs_drv_t *drv, void *file_p, uint32_t pos, lv_fs_w
 
 // typedef FIL file_t;
 // typedef DIR dir_t;
-FATFS *flash_fs;
+
 /**********************
  *  STATIC VARIABLES
  **********************/
+/* char *path_buf = NULL;
+    uint16_t path_len = strlen(path);
+
+    path_buf = (char *)lv_mem_alloc(sizeof(char) * (path_len + 4));
+    sprintf(path_buf, "S:/%s", path);
+    */
 
 /**********************
  * GLOBAL PROTOTYPES
@@ -99,10 +105,12 @@ static FRESULT fs_init(void)
     /*E.g. for FatFS initialize the SD card and FatFS itself*/
 
     /*You code here*/
-    FRESULT res = 0;
+    FATFS *flash_fs;
+    FRESULT res = FR_OK;
     flash_fs = (FATFS *)lv_mem_alloc(sizeof(FATFS));
     res = f_mount(flash_fs, "0:", 1);
-    printf("init status:%d\n", res);
+    printf("lvgl init status:%d\n", res);
+    lv_mem_free(flash_fs);
     return res;
 }
 
@@ -121,12 +129,6 @@ static void *fs_open(lv_fs_drv_t *drv, const char *path, lv_fs_mode_t mode)
     if (f == NULL)
         return NULL;
     FRESULT res = FR_OK;
-    /* char *path_buf = NULL;
-    uint16_t path_len = strlen(path);
-
-    path_buf = (char *)lv_mem_alloc(sizeof(char) * (path_len + 4));
-    sprintf(path_buf, "S:/%s", path);
-    */
 
     if (mode == LV_FS_MODE_WR)
     {
@@ -158,7 +160,7 @@ static void *fs_open(lv_fs_drv_t *drv, const char *path, lv_fs_mode_t mode)
 static lv_fs_res_t fs_close(lv_fs_drv_t *drv, void *file_p)
 {
     lv_fs_res_t res = LV_FS_RES_NOT_IMP;
-
+    LV_UNUSED(drv);
     if (f_close((FIL *)file_p) == FR_OK)
     {
         res = LV_FS_RES_OK;
@@ -209,11 +211,15 @@ static lv_fs_res_t fs_read(lv_fs_drv_t *drv, void *file_p, void *buf, uint32_t b
  */
 static lv_fs_res_t fs_write(lv_fs_drv_t *drv, void *file_p, const void *buf, uint32_t btw, uint32_t *bw)
 {
+    LV_UNUSED(drv);
     lv_fs_res_t res = LV_FS_RES_NOT_IMP;
 
     /*Add your code here*/
-    f_write((FIL *)file_p, buf, (UINT)btw, (UINT *)bw);
-    return res;
+    FRESULT fres = f_write((FIL *)file_p, buf, (UINT)btw, (UINT *)bw);
+    if (fres == FR_OK)
+        return LV_FS_RES_OK;
+    else
+        return res;
 }
 
 /**
@@ -226,11 +232,15 @@ static lv_fs_res_t fs_write(lv_fs_drv_t *drv, void *file_p, const void *buf, uin
  */
 static lv_fs_res_t fs_seek(lv_fs_drv_t *drv, void *file_p, uint32_t pos, lv_fs_whence_t whence)
 {
+    LV_UNUSED(drv);
     lv_fs_res_t res = LV_FS_RES_NOT_IMP;
 
     /*Add your code here*/
-    f_lseek((FIL *)file_p, (FSIZE_t)pos);
-    return res;
+    FRESULT fres = f_lseek((FIL *)file_p, (FSIZE_t)pos);
+    if (fres == FR_OK)
+        return LV_FS_RES_OK;
+    else
+        return res;
 }
 /**
  * Give the position of the read write pointer
