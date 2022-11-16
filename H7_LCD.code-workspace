@@ -12,7 +12,8 @@
 			"lvgl.h": "c",
 			"lv_font.h": "c",
 			"user_diskio.h": "c",
-			"ff.h": "c"
+			"ff.h": "c",
+			"gui_dev.h": "c"
 		}
 	}
 }

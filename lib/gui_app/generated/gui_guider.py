@@ -10,18 +10,18 @@ import lodepng as png
 import ustruct
 
 lv.init()
-SDL.init(w=480,h=800)
+SDL.init(w=800,h=480)
 
 # Register SDL display driver.
 disp_buf1 = lv.disp_draw_buf_t()
-buf1_1 = bytearray(480*10)
+buf1_1 = bytearray(800*10)
 disp_buf1.init(buf1_1, None, len(buf1_1)//4)
 disp_drv = lv.disp_drv_t()
 disp_drv.init()
 disp_drv.draw_buf = disp_buf1
 disp_drv.flush_cb = SDL.monitor_flush
-disp_drv.hor_res = 480
-disp_drv.ver_res = 800
+disp_drv.hor_res = 800
+disp_drv.ver_res = 480
 disp_drv.register()
 
 # Regsiter SDL mouse driver
@@ -138,131 +138,255 @@ screen.set_scrollbar_mode(lv.SCROLLBAR_MODE.OFF)
 # create style style_screen_main_main_default
 style_screen_main_main_default = lv.style_t()
 style_screen_main_main_default.init()
-style_screen_main_main_default.set_bg_color(lv.color_make(0xd6,0xff,0xfa))
-style_screen_main_main_default.set_bg_opa(255)
+style_screen_main_main_default.set_bg_color(lv.color_make(0xff,0xff,0xff))
+style_screen_main_main_default.set_bg_opa(0)
 
 # add style for screen
 screen.add_style(style_screen_main_main_default, lv.PART.MAIN|lv.STATE.DEFAULT)
 
-screen_counter = lv.label(screen)
-screen_counter.set_pos(int(190),int(256))
-screen_counter.set_size(100,147)
-screen_counter.set_scrollbar_mode(lv.SCROLLBAR_MODE.OFF)
-screen_counter.set_text("0")
-screen_counter.set_long_mode(lv.label.LONG.WRAP)
-# create style style_screen_counter_main_main_default
-style_screen_counter_main_main_default = lv.style_t()
-style_screen_counter_main_main_default.init()
-style_screen_counter_main_main_default.set_radius(0)
-style_screen_counter_main_main_default.set_bg_color(lv.color_make(0xff,0xff,0xff))
-style_screen_counter_main_main_default.set_bg_grad_color(lv.color_make(0xff,0xff,0xff))
-style_screen_counter_main_main_default.set_bg_grad_dir(lv.GRAD_DIR.VER)
-style_screen_counter_main_main_default.set_bg_opa(0)
-style_screen_counter_main_main_default.set_text_color(lv.color_make(0x00,0x00,0x00))
+screen_img_1 = lv.img(screen)
+screen_img_1.set_pos(int(0),int(0))
+screen_img_1.set_size(800,480)
+screen_img_1.set_scrollbar_mode(lv.SCROLLBAR_MODE.OFF)
+screen_img_1.add_flag(lv.obj.FLAG.CLICKABLE)
 try:
-    style_screen_counter_main_main_default.set_text_font(lv.font_arial_48)
+    with open('/home/light/GUI-Guider-Projects/ccc/generated/mPythonImages/mp-124171484.png','rb') as f:
+        screen_img_1_img_data = f.read()
+except:
+    print('Could not open /home/light/GUI-Guider-Projects/ccc/generated/mPythonImages/mp-124171484.png')
+    sys.exit()
+
+screen_img_1_img = lv.img_dsc_t({
+  'data_size': len(screen_img_1_img_data),
+  'header': {'always_zero': 0, 'w': 800, 'h': 480, 'cf': lv.img.CF.TRUE_COLOR_ALPHA},
+  'data': screen_img_1_img_data
+})
+
+screen_img_1.set_src(screen_img_1_img)
+screen_img_1.set_pivot(0,0)
+screen_img_1.set_angle(0)
+# create style style_screen_img_1_main_main_default
+style_screen_img_1_main_main_default = lv.style_t()
+style_screen_img_1_main_main_default.init()
+style_screen_img_1_main_main_default.set_img_recolor(lv.color_make(0xff,0xff,0xff))
+style_screen_img_1_main_main_default.set_img_recolor_opa(0)
+style_screen_img_1_main_main_default.set_img_opa(255)
+
+# add style for screen_img_1
+screen_img_1.add_style(style_screen_img_1_main_main_default, lv.PART.MAIN|lv.STATE.DEFAULT)
+
+screen_btn_1 = lv.btn(screen)
+screen_btn_1.set_pos(int(180),int(219))
+screen_btn_1.set_size(75,25)
+screen_btn_1.set_scrollbar_mode(lv.SCROLLBAR_MODE.OFF)
+screen_btn_1.add_flag(lv.obj.FLAG.CHECKABLE)
+screen_btn_1_label = lv.label(screen_btn_1)
+screen_btn_1_label.set_text("播放")
+screen_btn_1.set_style_pad_all(0, lv.STATE.DEFAULT)
+screen_btn_1_label.align(lv.ALIGN.CENTER,0,0)
+# create style style_screen_btn_1_main_main_default
+style_screen_btn_1_main_main_default = lv.style_t()
+style_screen_btn_1_main_main_default.init()
+style_screen_btn_1_main_main_default.set_radius(5)
+style_screen_btn_1_main_main_default.set_bg_color(lv.color_make(0x21,0x95,0xf6))
+style_screen_btn_1_main_main_default.set_bg_grad_color(lv.color_make(0x21,0x95,0xf6))
+style_screen_btn_1_main_main_default.set_bg_grad_dir(lv.GRAD_DIR.NONE)
+style_screen_btn_1_main_main_default.set_bg_opa(255)
+style_screen_btn_1_main_main_default.set_shadow_width(1)
+style_screen_btn_1_main_main_default.set_shadow_color(lv.color_make(0x21,0x95,0xf6))
+style_screen_btn_1_main_main_default.set_shadow_opa(255)
+style_screen_btn_1_main_main_default.set_shadow_spread(1)
+style_screen_btn_1_main_main_default.set_shadow_ofs_x(1)
+style_screen_btn_1_main_main_default.set_shadow_ofs_y(1)
+style_screen_btn_1_main_main_default.set_border_color(lv.color_make(0x21,0x95,0xf6))
+style_screen_btn_1_main_main_default.set_border_width(0)
+style_screen_btn_1_main_main_default.set_border_opa(255)
+style_screen_btn_1_main_main_default.set_text_color(lv.color_make(0x00,0x00,0x00))
+try:
+    style_screen_btn_1_main_main_default.set_text_font(lv.font_simsun_16)
 except AttributeError:
     try:
-        style_screen_counter_main_main_default.set_text_font(lv.font_montserrat_48)
+        style_screen_btn_1_main_main_default.set_text_font(lv.font_montserrat_16)
     except AttributeError:
-        style_screen_counter_main_main_default.set_text_font(lv.font_montserrat_16)
-style_screen_counter_main_main_default.set_text_letter_space(2)
-style_screen_counter_main_main_default.set_text_line_space(0)
-style_screen_counter_main_main_default.set_text_align(lv.TEXT_ALIGN.CENTER)
-style_screen_counter_main_main_default.set_pad_left(0)
-style_screen_counter_main_main_default.set_pad_right(0)
-style_screen_counter_main_main_default.set_pad_top(0)
-style_screen_counter_main_main_default.set_pad_bottom(0)
+        style_screen_btn_1_main_main_default.set_text_font(lv.font_montserrat_16)
+style_screen_btn_1_main_main_default.set_text_align(lv.TEXT_ALIGN.CENTER)
 
-# add style for screen_counter
-screen_counter.add_style(style_screen_counter_main_main_default, lv.PART.MAIN|lv.STATE.DEFAULT)
+# add style for screen_btn_1
+screen_btn_1.add_style(style_screen_btn_1_main_main_default, lv.PART.MAIN|lv.STATE.DEFAULT)
 
-screen_plus = lv.btn(screen)
-screen_plus.set_pos(int(88),int(551))
-screen_plus.set_size(120,33)
-screen_plus.set_scrollbar_mode(lv.SCROLLBAR_MODE.OFF)
-screen_plus_label = lv.label(screen_plus)
-screen_plus_label.set_text("Plus")
-screen_plus.set_style_pad_all(0, lv.STATE.DEFAULT)
-screen_plus_label.align(lv.ALIGN.CENTER,0,0)
-# create style style_screen_plus_main_main_default
-style_screen_plus_main_main_default = lv.style_t()
-style_screen_plus_main_main_default.init()
-style_screen_plus_main_main_default.set_radius(50)
-style_screen_plus_main_main_default.set_bg_color(lv.color_make(0xff,0xff,0xff))
-style_screen_plus_main_main_default.set_bg_grad_color(lv.color_make(0xff,0xff,0xff))
-style_screen_plus_main_main_default.set_bg_grad_dir(lv.GRAD_DIR.VER)
-style_screen_plus_main_main_default.set_bg_opa(255)
-style_screen_plus_main_main_default.set_border_color(lv.color_make(0x01,0xa2,0xb1))
-style_screen_plus_main_main_default.set_border_width(2)
-style_screen_plus_main_main_default.set_border_opa(255)
-style_screen_plus_main_main_default.set_text_color(lv.color_make(0x00,0x00,0x00))
+# create style style_screen_btn_1_main_main_pressed
+style_screen_btn_1_main_main_pressed = lv.style_t()
+style_screen_btn_1_main_main_pressed.init()
+style_screen_btn_1_main_main_pressed.set_radius(5)
+style_screen_btn_1_main_main_pressed.set_bg_color(lv.color_make(0x21,0x95,0xf6))
+style_screen_btn_1_main_main_pressed.set_bg_grad_color(lv.color_make(0x21,0x95,0xf6))
+style_screen_btn_1_main_main_pressed.set_bg_grad_dir(lv.GRAD_DIR.NONE)
+style_screen_btn_1_main_main_pressed.set_bg_opa(255)
+style_screen_btn_1_main_main_pressed.set_border_color(lv.color_make(0x21,0x95,0xf6))
+style_screen_btn_1_main_main_pressed.set_border_width(0)
+style_screen_btn_1_main_main_pressed.set_border_opa(255)
+style_screen_btn_1_main_main_pressed.set_text_color(lv.color_make(0x00,0x00,0x00))
 try:
-    style_screen_plus_main_main_default.set_text_font(lv.font_simsun_12)
+    style_screen_btn_1_main_main_pressed.set_text_font(lv.font_simsun_12)
 except AttributeError:
     try:
-        style_screen_plus_main_main_default.set_text_font(lv.font_montserrat_12)
+        style_screen_btn_1_main_main_pressed.set_text_font(lv.font_montserrat_12)
     except AttributeError:
-        style_screen_plus_main_main_default.set_text_font(lv.font_montserrat_16)
-style_screen_plus_main_main_default.set_text_align(lv.TEXT_ALIGN.CENTER)
+        style_screen_btn_1_main_main_pressed.set_text_font(lv.font_montserrat_16)
 
-# add style for screen_plus
-screen_plus.add_style(style_screen_plus_main_main_default, lv.PART.MAIN|lv.STATE.DEFAULT)
+# add style for screen_btn_1
+screen_btn_1.add_style(style_screen_btn_1_main_main_pressed, lv.PART.MAIN|lv.STATE.PRESSED)
 
-screen_minus = lv.btn(screen)
-screen_minus.set_pos(int(272),int(545))
-screen_minus.set_size(120,39)
-screen_minus.set_scrollbar_mode(lv.SCROLLBAR_MODE.OFF)
-screen_minus_label = lv.label(screen_minus)
-screen_minus_label.set_text("Minus")
-screen_minus.set_style_pad_all(0, lv.STATE.DEFAULT)
-screen_minus_label.align(lv.ALIGN.CENTER,0,0)
-# create style style_screen_minus_main_main_default
-style_screen_minus_main_main_default = lv.style_t()
-style_screen_minus_main_main_default.init()
-style_screen_minus_main_main_default.set_radius(50)
-style_screen_minus_main_main_default.set_bg_color(lv.color_make(0xff,0xff,0xff))
-style_screen_minus_main_main_default.set_bg_grad_color(lv.color_make(0xff,0xff,0xff))
-style_screen_minus_main_main_default.set_bg_grad_dir(lv.GRAD_DIR.VER)
-style_screen_minus_main_main_default.set_bg_opa(255)
-style_screen_minus_main_main_default.set_border_color(lv.color_make(0x01,0xa2,0xb1))
-style_screen_minus_main_main_default.set_border_width(2)
-style_screen_minus_main_main_default.set_border_opa(255)
-style_screen_minus_main_main_default.set_text_color(lv.color_make(0x00,0x00,0x00))
+screen_ddlist_1 = lv.dropdown(screen)
+screen_ddlist_1.set_pos(int(374),int(75))
+screen_ddlist_1.set_size(130,30)
+screen_ddlist_1.set_scrollbar_mode(lv.SCROLLBAR_MODE.OFF)
+screen_ddlist_1.set_options("list1\nlist2\nlist3")
+
+screen_ddlist_1_list = screen_ddlist_1.get_list()
+# create style style_screen_ddlist_1_extra_list_selected_checked
+style_screen_ddlist_1_extra_list_selected_checked = lv.style_t()
+style_screen_ddlist_1_extra_list_selected_checked.init()
+style_screen_ddlist_1_extra_list_selected_checked.set_radius(3)
+style_screen_ddlist_1_extra_list_selected_checked.set_bg_color(lv.color_make(0x00,0xa1,0xb5))
+style_screen_ddlist_1_extra_list_selected_checked.set_bg_grad_color(lv.color_make(0x00,0xa1,0xb5))
+style_screen_ddlist_1_extra_list_selected_checked.set_bg_grad_dir(lv.GRAD_DIR.NONE)
+style_screen_ddlist_1_extra_list_selected_checked.set_bg_opa(255)
+style_screen_ddlist_1_extra_list_selected_checked.set_border_color(lv.color_make(0xe1,0xe6,0xee))
+style_screen_ddlist_1_extra_list_selected_checked.set_border_width(1)
+style_screen_ddlist_1_extra_list_selected_checked.set_border_opa(255)
+style_screen_ddlist_1_extra_list_selected_checked.set_text_color(lv.color_make(0xff,0xff,0xff))
 try:
-    style_screen_minus_main_main_default.set_text_font(lv.font_simsun_12)
+    style_screen_ddlist_1_extra_list_selected_checked.set_text_font(lv.font_simsun_12)
 except AttributeError:
     try:
-        style_screen_minus_main_main_default.set_text_font(lv.font_montserrat_12)
+        style_screen_ddlist_1_extra_list_selected_checked.set_text_font(lv.font_montserrat_12)
     except AttributeError:
-        style_screen_minus_main_main_default.set_text_font(lv.font_montserrat_16)
-style_screen_minus_main_main_default.set_text_align(lv.TEXT_ALIGN.CENTER)
+        style_screen_ddlist_1_extra_list_selected_checked.set_text_font(lv.font_montserrat_16)
+style_screen_ddlist_1_extra_list_selected_checked.set_pad_left(6)
+style_screen_ddlist_1_extra_list_selected_checked.set_pad_right(6)
+style_screen_ddlist_1_extra_list_selected_checked.set_pad_top(6)
+style_screen_ddlist_1_extra_list_selected_checked.set_pad_bottom(6)
 
-# add style for screen_minus
-screen_minus.add_style(style_screen_minus_main_main_default, lv.PART.MAIN|lv.STATE.DEFAULT)
+# add style for screen_ddlist_1_list
+screen_ddlist_1_list.add_style(style_screen_ddlist_1_extra_list_selected_checked, lv.PART.SELECTED|lv.STATE.CHECKED)
 
+# create style style_screen_ddlist_1_extra_list_main_default
+style_screen_ddlist_1_extra_list_main_default = lv.style_t()
+style_screen_ddlist_1_extra_list_main_default.init()
+style_screen_ddlist_1_extra_list_main_default.set_radius(3)
+style_screen_ddlist_1_extra_list_main_default.set_bg_color(lv.color_make(0xff,0xff,0xff))
+style_screen_ddlist_1_extra_list_main_default.set_bg_grad_color(lv.color_make(0xff,0xff,0xff))
+style_screen_ddlist_1_extra_list_main_default.set_bg_grad_dir(lv.GRAD_DIR.NONE)
+style_screen_ddlist_1_extra_list_main_default.set_bg_opa(255)
+style_screen_ddlist_1_extra_list_main_default.set_border_color(lv.color_make(0xe1,0xe6,0xee))
+style_screen_ddlist_1_extra_list_main_default.set_border_width(1)
+style_screen_ddlist_1_extra_list_main_default.set_border_opa(255)
+style_screen_ddlist_1_extra_list_main_default.set_text_color(lv.color_make(0x0D,0x30,0x55))
+try:
+    style_screen_ddlist_1_extra_list_main_default.set_text_font(lv.font_simsun_12)
+except AttributeError:
+    try:
+        style_screen_ddlist_1_extra_list_main_default.set_text_font(lv.font_montserrat_12)
+    except AttributeError:
+        style_screen_ddlist_1_extra_list_main_default.set_text_font(lv.font_montserrat_16)
+style_screen_ddlist_1_extra_list_main_default.set_pad_left(6)
+style_screen_ddlist_1_extra_list_main_default.set_pad_right(6)
+style_screen_ddlist_1_extra_list_main_default.set_pad_top(6)
+style_screen_ddlist_1_extra_list_main_default.set_pad_bottom(6)
+style_screen_ddlist_1_extra_list_main_default.set_max_height(90)
 
+# add style for screen_ddlist_1_list
+screen_ddlist_1_list.add_style(style_screen_ddlist_1_extra_list_main_default, lv.PART.MAIN|lv.STATE.DEFAULT)
 
-counter = 0
-def screen_plus_clicked_2_event_cb(e):
-    src = e.get_target()
-    code = e.get_code()
-    global counter
-    counter += 1
-    screen_counter.set_text(str(counter))
+# create style style_screen_ddlist_1_extra_list_scrollbar_default
+style_screen_ddlist_1_extra_list_scrollbar_default = lv.style_t()
+style_screen_ddlist_1_extra_list_scrollbar_default.init()
+style_screen_ddlist_1_extra_list_scrollbar_default.set_radius(3)
+style_screen_ddlist_1_extra_list_scrollbar_default.set_bg_color(lv.color_make(0x00,0xff,0x00))
+style_screen_ddlist_1_extra_list_scrollbar_default.set_bg_opa(255)
+style_screen_ddlist_1_extra_list_scrollbar_default.set_pad_left(6)
+style_screen_ddlist_1_extra_list_scrollbar_default.set_pad_right(6)
+style_screen_ddlist_1_extra_list_scrollbar_default.set_pad_top(6)
+style_screen_ddlist_1_extra_list_scrollbar_default.set_pad_bottom(6)
 
-screen_plus.add_event_cb(lambda e: screen_plus_clicked_2_event_cb(e), lv.EVENT.CLICKED, None)
+# add style for screen_ddlist_1_list
+screen_ddlist_1_list.add_style(style_screen_ddlist_1_extra_list_scrollbar_default, lv.PART.SCROLLBAR|lv.STATE.DEFAULT)
 
+# create style style_screen_ddlist_1_main_main_default
+style_screen_ddlist_1_main_main_default = lv.style_t()
+style_screen_ddlist_1_main_main_default.init()
+style_screen_ddlist_1_main_main_default.set_radius(3)
+style_screen_ddlist_1_main_main_default.set_bg_color(lv.color_make(0xff,0xff,0xff))
+style_screen_ddlist_1_main_main_default.set_bg_grad_color(lv.color_make(0xff,0xff,0xff))
+style_screen_ddlist_1_main_main_default.set_bg_grad_dir(lv.GRAD_DIR.NONE)
+style_screen_ddlist_1_main_main_default.set_bg_opa(255)
+style_screen_ddlist_1_main_main_default.set_border_color(lv.color_make(0xe1,0xe6,0xee))
+style_screen_ddlist_1_main_main_default.set_border_width(1)
+style_screen_ddlist_1_main_main_default.set_border_opa(255)
+style_screen_ddlist_1_main_main_default.set_text_color(lv.color_make(0x0D,0x30,0x55))
+try:
+    style_screen_ddlist_1_main_main_default.set_text_font(lv.font_simsun_12)
+except AttributeError:
+    try:
+        style_screen_ddlist_1_main_main_default.set_text_font(lv.font_montserrat_12)
+    except AttributeError:
+        style_screen_ddlist_1_main_main_default.set_text_font(lv.font_montserrat_16)
+style_screen_ddlist_1_main_main_default.set_pad_left(6)
+style_screen_ddlist_1_main_main_default.set_pad_right(6)
+style_screen_ddlist_1_main_main_default.set_pad_top(8)
 
-def screen_minus_clicked_2_event_cb(e):
-    src = e.get_target()
-    code = e.get_code()
-    global counter
-    if(counter > 0):
-        counter -= 1
-        screen_counter.set_text(str(counter))
+# add style for screen_ddlist_1
+screen_ddlist_1.add_style(style_screen_ddlist_1_main_main_default, lv.PART.MAIN|lv.STATE.DEFAULT)
 
-screen_minus.add_event_cb(lambda e: screen_minus_clicked_2_event_cb(e), lv.EVENT.CLICKED, None)
+screen_sw_1 = lv.switch(screen)
+screen_sw_1.set_pos(int(173),int(314))
+screen_sw_1.set_size(40,20)
+screen_sw_1.set_scrollbar_mode(lv.SCROLLBAR_MODE.OFF)
+# create style style_screen_sw_1_main_main_default
+style_screen_sw_1_main_main_default = lv.style_t()
+style_screen_sw_1_main_main_default.init()
+style_screen_sw_1_main_main_default.set_radius(100)
+style_screen_sw_1_main_main_default.set_bg_color(lv.color_make(0xe6,0xe2,0xe6))
+style_screen_sw_1_main_main_default.set_bg_grad_color(lv.color_make(0xe6,0xe2,0xe6))
+style_screen_sw_1_main_main_default.set_bg_grad_dir(lv.GRAD_DIR.NONE)
+style_screen_sw_1_main_main_default.set_bg_opa(255)
+style_screen_sw_1_main_main_default.set_border_color(lv.color_make(0x2b,0x2b,0x2b))
+style_screen_sw_1_main_main_default.set_border_width(1)
+style_screen_sw_1_main_main_default.set_border_opa(255)
+
+# add style for screen_sw_1
+screen_sw_1.add_style(style_screen_sw_1_main_main_default, lv.PART.MAIN|lv.STATE.DEFAULT)
+
+# create style style_screen_sw_1_main_indicator_checked
+style_screen_sw_1_main_indicator_checked = lv.style_t()
+style_screen_sw_1_main_indicator_checked.init()
+style_screen_sw_1_main_indicator_checked.set_bg_color(lv.color_make(0x21,0x95,0xf6))
+style_screen_sw_1_main_indicator_checked.set_bg_grad_color(lv.color_make(0x21,0x95,0xf6))
+style_screen_sw_1_main_indicator_checked.set_bg_grad_dir(lv.GRAD_DIR.NONE)
+style_screen_sw_1_main_indicator_checked.set_bg_opa(255)
+style_screen_sw_1_main_indicator_checked.set_border_color(lv.color_make(0x21,0x95,0xf6))
+style_screen_sw_1_main_indicator_checked.set_border_width(0)
+style_screen_sw_1_main_indicator_checked.set_border_opa(255)
+
+# add style for screen_sw_1
+screen_sw_1.add_style(style_screen_sw_1_main_indicator_checked, lv.PART.INDICATOR|lv.STATE.CHECKED)
+
+# create style style_screen_sw_1_main_knob_default
+style_screen_sw_1_main_knob_default = lv.style_t()
+style_screen_sw_1_main_knob_default.init()
+style_screen_sw_1_main_knob_default.set_radius(100)
+style_screen_sw_1_main_knob_default.set_bg_color(lv.color_make(0xff,0xff,0xff))
+style_screen_sw_1_main_knob_default.set_bg_grad_color(lv.color_make(0xff,0xff,0xff))
+style_screen_sw_1_main_knob_default.set_bg_grad_dir(lv.GRAD_DIR.NONE)
+style_screen_sw_1_main_knob_default.set_bg_opa(255)
+style_screen_sw_1_main_knob_default.set_border_color(lv.color_make(0x21,0x95,0xf6))
+style_screen_sw_1_main_knob_default.set_border_width(0)
+style_screen_sw_1_main_knob_default.set_border_opa(255)
+
+# add style for screen_sw_1
+screen_sw_1.add_style(style_screen_sw_1_main_knob_default, lv.PART.KNOB|lv.STATE.DEFAULT)
+
 
 
 

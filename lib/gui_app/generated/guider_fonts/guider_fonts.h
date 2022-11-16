@@ -8,8 +8,7 @@ extern "C"
 
 #include "lvgl/src/font/lv_font.h"
 
-    LV_FONT_DECLARE(lv_font_arial_48)
-    LV_FONT_DECLARE(lv_font_arial_12)
+    LV_FONT_DECLARE(lv_font_simsun_16)
     LV_FONT_DECLARE(lv_font_simsun_12)
 
 #ifdef __cplusplus

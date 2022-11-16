@@ -110,7 +110,7 @@ static FRESULT fs_init(void)
     flash_fs = (FATFS *)lv_mem_alloc(sizeof(FATFS));
     res = f_mount(flash_fs, "0:", 1);
     printf("lvgl init status:%d\n", res);
-    lv_mem_free(flash_fs);
+    // lv_mem_free(flash_fs);
     return res;
 }
 
@@ -143,9 +143,13 @@ static void *fs_open(lv_fs_drv_t *drv, const char *path, lv_fs_mode_t mode)
         res = f_open(f, path, FA_WRITE | FA_READ);
     }
     if (res == FR_OK)
+    {
+        printf("file open success\n");
         return f;
+    }
     else
     {
+        printf("file open failure\n");
         lv_mem_free(f);
         return NULL;
     }

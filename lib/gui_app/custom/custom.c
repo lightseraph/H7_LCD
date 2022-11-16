@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+// Copyright 2020 NXP
+
 /**
  * @file custom.c
  *
@@ -8,7 +11,7 @@
  *********************/
 #include <stdio.h>
 #include "lvgl/lvgl.h"
-#include "./custom.h"
+#include "custom.h"
 
 /*********************
  *      DEFINES

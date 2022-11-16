@@ -2,7 +2,7 @@
 #include "gpio.h"
 #include "rtc.h"
 
-static void event_handler(lv_event_t *event)
+/* static void event_handler(lv_event_t *event)
 {
     lv_obj_t *obj = lv_event_get_target(event);
     switch (lv_event_get_code(event))
@@ -33,7 +33,7 @@ static void event_handler(lv_event_t *event)
     default:
         break;
     }
-}
+} */
 
 static void clock_date_task_callback(lv_timer_t *timer)
 {
@@ -60,33 +60,21 @@ static void clock_date_task_callback(lv_timer_t *timer)
 
 void lvgl_first_demo_start(void)
 {
-    /*  LV_IMG_DECLARE(debian_s);
-     static lv_style_t style;
-     lv_style_init(&style);
-     lv_style_set_bg_img_src(&style, &debian_s);
-     lv_obj_t *sy = lv_obj_create(lv_scr_act());
-     lv_obj_add_style(sy, &style, 0);
-     lv_obj_set_size(sy, 480, 800);
-     lv_obj_center(sy); */
+    // LV_IMG_DECLARE(debian_s);
+    /* static lv_style_t style;
+    lv_style_init(&style);
+    lv_style_set_bg_img_src(&style, "S:/chris_barbalis.bin");
+    lv_obj_t *sy = lv_obj_create(lv_scr_act());
+    lv_obj_add_style(sy, &style, 0);
+    lv_obj_set_size(sy, 800, 480);
+    lv_obj_center(sy); */
 
-    lv_obj_t *img = lv_img_create(lv_scr_act());
+    /* lv_obj_t *img = lv_img_create(lv_scr_act());
     lv_img_set_src(img, "S:/chris_barbalis.bin");
     lv_obj_set_pos(img, 0, 0);
-    lv_obj_set_size(img, 800, 480);
-    /* lv_fs_file_t lv_file;
-    lv_fs_res_t lv_res;
+    lv_obj_set_size(img, 800, 480); */
 
-    lv_res = lv_fs_open(&lv_file, "S:/chris_barbalis2.bin", LV_FS_MODE_RD);
-    if (lv_res != LV_FS_RES_OK)
-    {
-
-        printf("LVGL FS open error. (%d)\n", lv_res);
-    }
-    else
-        printf("LVGL FS open Ok\n");
-    lv_fs_close(&lv_file); */
-
-    static lv_style_t btn_style;
+    /* static lv_style_t btn_style;
     lv_style_set_width(&btn_style, 120);
     lv_style_set_height(&btn_style, 40);
     lv_style_set_radius(&btn_style, 9);
@@ -104,7 +92,7 @@ void lvgl_first_demo_start(void)
     lv_obj_t *label0 = lv_label_create(btn1);
     lv_label_set_text(label0, "播放");
     lv_obj_align_to(label0, btn1, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_text_font(label0, &lv_font_siyuan_16, LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(label0, &lv_font_siyuan_16, LV_STATE_DEFAULT); */
 
     static lv_clock_t lv_clock = {0};
 
@@ -121,7 +109,7 @@ void lvgl_first_demo_start(void)
     lv_obj_set_style_text_font(week_label, &lv_font_siyuan_16, LV_STATE_DEFAULT);
     lv_clock.weekday_label = week_label;
 
-    lv_obj_t *sw1 = lv_switch_create(lv_scr_act());
+    /* lv_obj_t *sw1 = lv_switch_create(lv_scr_act());
     lv_obj_t *label_sw1 = lv_label_create(lv_scr_act());
     lv_label_set_text(label_sw1, "红灯");
     lv_obj_set_style_text_color(label_sw1, lv_color_hex(0xff0000), 0);
@@ -134,16 +122,22 @@ void lvgl_first_demo_start(void)
     lv_obj_set_style_text_color(label_sw2, lv_color_hex(0xff00), 0);
     lv_obj_set_style_text_font(label_sw2, &lv_font_siyuan_16, LV_STATE_DEFAULT);
     lv_obj_align_to(label_sw2, sw2, LV_ALIGN_OUT_BOTTOM_MID, 0, 3);
-    lv_obj_add_event_cb(sw2, event_handler, LV_EVENT_VALUE_CHANGED, "sw2");
+    lv_obj_add_event_cb(sw2, event_handler, LV_EVENT_VALUE_CHANGED, "sw2"); */
 
+    /* lv_fs_file_t txt_file;
+    char buff[] = "";
+    uint32_t br = 0;
+    lv_fs_open(&txt_file, "S:/test22.txt", LV_FS_MODE_RD);
+    lv_fs_read(&txt_file, buff, 20, &br);
     lv_obj_t *label1 = lv_label_create(lv_scr_act());
-    lv_label_set_text(label1, "Hello,world!");
+    lv_label_set_text_fmt(label1, "%s", buff);
+    lv_obj_set_width(label1, 100);
     lv_obj_align(label1, LV_ALIGN_CENTER, 0, 0);
     lv_obj_align_to(btn, label1, LV_ALIGN_OUT_TOP_MID, 85, -20);
     lv_obj_align_to(btn1, btn, LV_ALIGN_OUT_LEFT_MID, -30, 0);
     lv_obj_align_to(sw1, label1, LV_ALIGN_OUT_BOTTOM_LEFT, -45, 30);
     lv_obj_align_to(sw2, sw1, LV_ALIGN_OUT_RIGHT_MID, 40, 0);
     lv_obj_align_to(label_sw1, sw1, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
-    lv_obj_align_to(label_sw2, sw2, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
+    lv_obj_align_to(label_sw2, sw2, LV_ALIGN_OUT_BOTTOM_MID, 0, 0); */
     lv_timer_create(clock_date_task_callback, 1000, (void *)&lv_clock); // 创建定时任务，1000ms刷新一次
 }
