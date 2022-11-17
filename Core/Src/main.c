@@ -178,7 +178,7 @@ void lvgl_first_demo_start_inmain(void)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  SCB->VTOR = QSPI_BASE; //设置中断向量表
+  SCB->VTOR = QSPI_BASE + 0x3C000; //设置中断向量表
 
   /* USER CODE END 1 */
 
@@ -227,12 +227,12 @@ int main(void)
   my_mem_init(SRAMEX);
   printf("Jump in ex_flash!\n");
 
-  // FTL_Init();
-
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
   lv_port_fs_init();
+  lv_png_init();
+
   /* FRESULT res;
   FIL fp;
   char write_buf[] = "this is a write into nand data";

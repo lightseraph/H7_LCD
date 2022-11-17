@@ -51,7 +51,7 @@
 #define LV_MEM_CUSTOM 0
 #if LV_MEM_CUSTOM == 0
     /*Size of the memory available for `lv_mem_alloc()` in bytes (>= 2kB)*/
-    #define LV_MEM_SIZE (1500U * 1024U)          /*[bytes]*/
+    #define LV_MEM_SIZE (2048U * 1024U)          /*[bytes]*/
 
     /*Set an address for the memory pool instead of allocating it as a normal array. Can be in external SRAM too.*/
     //#define LV_MEM_ADR 0     /*0: unused*/
@@ -604,7 +604,7 @@
 #define LV_USE_FS_FATFS  1
 #if LV_USE_FS_FATFS
     #define LV_FS_FATFS_LETTER 'S'     /*Set an upper cased letter on which the drive will accessible (e.g. 'A')*/
-    #define LV_FS_FATFS_CACHE_SIZE 10 * 4096    /*>0 to cache this number of bytes in lv_fs_read()*/
+    #define LV_FS_FATFS_CACHE_SIZE (10 * 4096)    /*>0 to cache this number of bytes in lv_fs_read()*/
 #endif
 
 /*PNG decoder library*/
@@ -615,7 +615,7 @@
 
 /* JPG + split JPG decoder library.
  * Split JPG is a custom format optimized for embedded systems. */
-#define LV_USE_SJPG 1
+#define LV_USE_SJPG 0
 
 /*GIF decoder library*/
 #define LV_USE_GIF 1
@@ -676,7 +676,7 @@
  ====================*/
 
 /*Show some widget. It might be required to increase `LV_MEM_SIZE` */
-#define LV_USE_DEMO_WIDGETS        1
+#define LV_USE_DEMO_WIDGETS        0
 #if LV_USE_DEMO_WIDGETS
 #define LV_DEMO_WIDGETS_SLIDESHOW  0
 #endif
@@ -685,7 +685,7 @@
 #define LV_USE_DEMO_KEYPAD_AND_ENCODER     0
 
 /*Benchmark your system*/
-#define LV_USE_DEMO_BENCHMARK   1
+#define LV_USE_DEMO_BENCHMARK   0
 
 /*Stress test for LVGL*/
 #define LV_USE_DEMO_STRESS      0
