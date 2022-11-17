@@ -1,3 +1,7 @@
+/*
+ * Copyright 2022 NXP
+ * SPDX-License-Identifier: MIT
+ */
 #include "lvgl/lvgl.h"
 
 /*******************************************************************************
