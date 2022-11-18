@@ -33,7 +33,7 @@ static lv_fs_res_t fs_read(lv_fs_drv_t *drv, void *file_p, void *buf, uint32_t b
 static lv_fs_res_t fs_write(lv_fs_drv_t *drv, void *file_p, const void *buf, uint32_t btw, uint32_t *bw);
 static lv_fs_res_t fs_seek(lv_fs_drv_t *drv, void *file_p, uint32_t pos, lv_fs_whence_t whence);
 // static lv_fs_res_t fs_size(lv_fs_drv_t *drv, void *file_p, uint32_t *size_p);
-// static lv_fs_res_t fs_tell(lv_fs_drv_t *drv, void *file_p, uint32_t *pos_p);
+static lv_fs_res_t fs_tell(lv_fs_drv_t *drv, void *file_p, uint32_t *pos_p);
 
 // static void *fs_dir_open(lv_fs_drv_t *drv, const char *path);
 // static lv_fs_res_t fs_dir_read(lv_fs_drv_t *drv, void *rddir_p, char *fn);
@@ -81,12 +81,13 @@ void lv_port_fs_init(void)
 
     /*Set up fields...*/
     fs_drv.letter = 'S';
+    // fs_drv.cache_size = 40960;
     fs_drv.open_cb = fs_open;
     fs_drv.close_cb = fs_close;
     fs_drv.read_cb = fs_read;
     fs_drv.write_cb = fs_write;
     fs_drv.seek_cb = fs_seek;
-    // fs_drv.tell_cb = fs_tell;
+    fs_drv.tell_cb = fs_tell;
 
     // fs_drv.dir_close_cb = fs_dir_close;
     // fs_drv.dir_open_cb = fs_dir_open;
@@ -199,7 +200,7 @@ static lv_fs_res_t fs_read(lv_fs_drv_t *drv, void *file_p, void *buf, uint32_t b
     }
     else
     {
-        printf("f_read success (%d)\n", fres);
+        printf("f_read success. read(%ld bytes).\n", *br);
         return LV_FS_RES_OK;
     }
 }
@@ -236,15 +237,35 @@ static lv_fs_res_t fs_write(lv_fs_drv_t *drv, void *file_p, const void *buf, uin
  */
 static lv_fs_res_t fs_seek(lv_fs_drv_t *drv, void *file_p, uint32_t pos, lv_fs_whence_t whence)
 {
-    LV_UNUSED(drv);
+    /* LV_UNUSED(drv);
     lv_fs_res_t res = LV_FS_RES_NOT_IMP;
 
-    /*Add your code here*/
+
     FRESULT fres = f_lseek((FIL *)file_p, (FSIZE_t)pos);
     if (fres == FR_OK)
         return LV_FS_RES_OK;
     else
         return res;
+    */
+
+    LV_UNUSED(drv);
+    printf("Seek Mode: %d. Seek pos: %ld\n\n", whence, pos);
+
+    switch (whence)
+    {
+    case LV_FS_SEEK_SET:
+        f_lseek(file_p, pos);
+        break;
+    case LV_FS_SEEK_CUR:
+        f_lseek(file_p, f_tell((FIL *)file_p) + pos);
+        break;
+    case LV_FS_SEEK_END:
+        f_lseek(file_p, f_size((FIL *)file_p) + pos);
+        break;
+    default:
+        break;
+    }
+    return LV_FS_RES_OK;
 }
 /**
  * Give the position of the read write pointer
@@ -253,14 +274,13 @@ static lv_fs_res_t fs_seek(lv_fs_drv_t *drv, void *file_p, uint32_t pos, lv_fs_w
  * @param pos_p     pointer to to store the result
  * @return          LV_FS_RES_OK: no error or  any error from @lv_fs_res_t enum
  */
-/* static lv_fs_res_t fs_tell(lv_fs_drv_t *drv, void *file_p, uint32_t *pos_p)
+static lv_fs_res_t fs_tell(lv_fs_drv_t *drv, void *file_p, uint32_t *pos_p)
 {
-    lv_fs_res_t res = LV_FS_RES_NOT_IMP;
-
-
-
-    return res;
-} */
+    LV_UNUSED(drv);
+    *pos_p = f_tell((FIL *)file_p);
+    printf("tell pos: %ld\n", *pos_p);
+    return LV_FS_RES_OK;
+}
 
 /**
  * Initialize a 'lv_fs_dir_t' variable for directory reading

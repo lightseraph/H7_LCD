@@ -231,7 +231,6 @@ int main(void)
   lv_port_disp_init();
   lv_port_indev_init();
   lv_port_fs_init();
-  lv_png_init();
 
   /* FRESULT res;
   FIL fp;
