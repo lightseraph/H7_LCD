@@ -67,7 +67,7 @@ void lv_fs_fatfs_init(void)
 
     /*Set up fields...*/
     fs_drv.letter = LV_FS_FATFS_LETTER;
-    fs_drv.cache_size = 64000;
+    fs_drv.cache_size = 40960;
 
     fs_drv.open_cb = fs_open;
     fs_drv.close_cb = fs_close;
