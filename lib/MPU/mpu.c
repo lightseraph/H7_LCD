@@ -68,11 +68,11 @@ void MPU_Memory_Protection(void)
                        MPU_ACCESS_NOT_BUFFERABLE); //禁止缓冲
 
     //保护SDRAM区域,共64M字节
-    MPU_Set_Protection(0XC0000000,               //基地址
-                       MPU_REGION_SIZE_64MB,     //长度
+    /* MPU_Set_Protection(0XC02EE000,               //基地址
+                       MPU_REGION_SIZE_32MB,     //长度
                        MPU_REGION_NUMBER2,       // NUMER2
                        MPU_REGION_FULL_ACCESS,   //全访问
                        MPU_ACCESS_NOT_SHAREABLE, //禁止共享
                        MPU_ACCESS_CACHEABLE,     //允许cache
-                       MPU_ACCESS_BUFFERABLE);   //允许缓冲
+                       MPU_ACCESS_BUFFERABLE);   //允许缓冲 */
 }

@@ -41,6 +41,7 @@
 #include "nand.h"
 #include "malloc.h"
 #include "ftl.h"
+#include "mpu.h"
 //#include "sdmmc_sdcard.h"
 #include "gui_dev.h"
 #include "gui_battery.h"
@@ -124,12 +125,6 @@ int main(void)
 
   /* USER CODE END 1 */
 
-  /* Enable I-Cache---------------------------------------------------------*/
-  SCB_EnableICache();
-
-  /* Enable D-Cache---------------------------------------------------------*/
-  SCB_EnableDCache();
-
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -168,7 +163,7 @@ int main(void)
   // my_mem_init(SRAMIN);
   // my_mem_init(SRAMEX);
   printf("Jump in ex_flash!\n");
-
+  MPU_Memory_Protection();
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
