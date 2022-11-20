@@ -27,7 +27,7 @@ freely, subject to the following restrictions:
 The manual and changelog are in the header file "lodepng.h"
 Rename this file to lodepng.cpp to use it for C++, or to lodepng.c to use it for C.
 */
-
+#include <stdio.h>
 #include "lodepng.h"
 #if LV_USE_PNG
 
@@ -5033,16 +5033,18 @@ unsigned lodepng_inspect(unsigned *w, unsigned *h, LodePNGState *state,
   if (info->interlace_method > 1)
     CERROR_RETURN_ERROR(state->error, 34);
 
-  if (!state->decoder.ignore_crc)
+  /* if (!state->decoder.ignore_crc)
   {
     unsigned CRC = lodepng_read32bitInt(&in[29]);
+    printf("lodepng_inspect\n");
     unsigned checksum = lodepng_crc32(&in[12], 17);
     if (CRC != checksum)
     {
-      CERROR_RETURN_ERROR(state->error, 57); /*invalid CRC*/
+
+      CERROR_RETURN_ERROR(state->error, 57);
     }
   }
-
+ */
   return state->error;
 }
 
@@ -6141,8 +6143,12 @@ unsigned lodepng_decode(unsigned char **out, unsigned *w, unsigned *h,
 {
   *out = 0;
   decodeGeneric(out, w, h, state, in, insize);
+  printf("png_decode\n");
   if (state->error)
+  {
+    printf("state error: %d\n", state->error);
     return state->error;
+  }
   if (!state->decoder.color_convert || lodepng_color_mode_equal(&state->info_raw, &state->info_png.color))
   {
     /*same color type, no copying or converting of data needed*/
@@ -6152,7 +6158,10 @@ unsigned lodepng_decode(unsigned char **out, unsigned *w, unsigned *h,
     {
       state->error = lodepng_color_mode_copy(&state->info_raw, &state->info_png.color);
       if (state->error)
+      {
+        printf("state error: %d\n", state->error);
         return state->error;
+      }
     }
   }
   else
@@ -6164,11 +6173,13 @@ unsigned lodepng_decode(unsigned char **out, unsigned *w, unsigned *h,
     from grayscale input color type, to 8-bit grayscale or grayscale with alpha"*/
     if (!(state->info_raw.colortype == LCT_RGB || state->info_raw.colortype == LCT_RGBA) && !(state->info_raw.bitdepth == 8))
     {
+      printf("unsupported color mode conversion\n");
       return 56; /*unsupported color mode conversion*/
     }
 
     outsize = lodepng_get_raw_size(*w, *h, &state->info_raw);
     *out = (unsigned char *)lodepng_malloc(outsize);
+    printf("1x\n");
     if (!(*out))
     {
       state->error = 83; /*alloc fail*/
@@ -6189,6 +6200,7 @@ unsigned lodepng_decode_memory(unsigned char **out, unsigned *w, unsigned *h, co
   lodepng_state_init(&state);
   state.info_raw.colortype = colortype;
   state.info_raw.bitdepth = bitdepth;
+  // printf("decode_memory\n");
 #ifdef LODEPNG_COMPILE_ANCILLARY_CHUNKS
   /*disable reading things that this function doesn't output*/
   state.decoder.read_text_chunks = 0;

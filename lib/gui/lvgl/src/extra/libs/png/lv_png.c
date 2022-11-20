@@ -12,7 +12,7 @@
 #include "lv_png.h"
 #include "lodepng.h"
 #include <stdlib.h>
-
+#include <stdio.h>
 /*********************
  *      DEFINES
  *********************/
@@ -129,7 +129,7 @@ static lv_res_t decoder_open(lv_img_decoder_t *decoder, lv_img_decoder_dsc_t *ds
     uint32_t error; /*For the return values of PNG decoder functions*/
 
     uint8_t *img_data = NULL;
-
+    printf("decoder open\n");
     /*If it's a PNG file...*/
     if (dsc->src_type == LV_IMG_SRC_FILE)
     {

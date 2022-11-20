@@ -67,7 +67,7 @@ void lv_fs_fatfs_init(void)
 
     /*Set up fields...*/
     fs_drv.letter = LV_FS_FATFS_LETTER;
-    fs_drv.cache_size = LV_FS_FATFS_CACHE_SIZE;
+    fs_drv.cache_size = 0;
 
     fs_drv.open_cb = fs_open;
     fs_drv.close_cb = fs_close;
@@ -169,7 +169,7 @@ static lv_fs_res_t fs_read(lv_fs_drv_t *drv, void *file_p, void *buf, uint32_t b
     FRESULT res = f_read(file_p, buf, btr, (UINT *)br);
     if (res == FR_OK)
     {
-        printf("f_read success (%d)\n", res);
+        printf("f_read success. to read: %ld.    read out(%ld bytes).\n", btr, *br);
         return LV_FS_RES_OK;
     }
     else
@@ -210,7 +210,7 @@ static lv_fs_res_t fs_write(lv_fs_drv_t *drv, void *file_p, const void *buf, uin
 static lv_fs_res_t fs_seek(lv_fs_drv_t *drv, void *file_p, uint32_t pos, lv_fs_whence_t whence)
 {
     LV_UNUSED(drv);
-    printf("Seek Mode: %d\n", whence);
+    printf("Seek Mode: %d. Seek pos: %ld\n\n", whence, pos);
     switch (whence)
     {
     case LV_FS_SEEK_SET:
@@ -239,7 +239,7 @@ static lv_fs_res_t fs_seek(lv_fs_drv_t *drv, void *file_p, uint32_t pos, lv_fs_w
 static lv_fs_res_t fs_tell(lv_fs_drv_t *drv, void *file_p, uint32_t *pos_p)
 {
     LV_UNUSED(drv);
-    printf("fs_tell called\n");
+    printf("tell pos: %ld\n", *pos_p);
     *pos_p = f_tell((FIL *)file_p);
     return LV_FS_RES_OK;
 }
