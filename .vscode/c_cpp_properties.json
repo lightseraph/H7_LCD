@@ -12,6 +12,7 @@
                 "/home/light/project/H7_LCD",
                 "/home/light/project/H7_LCD/lib/W25QXX",
                 "/home/light/project/H7_LCD/lib/NORFLASH",
+                "/home/light/project/H7_LCD/lib/MPU",
                 "/home/light/project/H7_LCD/lib/gui_app",
                 "/home/light/project/H7_LCD/lib/gui",
                 "/home/light/project/H7_LCD/lib/TOUCH",
@@ -27,7 +28,6 @@
                 "/home/light/project/H7_LCD/Middlewares/Third_Party/FatFs/src",
                 "/home/light/project/H7_LCD/FATFS/App",
                 "/home/light/project/H7_LCD/FATFS/Target",
-                "/home/light/project/H7_LCD/lib/MPU",
                 ""
             ],
             "browse": {
@@ -37,6 +37,7 @@
                     "/home/light/project/H7_LCD",
                     "/home/light/project/H7_LCD/lib/W25QXX",
                     "/home/light/project/H7_LCD/lib/NORFLASH",
+                    "/home/light/project/H7_LCD/lib/MPU",
                     "/home/light/project/H7_LCD/lib/gui_app",
                     "/home/light/project/H7_LCD/lib/gui",
                     "/home/light/project/H7_LCD/lib/TOUCH",
@@ -52,7 +53,6 @@
                     "/home/light/project/H7_LCD/Middlewares/Third_Party/FatFs/src",
                     "/home/light/project/H7_LCD/FATFS/App",
                     "/home/light/project/H7_LCD/FATFS/Target",
-                    "/home/light/project/H7_LCD/lib/MPU",
                     ""
                 ]
             },
