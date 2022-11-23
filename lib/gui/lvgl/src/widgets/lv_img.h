@@ -52,7 +52,7 @@ extern "C"
         uint8_t cf : 5;            /*Color format from `lv_img_color_format_t`*/
         uint8_t antialias : 1;     /*Apply anti-aliasing in transformations (rotate, zoom)*/
         uint8_t obj_size_mode : 2; /*Image size mode when image size and object size is different.*/
-    } __attribute__((packed)) lv_img_t;
+    } lv_img_t;
 
     extern const lv_obj_class_t lv_img_class;
 

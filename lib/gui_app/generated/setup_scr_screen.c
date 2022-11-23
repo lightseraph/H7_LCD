@@ -47,7 +47,7 @@ void setup_scr_screen(lv_ui *ui)
 #if LV_USE_GUIDER_SIMULATOR
 	lv_img_set_src(ui->screen_img_1, "C:/home/light/GUI-Guider-Projects/ccc/import/chris_barbalis.png");
 #else
-	lv_img_set_src(ui->screen_img_1, "S:/chris_barbalis.bin");
+	lv_img_set_src(ui->screen_img_1, "S:/chris_barbalis.png");
 #endif
 	lv_img_set_pivot(ui->screen_img_1, 0, 0);
 	lv_img_set_angle(ui->screen_img_1, 0);

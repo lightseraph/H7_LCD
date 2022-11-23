@@ -58,7 +58,7 @@
     #define LV_MEM_ADR 0xC02ee000     /*0: unused*/
 
     //#define LV_MEM_ATTR
-    #define LV_MEM_ATTR __attribute__((section(".lv_mem")))
+    #define LV_MEM_ATTR __attribute__((section(".lv_mem"), align(4)))
     /*Instead of an address give a memory allocator that will be called to get a memory pool for LVGL. E.g. my_malloc*/
     #if LV_MEM_ADR == 0
         //#define LV_MEM_POOL_INCLUDE your_alloc_library  /* Uncomment if using an external allocator*/
