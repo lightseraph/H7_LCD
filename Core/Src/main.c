@@ -35,7 +35,7 @@
 #include "lvgl/lvgl.h"
 #include "lvgl_port/lv_port_disp.h"
 #include "lvgl_port/lv_port_indev.h"
-#include "lvgl_port/lv_port_fs.h"
+//#include "lvgl_port/lv_port_fs.h"
 #include "demos/lv_demos.h"
 #include "touch.h"
 #include "nand.h"
@@ -196,10 +196,10 @@ int main(void)
   lvgl_first_demo_start();
   draw_battery();
 
-  //    lv_demo_widgets();
-  //    lv_demo_benchmark();
-  //    lv_demo_stress();
-  //    lv_demo_music();
+  // lv_demo_widgets();
+  //  lv_demo_benchmark();
+  //   lv_demo_stress();
+  //       lv_demo_music();
   /* USER CODE END 2 */
 
   /* Infinite loop */

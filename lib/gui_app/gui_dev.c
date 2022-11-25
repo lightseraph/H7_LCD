@@ -48,7 +48,7 @@ static void clock_date_task_callback(lv_timer_t *timer)
     if (timer != NULL && timer->user_data != NULL)
     {
         lv_clock_t *clock = (lv_clock_t *)(timer->user_data);
-        lv_label_set_text_fmt(clock->time_label, "%02d : %02d : %02d    20%02d - %02d - %02d", hour, min, sec, year, month, date);
+        lv_label_set_text_fmt(clock->time_label, "%02d : %02d    20%02d - %02d - %02d", hour, min, year, month, date);
 
         if (clock->weekday_label != NULL)
         {
@@ -97,7 +97,7 @@ void lvgl_first_demo_start(void)
     static lv_clock_t lv_clock = {0};
 
     lv_obj_t *time_label = lv_label_create(lv_scr_act());
-    lv_obj_set_width(time_label, 200);
+    lv_obj_set_width(time_label, 180);
     lv_obj_set_pos(time_label, 10, 10);
     // lv_label_set_long_mode(time_label, LV_LABEL_LONG_WRAP);
     lv_obj_set_style_text_align(time_label, LV_TEXT_ALIGN_LEFT, 0);
@@ -139,5 +139,5 @@ void lvgl_first_demo_start(void)
     lv_obj_align_to(sw2, sw1, LV_ALIGN_OUT_RIGHT_MID, 40, 0);
     lv_obj_align_to(label_sw1, sw1, LV_ALIGN_OUT_BOTTOM_MID, 0, 0);
     lv_obj_align_to(label_sw2, sw2, LV_ALIGN_OUT_BOTTOM_MID, 0, 0); */
-    lv_timer_create(clock_date_task_callback, 1000, (void *)&lv_clock); // 创建定时任务，1000ms刷新一次
+    lv_timer_create(clock_date_task_callback, 5000, (void *)&lv_clock); // 创建定时任务，5000ms刷新一次
 }

@@ -204,12 +204,12 @@ SECTIONS
 
   } >SDRAM
 
-  .lv_mem (NOLOAD) : ALIGN(32)
+  .lv_mem (NOLOAD) : ALIGN(4)
   {
-    . = ALIGN(32);
+    . = ALIGN(4);
     *(.lv_mem)
     *(.lv_mem.*)
-    . = ALIGN(32);
+    . = ALIGN(4);
   } >LV_MEM
 
   .color_buf (NOLOAD): ALIGN(4)

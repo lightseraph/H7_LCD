@@ -29,8 +29,8 @@ void setup_scr_screen(lv_ui *ui)
 
 	// Write codes screen_img_1
 	ui->screen_img_1 = lv_img_create(ui->screen);
-	lv_obj_set_pos(ui->screen_img_1, 0, 0);
-	lv_obj_set_size(ui->screen_img_1, 800, 480);
+	lv_obj_set_pos(ui->screen_img_1, 0, 35);
+	lv_obj_set_size(ui->screen_img_1, 800, 390);
 	lv_obj_set_scrollbar_mode(ui->screen_img_1, LV_SCROLLBAR_MODE_OFF);
 
 	// Write style state: LV_STATE_DEFAULT for style_screen_img_1_main_main_default
@@ -39,18 +39,21 @@ void setup_scr_screen(lv_ui *ui)
 		lv_style_reset(&style_screen_img_1_main_main_default);
 	else
 		lv_style_init(&style_screen_img_1_main_main_default);
+	lv_style_set_bg_img_src(&style_screen_img_1_main_main_default, "S:/chris_barbalis.bin");
 	lv_style_set_img_recolor(&style_screen_img_1_main_main_default, lv_color_make(0xff, 0xff, 0xff));
 	lv_style_set_img_recolor_opa(&style_screen_img_1_main_main_default, 0);
 	lv_style_set_img_opa(&style_screen_img_1_main_main_default, 255);
 	lv_obj_add_style(ui->screen_img_1, &style_screen_img_1_main_main_default, LV_PART_MAIN | LV_STATE_DEFAULT);
-	lv_obj_add_flag(ui->screen_img_1, LV_OBJ_FLAG_CLICKABLE);
+	// lv_obj_add_flag(ui->screen_img_1, LV_OBJ_FLAG_CLICKABLE);
 #if LV_USE_GUIDER_SIMULATOR
 	lv_img_set_src(ui->screen_img_1, "C:/home/light/GUI-Guider-Projects/ccc/import/chris_barbalis.png");
 #else
-	lv_img_set_src(ui->screen_img_1, "S:/chris_barbalis.png");
+
+	// lv_img_set_src(ui->screen_img_1, "S:/chris_barbalis.bin");
 #endif
 	lv_img_set_pivot(ui->screen_img_1, 0, 0);
 	lv_img_set_angle(ui->screen_img_1, 0);
+	lv_obj_move_background(ui->screen_img_1);
 
 	// Write codes screen_cont_1
 	ui->screen_cont_1 = lv_obj_create(ui->screen);

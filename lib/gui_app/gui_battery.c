@@ -96,13 +96,13 @@ void draw_battery(void)
     lv_anim_set_var(&a, pad);
 
     /*Length of the animation [ms]*/
-    lv_anim_set_time(&a, 20000);
+    lv_anim_set_time(&a, 200000);
 
     /*Set start and end values. E.g. 0, 150*/
     lv_anim_set_values(&a, 0, OUTLINE_W - 4);
 
     /*Time to wait before starting the animation [ms]*/
-    lv_anim_set_delay(&a, 1000);
+    lv_anim_set_delay(&a, 5000);
 
     /*Play the animation backward too with this duration. Default is 0 (disabled) [ms]*/
     lv_anim_set_playback_time(&a, 0);
@@ -114,7 +114,7 @@ void draw_battery(void)
     lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE);
 
     /*Delay before repeat. Default is 0 (disabled) [ms]*/
-    lv_anim_set_repeat_delay(&a, 1000);
+    lv_anim_set_repeat_delay(&a, 5000);
 
     /* START THE ANIMATION
      *------------------*/
