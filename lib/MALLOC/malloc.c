@@ -188,3 +188,18 @@ void *myrealloc(u8 memx, void *ptr, u32 size)
         return (void *)((u32)mallco_dev.membase[memx] + offset);               //返回新内存首地址
     }
 }
+
+void lv_myfree(void *ptr)
+{
+    myfree(SRAMEX, ptr);
+}
+
+void *lv_mymalloc(u32 size)
+{
+    return (void *)mymalloc(SRAMEX, size);
+}
+
+void *lv_myrealloc(void *ptr, u32 size)
+{
+    return (void *)myrealloc(SRAMEX, ptr, size);
+}

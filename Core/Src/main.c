@@ -125,6 +125,12 @@ int main(void)
 
   /* USER CODE END 1 */
 
+  /* Enable I-Cache---------------------------------------------------------*/
+  SCB_EnableICache();
+
+  /* Enable D-Cache---------------------------------------------------------*/
+  SCB_EnableDCache();
+
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
@@ -160,8 +166,8 @@ int main(void)
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
   __enable_irq();
-  // my_mem_init(SRAMIN);
-  // my_mem_init(SRAMEX);
+  my_mem_init(SRAMIN);
+  my_mem_init(SRAMEX);
   printf("Jump in ex_flash!\n");
   MPU_Memory_Protection();
   lv_init();
@@ -192,14 +198,14 @@ int main(void)
 
   // lv_disp_set_rotation(NULL, LV_DISP_ROT_90);
   // lvgl_clock_start();
-  setup_ui(&guider_ui);
-  lvgl_first_demo_start();
-  draw_battery();
+  // setup_ui(&guider_ui);
+  // lvgl_first_demo_start();
+  // draw_battery();
 
   // lv_demo_widgets();
-  //  lv_demo_benchmark();
+  // lv_demo_benchmark();
   //   lv_demo_stress();
-  //       lv_demo_music();
+  lv_demo_music();
   /* USER CODE END 2 */
 
   /* Infinite loop */

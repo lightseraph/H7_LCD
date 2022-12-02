@@ -578,7 +578,7 @@ static lv_res_t lv_img_decoder_built_in_line_true_color(lv_img_decoder_dsc_t *ds
     uint8_t px_size = lv_img_cf_get_px_size(dsc->header.cf);
 
     uint32_t pos = ((y * dsc->header.w + x) * px_size) >> 3;
-    printf("line_true_color. seek pos: %ld\n", pos);
+    // printf("line_true_color. seek pos: %ld\n", pos);
     pos += 4; /*Skip the header*/
     res = lv_fs_seek(&user_data->f, pos, LV_FS_SEEK_SET);
     if (res != LV_FS_RES_OK)

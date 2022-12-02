@@ -75,12 +75,12 @@ void lv_draw_img(lv_draw_ctx_t *draw_ctx, const lv_draw_img_dsc_t *dsc, const lv
     lv_res_t res;
     if (draw_ctx->draw_img)
     {
-        printf("draw_img\n");
+        // printf("draw_img\n");
         res = draw_ctx->draw_img(draw_ctx, dsc, coords, src);
     }
     else
     {
-        printf("decode_and_draw\n");
+        // printf("decode_and_draw\n");
         res = decode_and_draw(draw_ctx, dsc, coords, src);
     }
 

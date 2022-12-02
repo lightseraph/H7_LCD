@@ -33,7 +33,7 @@
 
 // mem1内存参数设定.mem1是H7内部的AXI内存.
 #define MEM1_BLOCK_SIZE 64									  //内存块大小为64字节
-#define MEM1_MAX_SIZE (480 * 1024)							  //最大管理内存 448K,H7的AXI内存总共512KB
+#define MEM1_MAX_SIZE (480 * 1024)							  //最大管理内存 480K,H7的AXI内存总共512KB
 #define MEM1_ALLOC_TABLE_SIZE MEM1_MAX_SIZE / MEM1_BLOCK_SIZE //内存表大小
 
 // mem2内存参数设定.mem2是外部的SDRAM内存
@@ -83,4 +83,8 @@ u16 my_mem_perused(u8 memx);				//获得内存使用率(外/内部调用)
 void myfree(u8 memx, void *ptr);			   //内存释放(外部调用)
 void *mymalloc(u8 memx, u32 size);			   //内存分配(外部调用)
 void *myrealloc(u8 memx, void *ptr, u32 size); //重新分配内存(外部调用)
+
+void lv_myfree(void *ptr);
+void *lv_mymalloc(u32 size);
+void *lv_myrealloc(void *ptr, u32 size);
 #endif

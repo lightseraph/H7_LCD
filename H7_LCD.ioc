@@ -1,6 +1,6 @@
 #MicroXplorer Configuration settings - do not modify
-CORTEX_M7.CPU_DCache=Disabled
-CORTEX_M7.CPU_ICache=Disabled
+CORTEX_M7.CPU_DCache=Enabled
+CORTEX_M7.CPU_ICache=Enabled
 CORTEX_M7.IPParameters=CPU_ICache,CPU_DCache
 DMA2D.IPParameters=Mode
 DMA2D.Mode=DMA2D_M2M
