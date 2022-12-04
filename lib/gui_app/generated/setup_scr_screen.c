@@ -39,7 +39,7 @@ void setup_scr_screen(lv_ui *ui)
 		lv_style_reset(&style_screen_img_1_main_main_default);
 	else
 		lv_style_init(&style_screen_img_1_main_main_default);
-	lv_style_set_bg_img_src(&style_screen_img_1_main_main_default, "S:/chris_barbalis.bin");
+	// lv_style_set_bg_img_src(&style_screen_img_1_main_main_default, "S:/chris_barbalis.bin");
 	lv_style_set_img_recolor(&style_screen_img_1_main_main_default, lv_color_make(0xff, 0xff, 0xff));
 	lv_style_set_img_recolor_opa(&style_screen_img_1_main_main_default, 0);
 	lv_style_set_img_opa(&style_screen_img_1_main_main_default, 255);

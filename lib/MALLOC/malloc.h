@@ -61,6 +61,8 @@
 #define MEM6_MAX_SIZE 60 * 1024								  //最大管理内存60K,H7的ITCM共64KB
 #define MEM6_ALLOC_TABLE_SIZE MEM6_MAX_SIZE / MEM6_BLOCK_SIZE //内存表大小
 
+#define LV_MY_MALLOC_MEM SRAMIN
+
 //内存管理控制器
 struct _m_mallco_dev
 {

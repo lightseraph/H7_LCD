@@ -18,6 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "adc.h"
+#include "dma.h"
 #include "dma2d.h"
 #include "fatfs.h"
 #include "ltdc.h"
@@ -42,6 +44,7 @@
 #include "malloc.h"
 #include "ftl.h"
 #include "mpu.h"
+#include "ap3216c.h"
 //#include "sdmmc_sdcard.h"
 #include "gui_dev.h"
 #include "gui_battery.h"
@@ -78,6 +81,7 @@ void PeriphCommonClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 lv_ui guider_ui;
+volatile u16 adc_sample[10] = {0};
 /*
 static void event_handler(lv_event_t *event)
 {
@@ -115,9 +119,9 @@ static void event_handler(lv_event_t *event)
 /* USER CODE END 0 */
 
 /**
- * @brief  The application entry point.
- * @retval int
- */
+  * @brief  The application entry point.
+  * @retval int
+  */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -143,7 +147,7 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
-  /* Configure the peripherals common clocks */
+/* Configure the peripherals common clocks */
   PeriphCommonClock_Config();
 
   /* USER CODE BEGIN SysInit */
@@ -164,15 +168,24 @@ int main(void)
   MX_FMC_Init();
   MX_LTDC_Init();
   MX_FATFS_Init();
+  MX_TIM3_Init();
+  MX_ADC1_Init();
+  MX_TIM2_Init();
+  MX_DMA_Init();
   /* USER CODE BEGIN 2 */
   __enable_irq();
   my_mem_init(SRAMIN);
   my_mem_init(SRAMEX);
   printf("Jump in ex_flash!\n");
-  MPU_Memory_Protection();
+  // MPU_Memory_Protection();
+  AP3216C_Init();
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2); // PWM 频率 2KHz
+  __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_2, 500);
+  HAL_TIM_Base_Start(&htim2);
   lv_init();
   lv_port_disp_init();
   lv_port_indev_init();
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t *)adc_sample, 10);
   // lv_port_fs_init();
 
   /* FRESULT res;
@@ -198,68 +211,130 @@ int main(void)
 
   // lv_disp_set_rotation(NULL, LV_DISP_ROT_90);
   // lvgl_clock_start();
-  // setup_ui(&guider_ui);
-  // lvgl_first_demo_start();
-  // draw_battery();
+  setup_ui(&guider_ui);
+  lvgl_first_demo_start();
+  draw_battery();
 
   // lv_demo_widgets();
   // lv_demo_benchmark();
   //   lv_demo_stress();
-  lv_demo_music();
+  // lv_demo_music();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  int ap_count = 0;
+  u8 pwm_factor = 0;
+  u16 als, ir, ps;
+  int bl_lumi = 500;
+  int bl_lumi_count = 500;
+  u8 adc_factor = 0;
+  u8 adc_out = 0;
+  // float adc_sample = 0.0;
   while (1)
   {
-    // printf("Run in ex_flash_app main loop...\r\n");
-    // HAL_GPIO_TogglePin(LED_1_GPIO_Port, LED_1_Pin);
-    // HAL_Delay(500);
     tp_dev.scan(0);
     lv_task_handler();
-    delay_ms(4);
+    delay_ms(4); //给4ms延时，是考虑循环里的其他任务，给lv_task差不多5ms间隔
+
+    if (ap_count == 500) //每2秒读一次环境光数值   500 × 4ms
+    {
+      AP3216C_ReadData(&ir, &ps, &als); // als读取值范围 0～65536
+      if (als >= 100 || als <= 4100)    // PWM最低占空比20%（100/500）
+        bl_lumi = als / 10 + 90;
+      if (als < 100)
+        bl_lumi = 100;
+      if (als > 4100)
+        bl_lumi = 500;
+      ap_count = 0;
+
+      float volt = 0;
+      for (int i = 0; i != 10; i++)
+      {
+        volt += adc_sample[i];
+      }
+      volt = volt / 65535 / 10.0 * 3.3;
+
+      printf("volt : %.3f v\n", volt);
+    }
+    else
+      ap_count++;
+
+    if (pwm_factor == 2) //每8ms PWM占空比调整1/500
+    {
+      if (bl_lumi_count > bl_lumi)
+      {
+        bl_lumi_count--;
+        __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_2, bl_lumi_count);
+      }
+      else if (bl_lumi_count < bl_lumi)
+      {
+        bl_lumi_count++;
+        __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_2, bl_lumi_count);
+      }
+      else
+      {
+      }
+      pwm_factor = 0;
+    }
+    else
+      pwm_factor++;
+
+    /* if (adc_factor == 100)
+    {
+      adc_sample += Get_Adc();
+      adc_factor = 0;
+      adc_out++;
+    }
+    else
+    {
+      adc_factor++;
+    }
+    if (adc_out == 15)
+    {
+      printf("volt : %.3f v\n", adc_sample / adc_out);
+      adc_out = 0;
+      adc_sample = 0;
+    } */
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    // printf("2: %c%c%c%c%c\r\n", temp3[0], temp3[1], temp3[2], temp3[3], temp3[4]);
   }
   /* USER CODE END 3 */
 }
 
 /**
- * @brief System Clock Configuration
- * @retval None
- */
+  * @brief System Clock Configuration
+  * @retval None
+  */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Supply configuration update enable
-   */
+  */
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
 
   /** Configure the main internal regulator output voltage
-   */
+  */
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
 
-  while (!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY))
-  {
-  }
+  while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
 
   /** Configure LSE Drive Capability
-   */
+  */
   HAL_PWR_EnableBkUpAccess();
   __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
 
   /** Macro to configure the PLL clock source
-   */
+  */
   __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
 
   /** Initializes the RCC Oscillators according to the specified parameters
-   * in the RCC_OscInitTypeDef structure.
-   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_LSE;
+  * in the RCC_OscInitTypeDef structure.
+  */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -278,8 +353,10 @@ void SystemClock_Config(void)
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
-   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 | RCC_CLOCKTYPE_D3PCLK1 | RCC_CLOCKTYPE_D1PCLK1;
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
+                              |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
@@ -295,27 +372,30 @@ void SystemClock_Config(void)
 }
 
 /**
- * @brief Peripherals Common Clock Configuration
- * @retval None
- */
+  * @brief Peripherals Common Clock Configuration
+  * @retval None
+  */
 void PeriphCommonClock_Config(void)
 {
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
   /** Initializes the peripherals clock
-   */
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_SPI2 | RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_LTDC;
+  */
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_SPI2
+                              |RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
+                              |RCC_PERIPHCLK_LTDC;
   PeriphClkInitStruct.PLL3.PLL3M = 2;
   PeriphClkInitStruct.PLL3.PLL3N = 24;
   PeriphClkInitStruct.PLL3.PLL3P = 3;
   PeriphClkInitStruct.PLL3.PLL3Q = 10;
-  PeriphClkInitStruct.PLL3.PLL3R = 10;
+  PeriphClkInitStruct.PLL3.PLL3R = 9;
   PeriphClkInitStruct.PLL3.PLL3RGE = RCC_PLL3VCIRANGE_3;
   PeriphClkInitStruct.PLL3.PLL3VCOSEL = RCC_PLL3VCOWIDE;
   PeriphClkInitStruct.PLL3.PLL3FRACN = 0;
   PeriphClkInitStruct.Spi123ClockSelection = RCC_SPI123CLKSOURCE_PLL3;
   PeriphClkInitStruct.Usart234578ClockSelection = RCC_USART234578CLKSOURCE_PLL3;
   PeriphClkInitStruct.Usart16ClockSelection = RCC_USART16CLKSOURCE_PLL3;
+  PeriphClkInitStruct.AdcClockSelection = RCC_ADCCLKSOURCE_PLL3;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -327,9 +407,9 @@ void PeriphCommonClock_Config(void)
 /* USER CODE END 4 */
 
 /**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
+  * @brief  This function is executed in case of error occurrence.
+  * @retval None
+  */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -342,14 +422,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
+  * @brief  Reports the name of the source file and the source line number
+  *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
+  */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */

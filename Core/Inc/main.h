@@ -68,6 +68,10 @@ void Error_Handler(void);
 #define CT_SDA_GPIO_Port GPIOG
 #define SPI_NSS_Pin GPIO_PIN_10
 #define SPI_NSS_GPIO_Port GPIOF
+#define AP_SCL_Pin GPIO_PIN_4
+#define AP_SCL_GPIO_Port GPIOH
+#define AP_SDA_Pin GPIO_PIN_5
+#define AP_SDA_GPIO_Port GPIOH
 #define LED_0_Pin GPIO_PIN_1
 #define LED_0_GPIO_Port GPIOB
 #define CT_SCL_Pin GPIO_PIN_6

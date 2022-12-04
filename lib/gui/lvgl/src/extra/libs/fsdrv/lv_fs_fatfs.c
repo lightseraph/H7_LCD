@@ -93,11 +93,11 @@ static void fs_init(void)
     /*Initialize the SD card and FatFS itself.
      *Better to do it in your code to keep this library untouched for easy updating*/
     FATFS *flash_fs;
-    FRESULT res = FR_OK;
+    // FRESULT res = FR_OK;
     flash_fs = (FATFS *)lv_mem_alloc(sizeof(FATFS));
-    res = f_mount(flash_fs, "0:", 1);
-    printf("lvgl init status:%d\n", res);
-    // lv_mem_free(flash_fs);
+    f_mount(flash_fs, "0:", 1);
+    // printf("lvgl init status:%d\n", res);
+    //  lv_mem_free(flash_fs);
 }
 
 /**
@@ -126,12 +126,12 @@ static void *fs_open(lv_fs_drv_t *drv, const char *path, lv_fs_mode_t mode)
     FRESULT res = f_open(f, path, flags);
     if (res == FR_OK)
     {
-        printf("file open success\n");
+        // printf("file open success\n");
         return f;
     }
     else
     {
-        printf("file open failure\n");
+        // printf("file open failure\n");
         lv_mem_free(f);
         return NULL;
     }
@@ -147,7 +147,7 @@ static void *fs_open(lv_fs_drv_t *drv, const char *path, lv_fs_mode_t mode)
 static lv_fs_res_t fs_close(lv_fs_drv_t *drv, void *file_p)
 {
     LV_UNUSED(drv);
-    printf("file closed\n");
+    // printf("file closed\n");
     f_close(file_p);
     lv_mem_free(file_p);
     return LV_FS_RES_OK;
@@ -169,12 +169,12 @@ static lv_fs_res_t fs_read(lv_fs_drv_t *drv, void *file_p, void *buf, uint32_t b
     FRESULT res = f_read(file_p, buf, btr, (UINT *)br);
     if (res == FR_OK)
     {
-        printf("f_read success. to read: %ld.    read out(%ld bytes).\n", btr, *br);
+        // printf("f_read success. to read: %ld.    read out(%ld bytes).\n", btr, *br);
         return LV_FS_RES_OK;
     }
     else
     {
-        printf("f_read error (%d)\n", res);
+        // printf("f_read error (%d)\n", res);
         return LV_FS_RES_UNKNOWN;
     }
 }
@@ -210,7 +210,7 @@ static lv_fs_res_t fs_write(lv_fs_drv_t *drv, void *file_p, const void *buf, uin
 static lv_fs_res_t fs_seek(lv_fs_drv_t *drv, void *file_p, uint32_t pos, lv_fs_whence_t whence)
 {
     LV_UNUSED(drv);
-    printf("Seek Mode: %d. Seek pos: %ld\n\n", whence, pos);
+    // printf("Seek Mode: %d. Seek pos: %ld\n\n", whence, pos);
     switch (whence)
     {
     case LV_FS_SEEK_SET:
@@ -239,7 +239,7 @@ static lv_fs_res_t fs_seek(lv_fs_drv_t *drv, void *file_p, uint32_t pos, lv_fs_w
 static lv_fs_res_t fs_tell(lv_fs_drv_t *drv, void *file_p, uint32_t *pos_p)
 {
     LV_UNUSED(drv);
-    printf("tell pos: %ld\n", *pos_p);
+    // printf("tell pos: %ld\n", *pos_p);
     *pos_p = f_tell((FIL *)file_p);
     return LV_FS_RES_OK;
 }

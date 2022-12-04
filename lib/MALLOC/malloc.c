@@ -191,15 +191,15 @@ void *myrealloc(u8 memx, void *ptr, u32 size)
 
 void lv_myfree(void *ptr)
 {
-    myfree(SRAMEX, ptr);
+    myfree(LV_MY_MALLOC_MEM, ptr);
 }
 
 void *lv_mymalloc(u32 size)
 {
-    return (void *)mymalloc(SRAMEX, size);
+    return (void *)mymalloc(LV_MY_MALLOC_MEM, size);
 }
 
 void *lv_myrealloc(void *ptr, u32 size)
 {
-    return (void *)myrealloc(SRAMEX, ptr, size);
+    return (void *)myrealloc(LV_MY_MALLOC_MEM, ptr, size);
 }
