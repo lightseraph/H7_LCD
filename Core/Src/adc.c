@@ -56,7 +56,7 @@ void MX_ADC1_Init(void)
   hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIG_T2_TRGO;
   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
   hadc1.Init.ConversionDataManagement = ADC_CONVERSIONDATA_DMA_CIRCULAR;
-  hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+  hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
   hadc1.Init.LeftBitShift = ADC_LEFTBITSHIFT_NONE;
   hadc1.Init.OversamplingMode = DISABLE;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
@@ -86,19 +86,7 @@ void MX_ADC1_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN ADC1_Init 2 */
-  /* ADC_TempSensorVrefintCmd(ENABLE);
-  ADC_DMACmd(ADC1, ENABLE);
-  ADC_ResetCalibration(ADC1); //复位ADC校准寄存器
-  while (ADC_GetResetCalibrationStatus(ADC1))
-    ; //等待校准寄存器复位完成
-
-  ADC_StartCalibration(ADC1); //开始ADC校准
-  while (ADC_GetCalibrationStatus(ADC1))
-    ; //等待校准完成
-
-  // ADC_SoftwareStartConvCmd(ADC1, ENABLE);                    //注释掉软件启动AD转换
-  ADC_ExternalTrigConvCmd(ADC1, ENABLE); //使能外部定时器触发 */
-
+  HAL_ADCEx_Calibration_Start(&hadc1, ADC_CALIB_OFFSET_LINEARITY, ADC_SINGLE_ENDED);
   /* USER CODE END ADC1_Init 2 */
 
 }
