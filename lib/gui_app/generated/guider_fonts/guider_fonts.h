@@ -18,6 +18,7 @@ extern "C"
     LV_FONT_DECLARE(lv_font_SourceHanSansCN_Regular_16)
     LV_FONT_DECLARE(lv_font_simsun_12)
     LV_FONT_DECLARE(lv_font_SourceHanSansCN_Regular_15)
+    LV_FONT_DECLARE(lv_font_SourceHanSansCN_Regular_18)
 
 #ifdef __cplusplus
 }
