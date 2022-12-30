@@ -494,10 +494,10 @@
     #if LV_CALENDAR_WEEK_STARTS_MONDAY
         #define LV_CALENDAR_DEFAULT_DAY_NAMES {"Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"}
     #else
-        #define LV_CALENDAR_DEFAULT_DAY_NAMES {"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"}
+        #define LV_CALENDAR_DEFAULT_DAY_NAMES {"日", "一", "二", "三", "四", "五", "六"}
     #endif
 
-    #define LV_CALENDAR_DEFAULT_MONTH_NAMES {"January", "February", "March",  "April", "May",  "June", "July", "August", "September", "October", "November", "December"}
+    #define LV_CALENDAR_DEFAULT_MONTH_NAMES {"一月", "二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"}
     #define LV_USE_CALENDAR_HEADER_ARROW 1
     #define LV_USE_CALENDAR_HEADER_DROPDOWN 1
 #endif  /*LV_USE_CALENDAR*/
@@ -531,6 +531,8 @@
 #define LV_USE_WIN        1
 
 #define LV_USE_SPAN       1
+
+#define LV_USE_DCLOCK      1
 #if LV_USE_SPAN
     /*A line text can contain maximum num of span descriptor */
     #define LV_SPAN_SNIPPET_STACK_SIZE 64

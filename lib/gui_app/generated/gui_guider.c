@@ -11,11 +11,14 @@
 void init_scr_del_flag(lv_ui *ui)
 {
 	ui->screen_del = true;
+	ui->date_setting_del = true;
+	ui->zigbee_setting_del = true;
 }
 
 void setup_ui(lv_ui *ui)
 {
 	init_scr_del_flag(ui);
 	setup_scr_screen(ui);
-	lv_scr_load(ui->screen);
+	setup_scr_date_setting(ui);
+	lv_scr_load(ui->date_setting);
 }

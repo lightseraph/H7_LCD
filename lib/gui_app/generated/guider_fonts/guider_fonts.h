@@ -15,10 +15,12 @@ extern "C"
 #include "lvgl/src/font/lv_font.h"
 #endif
 
-    LV_FONT_DECLARE(lv_font_SourceHanSansCN_Regular_16)
-    LV_FONT_DECLARE(lv_font_simsun_12)
-    LV_FONT_DECLARE(lv_font_SourceHanSansCN_Regular_15)
     LV_FONT_DECLARE(lv_font_SourceHanSansCN_Regular_18)
+    LV_FONT_DECLARE(lv_font_simsun_16)
+    LV_FONT_DECLARE(lv_font_simsun_12)
+    LV_FONT_DECLARE(lv_font_SourceHanSansCN_Regular_16)
+    LV_FONT_DECLARE(lv_font_SourceHanSansCN_Regular_15)
+    LV_FONT_DECLARE(lv_font_SourceHanSansCN_Regular_20)
 
 #ifdef __cplusplus
 }

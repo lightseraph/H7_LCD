@@ -18,7 +18,10 @@
 			"guider_fonts.h": "c",
 			"lv_gpu_stm32_dma2d.h": "c",
 			"stm32h7xx.h": "c",
-			"stm32h750xx.h": "c"
+			"stm32h750xx.h": "c",
+			"lv_widgets.h": "c",
+			"lv_dclock.h": "c",
+			"lv_conf_internal.h": "c"
 		}
 	}
 }
