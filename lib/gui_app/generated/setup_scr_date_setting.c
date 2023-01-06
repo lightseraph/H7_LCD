@@ -9,6 +9,7 @@
 #include "gui_guider.h"
 #include "events_init.h"
 #include "custom/custom.h"
+#include "rtc.h"
 
 static void date_setting_calendardraw_part_begin_event_cb(lv_event_t *e)
 {
@@ -167,14 +168,14 @@ void setup_scr_date_setting(lv_ui *ui)
 	lv_obj_set_pos(ui->date_setting_calendar, 50, 73);
 	lv_obj_set_size(ui->date_setting_calendar, 385, 360);
 	lv_obj_set_scrollbar_mode(ui->date_setting_calendar, LV_SCROLLBAR_MODE_OFF);
-	today.year = 2020;
-	today.month = 5;
-	today.day = 7;
+	/* today.year = 2023;
+	today.month = 6;
+	today.day = 1; */
 	lv_calendar_set_today_date(ui->date_setting_calendar, today.year, today.month, today.day);
 	lv_calendar_set_showed_date(ui->date_setting_calendar, today.year, today.month);
-	highlihted_days[0].year = 2020;
-	highlihted_days[0].month = 5;
-	highlihted_days[0].day = 14;
+	/* highlihted_days[0].year = 2023;
+	highlihted_days[0].month = 1;
+	highlihted_days[0].day = 14; */
 	lv_calendar_set_highlighted_dates(ui->date_setting_calendar, highlihted_days, 1);
 	lv_obj_t *date_setting_calendar_header = lv_calendar_header_arrow_create(ui->date_setting_calendar);
 	lv_calendar_t *date_setting_calendar = (lv_calendar_t *)ui->date_setting_calendar;

@@ -1815,6 +1815,7 @@
 				},
 				{
 					"name": "label_4",
+					"id": "vd2vflh4",
 					"type": "label",
 					"left": 480,
 					"top": 336,
@@ -1882,11 +1883,11 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					],
-					"id": "vd2vflh4"
+					]
 				},
 				{
 					"name": "sw_am",
+					"id": "aoxq5v49",
 					"type": "sw",
 					"left": 610,
 					"top": 328,
@@ -2032,11 +2033,11 @@
 							"border_color": "#2195f6",
 							"radius": 100
 						}
-					],
-					"id": "aoxq5v49"
+					]
 				},
 				{
 					"name": "spinbox_sec",
+					"id": "2emmsj8k",
 					"type": "spinbox",
 					"left": 562,
 					"top": 264,
@@ -2129,11 +2130,11 @@
 							"border_opa": 255,
 							"radius": 5
 						}
-					],
-					"id": "2emmsj8k"
+					]
 				},
 				{
 					"name": "label_3",
+					"id": "tzt6myae",
 					"type": "label",
 					"left": 505,
 					"top": 273,
@@ -2201,11 +2202,11 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					],
-					"id": "tzt6myae"
+					]
 				},
 				{
 					"name": "label_2",
+					"id": "mw1v72yl",
 					"type": "label",
 					"left": 505,
 					"top": 212,
@@ -2273,11 +2274,11 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					],
-					"id": "mw1v72yl"
+					]
 				},
 				{
 					"name": "label_1",
+					"id": "h4qj6uow",
 					"type": "label",
 					"left": 505,
 					"top": 152,
@@ -2345,11 +2346,11 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					],
-					"id": "h4qj6uow"
+					]
 				},
 				{
 					"name": "btn_quit",
+					"id": "rd4v5eh5",
 					"type": "btn",
 					"left": 662,
 					"top": 391,
@@ -2476,11 +2477,11 @@
 							"font_family": "simsun",
 							"text_color": "#000000"
 						}
-					],
-					"id": "rd4v5eh5"
+					]
 				},
 				{
 					"name": "btn_set",
+					"id": "msfc4kw9",
 					"type": "btn",
 					"left": 512,
 					"top": 391,
@@ -2608,10 +2609,72 @@
 							"text_color": "#000000"
 						}
 					],
-					"id": "msfc4kw9"
+					"event": [
+						{
+							"trigger": "pressed",
+							"dst": "",
+							"action": {
+								"bg_color": {
+									"ische": false,
+									"value": "#000000"
+								},
+								"grad_color": {
+									"ische": false,
+									"value": "#000000"
+								},
+								"bg_opa": {
+									"ische": false,
+									"value": 255
+								},
+								"width": {
+									"ische": false,
+									"value": 50
+								},
+								"height": {
+									"ische": false,
+									"value": 50
+								},
+								"set_text": {
+									"ische": false,
+									"value": "default",
+									"font": 12,
+									"font_family": "simsun"
+								},
+								"position": {
+									"ische": false,
+									"value_x": 0,
+									"value_y": 0
+								},
+								"hidden": {
+									"ische": false
+								},
+								"customer_code": {
+									"ische": false,
+									"code_type": "excute_c_code",
+									"include": "",
+									"code": ""
+								},
+								"move": {
+									"ische": false,
+									"value_x": 0,
+									"value_y": 0,
+									"duration": 1000,
+									"path_type": "linear"
+								},
+								"load_screen": {
+									"ische": false,
+									"duration": 100,
+									"delay": 100,
+									"anim_type": "LV_SCR_LOAD_ANIM_NONE",
+									"is_clean": true
+								}
+							}
+						}
+					]
 				},
 				{
 					"name": "digital_clock",
+					"id": "xol00fsm",
 					"type": "digital_clock",
 					"left": 556,
 					"top": 73,
@@ -2676,11 +2739,11 @@
 							"shadow_ofs_x": 0,
 							"shadow_ofs_y": 0
 						}
-					],
-					"id": "xol00fsm"
+					]
 				},
 				{
 					"name": "spinbox_hour",
+					"id": "ibzkqw7m",
 					"type": "spinbox",
 					"left": 562,
 					"top": 142,
@@ -2774,7 +2837,6 @@
 							"radius": 5
 						}
 					],
-					"id": "ibzkqw7m",
 					"event": [
 						{
 							"trigger": "value_changed",
@@ -2840,6 +2902,7 @@
 				},
 				{
 					"name": "spinbox_min",
+					"id": "rb6allqt",
 					"type": "spinbox",
 					"left": 562,
 					"top": 203,
@@ -2932,11 +2995,11 @@
 							"border_opa": 255,
 							"radius": 5
 						}
-					],
-					"id": "rb6allqt"
+					]
 				},
 				{
 					"name": "calendar",
+					"id": "pgkpui43",
 					"type": "calendar",
 					"left": 50,
 					"top": 73,
@@ -3095,8 +3158,7 @@
 							"text_color": "#0D3055",
 							"font": 16
 						}
-					],
-					"id": "pgkpui43"
+					]
 				}
 			],
 			"style": [

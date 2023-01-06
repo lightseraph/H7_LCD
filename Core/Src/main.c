@@ -36,7 +36,7 @@
 #include "lvgl/lvgl.h"
 #include "lvgl_port/lv_port_disp.h"
 #include "lvgl_port/lv_port_indev.h"
-//#include "lvgl_port/lv_port_fs.h"
+// #include "lvgl_port/lv_port_fs.h"
 #include "demos/lv_demos.h"
 #include "touch.h"
 #include "nand.h"
@@ -44,10 +44,11 @@
 #include "ftl.h"
 #include "mpu.h"
 #include "ap3216c.h"
-//#include "sdmmc_sdcard.h"
+// #include "sdmmc_sdcard.h"
 #include "gui_dev.h"
 #include "gui_battery.h"
 #include "generated/gui_guider.h"
+#include "custom/custom.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -117,13 +118,13 @@ static void event_handler(lv_event_t *event)
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
-  * @retval int
-  */
+ * @brief  The application entry point.
+ * @retval int
+ */
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-  SCB->VTOR = QSPI_BASE + 0x3C000; //设置中断向量表
+  SCB->VTOR = QSPI_BASE + 0x3C000; // 设置中断向量表
 
   /* USER CODE END 1 */
 
@@ -145,7 +146,7 @@ int main(void)
   /* Configure the system clock */
   SystemClock_Config();
 
-/* Configure the peripherals common clocks */
+  /* Configure the peripherals common clocks */
   PeriphCommonClock_Config();
 
   /* USER CODE BEGIN SysInit */
@@ -182,34 +183,13 @@ int main(void)
   lv_port_indev_init();
 
   // lv_port_fs_init();
-
-  /* FRESULT res;
-  FIL fp;
-  char write_buf[] = "this is a write into nand data";
-  UINT bw;
-  char read_buff[sizeof(write_buf)] = ""; */
-
-  // res = f_mount(&USERFatFS, "0:", 1);
-  // printf("mount res = %d \n", res);
-  /* res = f_open(&fp, "0:test22.txt", FA_READ | FA_OPEN_ALWAYS | FA_WRITE);
-  printf("\r\n f_open     res = %d\r\n", res);
-  res = f_write(&fp, write_buf, sizeof(write_buf), &bw);
-  printf("\r\n f_write    res = %d\r\n", res);
-  res = f_close(&fp);
-  printf("\r\n f_close    res = %d\r\n", res); */
-  /* res = f_open(&fp, "0:test.txt", FA_READ);
-  printf("\r\n f_open     res = %d\r\n", res);
-  res = f_read(&fp, read_buff, sizeof(write_buf), &bw);
-  printf("\r\n read_data: %s, res = %d\r\n", read_buff, res);
-  res = f_close(&fp);
-  f_mount(NULL, "0:", 1); */
-
   // lv_disp_set_rotation(NULL, LV_DISP_ROT_90);
   // lvgl_clock_start();
+
   setup_ui(&guider_ui);
   lvgl_first_demo_start();
   draw_battery();
-
+  custom_init(&guider_ui);
   // lv_demo_widgets();
   // lv_demo_benchmark();
   //   lv_demo_stress();
@@ -230,9 +210,9 @@ int main(void)
   {
     tp_dev.scan(0);
     lv_task_handler();
-    delay_ms(4); //给4ms延时，是考虑循环里的其他任务，给lv_task差不多5ms间隔
+    delay_ms(4); // 给4ms延时，是考虑循环里的其他任务，给lv_task差不多5ms间隔
 
-    if (ap_count == 500) //每2秒读一次环境光数值   500 × 4ms
+    if (ap_count == 500) // 每2秒读一次环境光数值   500 × 4ms
     {
       AP3216C_ReadData(&ir, &ps, &als); // als读取值范围 0～65536
       if (als >= 100 || als <= 4100)    // PWM最低占空比20%（100/500）
@@ -246,7 +226,7 @@ int main(void)
     else
       ap_count++;
 
-    if (pwm_factor == 2) //每8ms PWM占空比调整1/500
+    if (pwm_factor == 2) // 每8ms PWM占空比调整1/500
     {
       if (bl_lumi_count > bl_lumi)
       {
@@ -266,7 +246,7 @@ int main(void)
     else
       pwm_factor++;
 
-    if (adc_factor == 240) //约1s一次电压采样
+    if (adc_factor == 240) // 约1s一次电压采样
     {
       adc_sample += Get_Adc();
       adc_factor = 0;
@@ -276,7 +256,7 @@ int main(void)
     {
       adc_factor++;
     }
-    if (adc_out == 15) //采样15次输出一次电压平均值，约15秒输出一次电压平均值
+    if (adc_out == 15) // 采样15次输出一次电压平均值，约15秒输出一次电压平均值
     {
       printf("volt : %.3f v\n", adc_sample / adc_out);
       adc_out = 0;
@@ -290,37 +270,39 @@ int main(void)
 }
 
 /**
-  * @brief System Clock Configuration
-  * @retval None
-  */
+ * @brief System Clock Configuration
+ * @retval None
+ */
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
   /** Supply configuration update enable
-  */
+   */
   HAL_PWREx_ConfigSupply(PWR_LDO_SUPPLY);
 
   /** Configure the main internal regulator output voltage
-  */
+   */
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
 
-  while(!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY)) {}
+  while (!__HAL_PWR_GET_FLAG(PWR_FLAG_VOSRDY))
+  {
+  }
 
   /** Configure LSE Drive Capability
-  */
+   */
   HAL_PWR_EnableBkUpAccess();
   __HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_LOW);
 
   /** Macro to configure the PLL clock source
-  */
+   */
   __HAL_RCC_PLL_PLLSOURCE_CONFIG(RCC_PLLSOURCE_HSE);
 
   /** Initializes the RCC Oscillators according to the specified parameters
-  * in the RCC_OscInitTypeDef structure.
-  */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
+   * in the RCC_OscInitTypeDef structure.
+   */
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_LSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -339,10 +321,8 @@ void SystemClock_Config(void)
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
-  */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
-                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2
-                              |RCC_CLOCKTYPE_D3PCLK1|RCC_CLOCKTYPE_D1PCLK1;
+   */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 | RCC_CLOCKTYPE_D3PCLK1 | RCC_CLOCKTYPE_D1PCLK1;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV2;
@@ -358,18 +338,16 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief Peripherals Common Clock Configuration
-  * @retval None
-  */
+ * @brief Peripherals Common Clock Configuration
+ * @retval None
+ */
 void PeriphCommonClock_Config(void)
 {
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
   /** Initializes the peripherals clock
-  */
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_SPI2
-                              |RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
-                              |RCC_PERIPHCLK_LTDC;
+   */
+  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_ADC | RCC_PERIPHCLK_SPI2 | RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_LTDC;
   PeriphClkInitStruct.PLL3.PLL3M = 2;
   PeriphClkInitStruct.PLL3.PLL3N = 24;
   PeriphClkInitStruct.PLL3.PLL3P = 3;
@@ -393,9 +371,9 @@ void PeriphCommonClock_Config(void)
 /* USER CODE END 4 */
 
 /**
-  * @brief  This function is executed in case of error occurrence.
-  * @retval None
-  */
+ * @brief  This function is executed in case of error occurrence.
+ * @retval None
+ */
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
@@ -408,14 +386,14 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
-  * @brief  Reports the name of the source file and the source line number
-  *         where the assert_param error has occurred.
-  * @param  file: pointer to the source file name
-  * @param  line: assert_param error line source number
-  * @retval None
-  */
+ * @brief  Reports the name of the source file and the source line number
+ *         where the assert_param error has occurred.
+ * @param  file: pointer to the source file name
+ * @param  line: assert_param error line source number
+ * @retval None
+ */
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */

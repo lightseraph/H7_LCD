@@ -21,7 +21,8 @@
 			"stm32h750xx.h": "c",
 			"lv_widgets.h": "c",
 			"lv_dclock.h": "c",
-			"lv_conf_internal.h": "c"
+			"lv_conf_internal.h": "c",
+			"rtc.h": "c"
 		}
 	}
 }

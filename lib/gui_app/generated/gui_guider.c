@@ -20,5 +20,6 @@ void setup_ui(lv_ui *ui)
 	init_scr_del_flag(ui);
 	setup_scr_screen(ui);
 	setup_scr_date_setting(ui);
+	// setup_scr_zigbee_setting(ui);
 	lv_scr_load(ui->date_setting);
 }
