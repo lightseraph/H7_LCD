@@ -157,8 +157,8 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM6_Init();
-  MX_TIM7_Init();
+  MX_TIM6_Init(); // 延时函数delay用计时器
+  MX_TIM7_Init(); // lvgl tick用计时器
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_RTC_Init();
@@ -167,7 +167,7 @@ int main(void)
   MX_FMC_Init();
   MX_LTDC_Init();
   MX_FATFS_Init();
-  MX_TIM3_Init();
+  MX_TIM3_Init(); // 调光PWM用计时器
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
   __enable_irq();
